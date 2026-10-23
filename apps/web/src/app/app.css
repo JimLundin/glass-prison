@@ -1,0 +1,4 @@
+html, body, #root { height: 100%; margin: 0; }
+body { background: var(--canvas); color: var(--label); font-family: var(--font-sans); -webkit-font-smoothing: antialiased; }
+.app { height: 100dvh; width: 100vw; overflow: hidden; }
+.app > .sg-screen { height: 100%; }
