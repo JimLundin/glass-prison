@@ -12,6 +12,9 @@ folder disagree, this folder wins — fix the app.
 
 ## The rules in one screen
 
+Calendar's collection and detail roles follow the [current contract](../docs/DESIGN.md#calendar).
+It supersedes the mini-month arrangement shown in the archived screenshots and canvas boards.
+
 - **Interaction lives in the bottom half.** The top is for reading: a large title, then a small passive title in the top edge.
 - **Pages request; the bar places.** Field or switcher → centre · Primary → trailing circle · actions → the `…` bloom (icons on desktop) · Back / module → leading circle · focus card → the whole bar.
 - **Phone / Duo folded:** one bar `[…][field][Back/module]`; the module circle blooms into the modules (the bar stood upright) and the centre becomes search.

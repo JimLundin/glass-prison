@@ -39,9 +39,13 @@ export function CalendarPage({ range, title, eyebrow, size, week, grid, month, a
   </Page>;
 }
 
-export function CalendarAsideView({ month, upcoming }: { month: MonthGridProps; upcoming: CalendarRow[] }) {
-  return <Page title="Calendar" wide>
-    <MonthGrid {...month} titles={false} />
-    <ListGroup header="Coming up" glass={false}>{upcoming.map(({ id, ...event }) => <EventRow key={id} {...event} />)}</ListGroup>
+export interface CalendarEventGroup { title: string; events: CalendarRow[] }
+
+/** One event collection, beside the calendar or reached with Back on a phone. */
+export function CalendarCollectionView({ groups, wide = true }: { groups: CalendarEventGroup[]; wide?: boolean }) {
+  return <Page title="Calendar" wide={wide}>
+    {groups.length ? groups.map(group => <ListGroup key={group.title} header={group.title} glass={false}>
+      {group.events.map(({ id, ...event }) => <EventRow key={id} {...event} />)}
+    </ListGroup>) : <p className="body" style={{ color: 'var(--label-secondary)' }}>No events yet</p>}
   </Page>;
 }

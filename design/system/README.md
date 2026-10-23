@@ -132,7 +132,7 @@ Nothing else can be requested — no titles, labels or banners. Titles go to the
 
 **Questions detach from the conversation.** The agent's questions and requests appear in the chat as `AgentPrompt` cards. Picking one lifts it out of the conversation into the focus state; an "Answering below" outline stays in its place, and the chat keeps scrolling behind. When answered, the outline becomes the answered prompt. If the agent asks something new while you are in the chat, it arrives as a pending prompt in the conversation (and in Needs you) — it takes the bar only when you pick it, never on its own.
 
-Examples: Chat `[composer] [Chat]`; a conversation `[…] [composer] [Back]`; Calendar `[…] [Day·Week·Month] [Calendar]` — the … blooms into New Event and Today, because a single bar has no third place for them; a wiki page `[…] · · · [Back]`; You `[You]` at the right; a place: Back + its details as a focus card.
+Examples: Chat `[composer] [Chat]`; a conversation `[…] [composer] [Back]`; Calendar detail `[…] [Day·Week·Month] [Back]` — the … blooms into New Event and Today; the event collection restores the Calendar module circle. A wiki page uses `[…] · · · [Back]`; You `[You]` at the right; a place: Back + its details as a focus card.
 
 ### Bar (reference)
 
@@ -161,7 +161,7 @@ The agent is a participant in Chat and an actor in every other module.
 
 ## Calendar
 
-Three views, switched from the bar (`[…] [Day · Week · Month] [Calendar]`; … holds New Event and Today). **Day** is the week strip over the day's hours; **Week** is seven narrow columns; **Month** is dots with the chosen day's agenda below (event names in the cells on desktop). Multi-day events run along the all-day row. Suggestions the agent made but didn't book are dashed; things it added carry ✦. Tapping a day in a header or the month jumps to it; tapping an event opens it as a focus card (Edit · Ask, or Dismiss · Book for a suggestion, with ‹ to close). On wide screens the left half keeps a small month to pick days — or, in Month, the chosen day's agenda.
+The [current Calendar contract](../../docs/DESIGN.md#calendar) defines the collection, Day / Week / Month detail views, and event focus cards. It supersedes the mini-month arrangement retained in the archived boards. Use `CalendarCollectionView` for the event list and `CalendarPage` for its three detail presentations.
 
 ## Wiki: cited pages, stored as data
 

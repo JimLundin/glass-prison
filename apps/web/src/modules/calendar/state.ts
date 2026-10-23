@@ -1,7 +1,7 @@
 import { shared } from '../../app/state/shared';
 
 export type Range = 'day' | 'week' | 'month';
-/** Shared by the left half (month picker) and the view on the right. */
+/** Shared by event selection in the left collection and the calendar on the right. */
 export const calendarState = shared<{ range: Range; date: string }>({ range: 'week', date: '2026-11-13' });
 
 export const WEEK = ['2026-11-09', '2026-11-10', '2026-11-11', '2026-11-12', '2026-11-13', '2026-11-14', '2026-11-15'];
