@@ -1,0 +1,19 @@
+<!-- @dsCard group="Wiki" height=300 -->
+<!doctype html>
+<html>
+<head><link rel="stylesheet" href="../../tokens.css"><link rel="stylesheet" href="../bundle.css">
+<script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+<script src="../bundle.js"></script>
+<script>document.documentElement.dataset.theme = new URLSearchParams(location.search).get('theme') || 'dark';</script>
+<style>body{margin:0;background:var(--canvas);color:var(--label);font-family:var(--font-sans)}</style><meta charset="utf-8"><title>SourceCard — preview</title>
+<style>html,body{height:100%} #root{height:100%} .box{max-width:400px}</style></head>
+<body>
+<div id="root" style="padding:20px;box-sizing:border-box;background:var(--canvas);min-height:100%"><div id="mount"></div></div>
+<script>
+  var S = window.SmokedGlass, h = React.createElement;
+  var src = { kind: 'voice', title: 'Voice note on the way home', when: 'Wed 21 Oct, 18:12', where: 'Transcribed in Chat', speaker: 'You', excerpt: 'Maja’s coming too, she said yes this morning. She doesn’t eat meat, so look for somewhere with good fish or something veggie.' };
+  ReactDOM.createRoot(document.getElementById('mount')).render(h('div', { className: 'box' }, h(S.SourceCard, { className: 'sg-glass sg-glass-thick', source: src, span: 'She doesn’t eat meat', claim: 'Maja doesn’t eat meat, so dinners need good fish or vegetarian options.', actions: [{ label: 'Open in Chat', variant: 'filled' }], dismiss: { icon: 'xmark', label: 'Close' } })));
+</script>
+</body>
+</html>

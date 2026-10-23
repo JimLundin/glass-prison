@@ -18,7 +18,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
   const [chats, setChats] = useState(CHATS);
   const [prompts, setPrompts] = useState(PROMPTS);
   const [tasks, setTasks] = useState(TASKS);
-  const [theme, setTheme] = useState<'auto' | 'dark' | 'light'>('auto');
+  const [theme, setTheme] = useState<'auto' | 'dark' | 'light'>('dark');
   const value = useMemo<Store>(() => ({
     chats, prompts, tasks, theme, setTheme,
     answerPrompt: (id, answer) => setPrompts((p) => ({ ...p, [id]: { ...p[id], state: 'done', answer } })),

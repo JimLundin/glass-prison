@@ -1,0 +1,318 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Bottom cluster — prototype</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="ds/smokedglass/tokens.css">
+<link rel="stylesheet" href="ds/smokedglass/components/bundle.css">
+<script src="ds/smokedglass/components/bundle.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+body{margin:0}
+a{color:var(--accent-text)}a:hover{color:var(--label)}
+</style>
+</helmet>
+<div data-theme="{{theme}}" class="{{screenClass}}" style="{{rootStyle}}">
+<aside class="sg-pane sg-pane-aside" style="{{asideStyle}}" aria-label="{{asideTitle}}">
+<div class="sg-pane-scroll" style="padding-bottom: 40px;">
+<header class="sg-pane-header" style="padding-top: 40px;">
+<p class="sg-pane-eyebrow footnote">{{asideEyebrow}}</p>
+<h1 class="sg-pane-title large-title">{{asideTitle}}</h1>
+</header>
+<div class="sg-pane-content">
+<sc-if value="{{asideChat}}" hint-placeholder-val="{{false}}">
+<x-import component-from-global-scope="SmokedGlass.ListGroup" header="Needs you" glass="{{no}}">
+<x-import component-from-global-scope="SmokedGlass.ListRow" icon="calendar" tint="orange" title="Lisbon trip" subtitle="Wants to add an event · 2 min" on-click="{{openChat}}"></x-import>
+<x-import component-from-global-scope="SmokedGlass.ListRow" icon="bubble" tint="indigo" title="Q4 planning" subtitle="Asked you a question · 1 h" on-click="{{openChat}}"></x-import>
+</x-import>
+<x-import component-from-global-scope="SmokedGlass.ListGroup" header="Recent" glass="{{no}}">
+<x-import component-from-global-scope="SmokedGlass.ListRow" icon="bubble" tint="teal" title="Kitchen remodel quotes" subtitle="Yesterday" on-click="{{openChat}}"></x-import>
+<x-import component-from-global-scope="SmokedGlass.ListRow" icon="bubble" tint="green" title="Weekly review" subtitle="Mon" on-click="{{openChat}}"></x-import>
+<x-import component-from-global-scope="SmokedGlass.ListRow" icon="bubble" tint="pink" title="Birthday ideas for Maja" subtitle="Sun" on-click="{{openChat}}"></x-import>
+<x-import component-from-global-scope="SmokedGlass.ListRow" icon="bubble" tint="brown" title="Tax documents 2026" subtitle="18 Oct" on-click="{{openChat}}"></x-import>
+</x-import>
+</sc-if>
+<sc-if value="{{asideWiki}}" hint-placeholder-val="{{false}}">
+<x-import component-from-global-scope="SmokedGlass.ListGroup" header="Travel" glass="{{no}}">
+<x-import component-from-global-scope="SmokedGlass.ListRow" icon="book" tint="teal" title="Packing list — Lisbon" subtitle="4 min ago" on-click="{{openPage}}"></x-import>
+<x-import component-from-global-scope="SmokedGlass.ListRow" icon="book" tint="teal" title="City break" subtitle="Sep" on-click="{{openPage}}"></x-import>
+</x-import>
+<x-import component-from-global-scope="SmokedGlass.ListGroup" header="Home" glass="{{no}}">
+<x-import component-from-global-scope="SmokedGlass.ListRow" icon="book" tint="teal" title="Kitchen remodel" subtitle="Yesterday" on-click="{{openPage}}"></x-import>
+<x-import component-from-global-scope="SmokedGlass.ListRow" icon="book" tint="teal" title="Garden plans" subtitle="Oct" on-click="{{openPage}}"></x-import>
+</x-import>
+</sc-if>
+<sc-if value="{{asideCalendar}}" hint-placeholder-val="{{false}}">
+<x-import component-from-global-scope="SmokedGlass.ListGroup" header="Coming up" glass="{{no}}">
+<x-import component-from-global-scope="SmokedGlass.EventRow" time="Fri" tint="orange" title="Lisbon weekend" meta="13–15 Nov" agent="{{yes}}"></x-import>
+<x-import component-from-global-scope="SmokedGlass.EventRow" time="Tue" tint="teal" title="Dentist" meta="17 Nov · 08:30" location="Odengatan 12"></x-import>
+<x-import component-from-global-scope="SmokedGlass.EventRow" time="Thu" tint="pink" title="Maja’s birthday" meta="19 Nov · all day"></x-import>
+</x-import>
+</sc-if>
+<sc-if value="{{asideTasks}}" hint-placeholder-val="{{false}}">
+<x-import component-from-global-scope="SmokedGlass.ListGroup" header="Lists" glass="{{no}}">
+<x-import component-from-global-scope="SmokedGlass.ListRow" icon="checklist" tint="blue" title="Today" detail="3" on-click="{{noop}}"></x-import>
+<x-import component-from-global-scope="SmokedGlass.ListRow" icon="checklist" tint="orange" title="Lisbon trip" detail="4" on-click="{{noop}}"></x-import>
+<x-import component-from-global-scope="SmokedGlass.ListRow" icon="checklist" tint="green" title="Home" detail="6" on-click="{{noop}}"></x-import>
+</x-import>
+</sc-if>
+<sc-if value="{{asideYou}}" hint-placeholder-val="{{false}}">
+<x-import component-from-global-scope="SmokedGlass.ListGroup" glass="{{no}}">
+<x-import component-from-global-scope="SmokedGlass.ListRow" icon="sparkle" tint="blue" title="Agent permissions" on-click="{{noop}}"></x-import>
+<x-import component-from-global-scope="SmokedGlass.ListRow" icon="person" tint="indigo" title="Appearance" detail="Dark" on-click="{{noop}}"></x-import>
+<x-import component-from-global-scope="SmokedGlass.ListRow" icon="location" tint="red" title="Places" on-click="{{noop}}"></x-import>
+</x-import>
+</sc-if>
+</div>
+</div>
+<sc-if value="{{paneNav}}" hint-placeholder-val="{{false}}">
+<div class="sg-dock">
+<x-import component-from-global-scope="SmokedGlass.Cluster" variant="bar" tabs="{{n.tabs}}" tab="{{n.tab}}" on-tab="{{n.onTab}}" on-expand="{{n.onExpand}}" minimized="{{n.minimized}}" search="{{n.search}}" accessory="{{n.accessory}}" aria-label="Navigation" style="width: 100%;"></x-import>
+</div>
+</sc-if>
+</aside>
+<main class="sg-pane sg-pane-main" aria-label="{{title}}">
+<sc-if value="{{isMap}}" hint-placeholder-val="{{false}}">
+<x-import component-from-global-scope="SmokedGlass.MapPreview" bare="{{yes}}" pins="{{pins}}" aria-label="Map of Alfama showing Casa Alfama and three restaurants" style="position: absolute; inset: 0;"></x-import>
+</sc-if>
+<sc-if value="{{notMap}}" hint-placeholder-val="{{true}}">
+<div class="sg-pane-scroll" onScroll="{{onScroll}}" style="{{scrollStyle}}">
+<sc-if value="{{hasHeader}}" hint-placeholder-val="{{true}}">
+<header class="sg-pane-header" style="padding-top: 72px;">
+<p class="sg-pane-eyebrow footnote">{{eyebrow}}</p>
+<h1 class="sg-pane-title large-title">{{title}}</h1>
+</header>
+</sc-if>
+<div class="sg-pane-content">
+
+<sc-if value="{{isChat}}" hint-placeholder-val="{{true}}">
+<x-import component-from-global-scope="SmokedGlass.ListGroup" header="Needs you" glass="{{no}}">
+<x-import component-from-global-scope="SmokedGlass.ListRow" icon="calendar" tint="orange" title="Lisbon trip" subtitle="Wants to add an event · 2 min" on-click="{{openChat}}"></x-import>
+<x-import component-from-global-scope="SmokedGlass.ListRow" icon="bubble" tint="indigo" title="Q4 planning" subtitle="Asked you a question · 1 h" on-click="{{openChat}}"></x-import>
+</x-import>
+<x-import component-from-global-scope="SmokedGlass.ListGroup" header="Recent" glass="{{no}}">
+<x-import component-from-global-scope="SmokedGlass.ListRow" icon="bubble" tint="teal" title="Kitchen remodel quotes" subtitle="Yesterday" on-click="{{openChat}}"></x-import>
+<x-import component-from-global-scope="SmokedGlass.ListRow" icon="bubble" tint="green" title="Weekly review" subtitle="Mon" on-click="{{openChat}}"></x-import>
+<x-import component-from-global-scope="SmokedGlass.ListRow" icon="bubble" tint="pink" title="Birthday ideas for Maja" subtitle="Sun" on-click="{{openChat}}"></x-import>
+<x-import component-from-global-scope="SmokedGlass.ListRow" icon="bubble" tint="brown" title="Tax documents 2026" subtitle="18 Oct" on-click="{{openChat}}"></x-import>
+<x-import component-from-global-scope="SmokedGlass.ListRow" icon="bubble" tint="mint" title="Garden plans" subtitle="12 Oct" on-click="{{openChat}}"></x-import>
+<x-import component-from-global-scope="SmokedGlass.ListRow" icon="bubble" tint="blue" title="Reading list" subtitle="9 Oct" on-click="{{openChat}}"></x-import>
+<x-import component-from-global-scope="SmokedGlass.ListRow" icon="bubble" tint="red" title="Car service" subtitle="2 Oct" on-click="{{openChat}}"></x-import>
+</x-import>
+</sc-if>
+
+<sc-if value="{{isConvo}}" hint-placeholder-val="{{false}}">
+<div style="display: flex; flex-direction: column; gap: 16px;">
+<x-import component-from-global-scope="SmokedGlass.Message" by="system">Today 20:41</x-import>
+<x-import component-from-global-scope="SmokedGlass.Message" by="user">Find a free weekend in November for Lisbon and start a packing list.</x-import>
+<x-import component-from-global-scope="SmokedGlass.Message" by="agent">The weekend of 13–15 November is open — nothing from Friday 15:00 until Sunday night.</x-import>
+<x-import component-from-global-scope="SmokedGlass.AgentSteps" steps="{{steps}}"></x-import>
+<x-import component-from-global-scope="SmokedGlass.ItemCard" icon="book" tint="teal" title="Packing list — Lisbon" subtitle="Wiki · 24 items · ready" on-click="{{openPage}}"></x-import>
+<div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+<span class="subheadline" style="color: var(--label-secondary);">Staying at</span>
+<x-import component-from-global-scope="SmokedGlass.PlaceChip" name="Casa Alfama" on-click="{{openMap}}"></x-import>
+</div>
+<x-import component-from-global-scope="SmokedGlass.Message" by="agent">Want me to block the weekend so nothing gets booked over it? And one question before I look at flights.</x-import>
+<x-import component-from-global-scope="SmokedGlass.AgentPrompt" kind="Permission" icon="calendar" tint="orange" title="Add “Lisbon weekend” to Calendar?" cta="Review" state="{{pState}}" done-label="{{pDone}}" answer="{{pAnswer}}" on-open="{{openReq}}"></x-import>
+<x-import component-from-global-scope="SmokedGlass.AgentPrompt" icon="sparkle" tint="blue" title="Where are you flying from?" state="{{qState}}" answer="{{qAnswer}}" on-open="{{openQ}}"></x-import>
+</div>
+</sc-if>
+
+<sc-if value="{{isCalendar}}" hint-placeholder-val="{{false}}">
+<x-import component-from-global-scope="SmokedGlass.WeekStrip" days="{{days}}" selected="{{four}}"></x-import>
+<x-import component-from-global-scope="SmokedGlass.ListGroup" header="Friday 13" glass="{{no}}">
+<x-import component-from-global-scope="SmokedGlass.EventRow" time="09:00" tint="teal" title="Standup" meta="15 min · Video call"></x-import>
+<x-import component-from-global-scope="SmokedGlass.EventRow" time="11:30" tint="pink" title="Lunch with Maja" meta="1 h" location="Café Pascal"></x-import>
+<x-import component-from-global-scope="SmokedGlass.EventRow" time="15:00" tint="orange" title="Lisbon weekend" meta="Until Sun 22:00" agent="{{yes}}"></x-import>
+<x-import component-from-global-scope="SmokedGlass.EventRow" time="17:40" tint="blue" title="Flight to Lisbon" meta="ARN → LIS · not booked" suggested="{{yes}}"></x-import>
+</x-import>
+</sc-if>
+
+<sc-if value="{{isTasks}}" hint-placeholder-val="{{false}}">
+<x-import component-from-global-scope="SmokedGlass.ListGroup" header="Today" glass="{{no}}">
+<x-import component-from-global-scope="SmokedGlass.TaskRow" title="Book airport transfer in Lisbon" meta="Lisbon trip" agent="{{yes}}"></x-import>
+<x-import component-from-global-scope="SmokedGlass.TaskRow" title="Send kitchen quote decision to Erik" meta="Due 17:00"></x-import>
+<x-import component-from-global-scope="SmokedGlass.TaskRow" title="Pay electricity bill" meta="Done 08:12" default-done="{{yes}}"></x-import>
+</x-import>
+</sc-if>
+
+<sc-if value="{{isWiki}}" hint-placeholder-val="{{false}}">
+<x-import component-from-global-scope="SmokedGlass.ListGroup" header="Travel" glass="{{no}}">
+<x-import component-from-global-scope="SmokedGlass.ListRow" icon="book" tint="teal" title="Packing list — Lisbon" subtitle="4 min ago" on-click="{{openPage}}"></x-import>
+<x-import component-from-global-scope="SmokedGlass.ListRow" icon="book" tint="teal" title="City break" subtitle="Sep" on-click="{{openPage}}"></x-import>
+</x-import>
+<x-import component-from-global-scope="SmokedGlass.ListGroup" header="Home" glass="{{no}}">
+<x-import component-from-global-scope="SmokedGlass.ListRow" icon="book" tint="teal" title="Kitchen remodel" subtitle="Yesterday" on-click="{{openPage}}"></x-import>
+<x-import component-from-global-scope="SmokedGlass.ListRow" icon="book" tint="teal" title="Garden plans" subtitle="Oct" on-click="{{openPage}}"></x-import>
+</x-import>
+</sc-if>
+
+<sc-if value="{{isPage}}" hint-placeholder-val="{{false}}">
+<p class="body" style="margin: 0;">Three days, 13–15 November. Expect 14–18 °C, some rain and steep cobbled streets.</p>
+<div style="display: flex; flex-direction: column;">
+<x-import component-from-global-scope="SmokedGlass.Checkbox" default-checked="{{yes}}" strike="{{yes}}">Light rain shell</x-import>
+<x-import component-from-global-scope="SmokedGlass.Checkbox">Two warm layers</x-import>
+<x-import component-from-global-scope="SmokedGlass.Checkbox">Walking shoes with grip</x-import>
+<x-import component-from-global-scope="SmokedGlass.Checkbox">Passport — check expiry</x-import>
+<x-import component-from-global-scope="SmokedGlass.Checkbox">Boarding passes</x-import>
+</div>
+</sc-if>
+
+<sc-if value="{{isYou}}" hint-placeholder-val="{{false}}">
+<x-import component-from-global-scope="SmokedGlass.ListGroup" header="Agent permissions" glass="{{no}}">
+<x-import component-from-global-scope="SmokedGlass.ListRow" icon="calendar" tint="red" title="Calendar" detail="Ask" on-click="{{noop}}"></x-import>
+<x-import component-from-global-scope="SmokedGlass.ListRow" icon="globe" tint="blue" title="Web search" detail="Ask" on-click="{{noop}}"></x-import>
+<x-import component-from-global-scope="SmokedGlass.ListRow" icon="location" tint="red" title="Location" detail="While using" on-click="{{noop}}"></x-import>
+</x-import>
+</sc-if>
+
+<sc-if value="{{isSearch}}" hint-placeholder-val="{{false}}">
+<x-import component-from-global-scope="SmokedGlass.ListGroup" glass="{{no}}">
+<x-import component-from-global-scope="SmokedGlass.ListRow" icon="sparkle" tint="blue" title="Ask the agent about “lisbon”" subtitle="Start a chat with this as the question" on-click="{{openChat}}"></x-import>
+</x-import>
+<x-import component-from-global-scope="SmokedGlass.ListGroup" header="Results" glass="{{no}}">
+<x-import component-from-global-scope="SmokedGlass.ListRow" icon="bubble" tint="orange" title="Lisbon trip" subtitle="Chat · today" on-click="{{openChat}}"></x-import>
+<x-import component-from-global-scope="SmokedGlass.ListRow" icon="book" tint="teal" title="Packing list — Lisbon" subtitle="Wiki · 4 min ago" on-click="{{openPage}}"></x-import>
+<x-import component-from-global-scope="SmokedGlass.ListRow" icon="calendar" tint="red" title="Lisbon weekend" subtitle="Calendar · Fri 13 – Sun 15 Nov" on-click="{{noop}}"></x-import>
+<x-import component-from-global-scope="SmokedGlass.ListRow" icon="location" tint="red" title="Casa Alfama" subtitle="Place · hotel" on-click="{{openMap}}"></x-import>
+</x-import>
+</sc-if>
+
+</div>
+</div>
+</sc-if>
+<x-import component-from-global-scope="SmokedGlass.TopEdge" title="{{topTitle}}" show="{{showTop}}"></x-import>
+<sc-if value="{{paneMain}}" hint-placeholder-val="{{true}}">
+<div class="sg-dock">
+<x-import component-from-global-scope="SmokedGlass.Cluster" variant="{{c.variant}}" tabs="{{c.tabs}}" tab="{{c.tab}}" on-tab="{{c.onTab}}" on-expand="{{c.onExpand}}" minimized="{{c.minimized}}" search="{{c.search}}" back="{{c.back}}" actions="{{c.actions}}" primary="{{c.primary}}" accessory="{{c.accessory}}" sheet="{{c.sheet}}" bloom="{{c.bloom}}" on-bloom="{{c.onBloom}}" gather="{{c.gather}}" flat="{{c.flat}}" style="width: 100%;"></x-import>
+</div>
+</sc-if>
+</main>
+<sc-if value="{{deskOne}}" hint-placeholder-val="{{false}}">
+<div class="sg-dock" style="left: 50%; right: auto; width: min(1040px, calc(100% - 48px)); transform: translateX(-50%); bottom: 20px;">
+<x-import component-from-global-scope="SmokedGlass.Cluster" variant="{{c.variant}}" tabs="{{c.tabs}}" tab="{{c.tab}}" on-tab="{{c.onTab}}" on-expand="{{c.onExpand}}" minimized="{{c.minimized}}" search="{{c.search}}" back="{{c.back}}" actions="{{c.actions}}" primary="{{c.primary}}" accessory="{{c.accessory}}" sheet="{{c.sheet}}" bloom="{{c.bloom}}" on-bloom="{{c.onBloom}}" gather="{{c.gather}}" flat="{{c.flat}}" style="width: 100%;"></x-import>
+</div>
+</sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"dark":{"editor":"boolean","default":true},"variant":{"editor":"enum","options":["row","bar"],"default":"bar"},"scene":{"editor":"enum","options":["root","compact","search","calendar","detail","request","map","wiki","question","deeper"],"default":"root"},"width":{"editor":"int","default":390},"height":{"editor":"int","default":844},"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+initial() {
+const v = this.props.variant || 'bar';
+const wide = (this.props.width || 390) >= 840;
+const map = {
+root: wide ? { detail: 'lisbon' } : {}, compact: v === 'bar' ? { min: true, scrolled: true } : { bl: wide ? 'trail' : 'lead' }, deeper: { detail: 'page' },
+search: { search: true },
+calendar: { tab: 'calendar' }, detail: { detail: 'lisbon' }, request: { detail: 'lisbon', sheet: true },
+map: { detail: 'map' }, wiki: { tab: 'wiki', detail: 'page' }, question: { detail: 'lisbon', q: 'focused' }
+};
+return Object.assign({ tab: 'chat', detail: null, min: false, sheet: false, search: false, scrolled: false, sw: false, bl: 'none', nbl: 'none', q: 'pending', answered: null }, map[this.props.scene || 'root'] || {});
+}
+renderVals() {
+const key = (this.props.variant || 'bar') + ':' + (this.props.scene || 'root') + ':' + (this.props.width || 390) + ':' + (this.props.desk || '');
+if (this._key !== key) { this._key = key; this._base = this.initial(); this._y = 0; }
+const own = (this.state && this.state.k === key) ? this.state : { k: key };
+const s = Object.assign({}, this._base, own);
+const set = (x) => this.setState(Object.assign({}, own, x, { k: key }));
+const v = this.props.variant || 'bar';
+const W = this.props.width || 390, wide = W >= 840;
+const SPLIT = { chat: 'lisbon', wiki: 'page' };
+const deskOne = false;
+const searchSpec = { label: 'Search', placeholder: 'Search everything', onOpen: () => set({ search: true, bl: 'none' }), onQuery: (q) => set({ search: true, query: q, bl: 'none', nbl: 'none', detail: wide ? s.detail : null }) };
+const queryAcc = { kind: 'query', key: 'q', placeholder: 'Search everything', defaultValue: s.query || 'lisbon', autoFocus: !!s.query, onCancel: () => set({ search: false, min: false, query: null }) };
+if (wide && !s.detail && !s.search && SPLIT[s.tab]) s.detail = SPLIT[s.tab];
+const TABS = [{ id: 'chat', label: 'Chat', icon: 'bubble' }, { id: 'calendar', label: 'Calendar', icon: 'calendar' }, { id: 'tasks', label: 'Tasks', icon: 'checklist', badge: 3 }, { id: 'wiki', label: 'Wiki', icon: 'book' }, { id: 'you', label: 'You', icon: 'person' }];
+const c = {
+variant: v, tabs: (wide && !deskOne) ? [] : TABS, tab: s.tab, flat: W >= 1000, gather: wide && W < 1000,
+onTab: (t) => set({ tab: t, nbl: 'none', detail: wide ? (SPLIT[t] || null) : null, sheet: false, search: false, min: false, sw: false, scrolled: false }),
+onExpand: () => set({ min: false, search: false }),
+minimized: !!(s.min || s.search), bloom: v === 'bar' ? undefined : s.bl, onBloom: (b) => set({ bl: b }),
+search: s.search ? null : searchSpec,
+back: null, actions: null, primary: null, accessory: null, sheet: null
+};
+let view = s.tab, title = '', eyebrow = '';
+if (s.search && wide) {
+if (deskOne) c.accessory = queryAcc;
+view = 'search'; title = 'Search'; eyebrow = '5 results for “' + (s.query || 'lisbon') + '”';
+} else if (s.detail === 'lisbon') {
+view = 'convo'; title = 'Lisbon trip';
+c.back = wide ? null : { onClick: () => set({ detail: null, sheet: false }) };
+c.actions = [{ id: 'share', label: 'Share', icon: 'share' }, { id: 'rename', label: 'Rename', icon: 'square-pencil' }, { id: 'delete', label: 'Delete', icon: 'trash', destructive: true }];
+c.accessory = { kind: 'composer', key: 'reply', placeholder: 'Reply…' };
+if (s.sheet) c.sheet = { kind: 'request', key: 'req', icon: 'calendar', tint: 'orange', title: 'Add an event to Calendar?', description: 'The agent wants to create 1 event', detail: ['Lisbon weekend', 'Fri 13 Nov, 15:00 – Sun 15 Nov, 22:00'], remember: 'Always allow adding events', actions: [{ label: 'Deny', onClick: () => set({ sheet: false, answered: 'Denied' }) }, { label: 'Allow', variant: 'filled', onClick: () => set({ sheet: false, answered: 'Allowed' }) }], dismiss: { icon: 'xmark', label: 'Later', onClick: () => set({ sheet: false }) } };
+else if (s.q === 'focused') c.sheet = { kind: 'question', key: 'q', title: 'Where are you flying from?', progress: '1 of 1', hint: 'Pick one, or type your own', options: [{ value: 'arn', label: 'Stockholm Arlanda', detail: 'ARN' }, { value: 'bma', label: 'Stockholm Bromma', detail: 'BMA' }, { value: 'got', label: 'Göteborg Landvetter', detail: 'GOT' }], defaultValue: 'arn', other: 'Somewhere else…', onReplyInChat: null, actions: [{ label: 'Done', variant: 'filled', onClick: () => set({ q: 'done' }) }], dismiss: { icon: 'xmark', label: 'Later', onClick: () => set({ q: 'pending' }) } };
+} else if (s.detail === 'map') {
+view = 'map'; title = 'Casa Alfama';
+c.back = { onClick: () => set({ detail: 'lisbon' }) };
+c.actions = [{ id: 'me', label: 'Show my location', icon: 'location' }, { id: 'share', label: 'Share', icon: 'share' }];
+c.sheet = { kind: 'card', key: 'place', title: 'Casa Alfama', subtitle: 'Hotel · Rua dos Remédios 81 · 4 min walk', lines: [{ icon: 'clock', text: 'Check-in Fri 13 Nov from 15:00' }, { icon: 'calendar', text: 'In “Lisbon weekend”' }], actions: [{ label: 'Ask' }, { label: 'Directions', variant: 'filled' }], dismiss: { icon: 'chevron-left', label: 'Back', onClick: () => set({ detail: 'lisbon' }) } };
+} else if (s.detail === 'page') {
+view = 'page'; title = 'Packing list — Lisbon'; eyebrow = 'Travel · written by the agent';
+c.back = (wide && s.tab === 'wiki') ? null : { onClick: () => set({ detail: wide ? 'lisbon' : null }) };
+c.actions = [{ id: 'edit', label: 'Edit', icon: 'square-pencil' }, { id: 'share', label: 'Share', icon: 'share' }, { id: 'pin', label: 'Pin', icon: 'pin' }, { id: 'delete', label: 'Delete', icon: 'trash', destructive: true }];
+} else if (s.search) {
+view = 'search'; title = 'Search'; eyebrow = '5 results for “' + (s.query || 'lisbon') + '”';
+c.accessory = queryAcc;
+c.back = { label: 'Close Search', onClick: () => set({ search: false, min: false, query: null }) };
+} else if (s.tab === 'chat') {
+title = 'Chat'; eyebrow = 'Thursday 22 October';
+c.accessory = { kind: 'composer', key: 'ask', placeholder: 'Ask anything…' };
+} else if (s.tab === 'calendar') {
+title = 'Week 46'; eyebrow = 'November 2026';
+c.accessory = { kind: 'switcher', key: 'range', options: ['Day', 'Week', 'Month'], defaultValue: 'Week', 'aria-label': 'Range' };
+c.primary = { icon: 'plus', label: 'New Event' };
+c.actions = [{ id: 'today', label: 'Today', icon: 'clock' }];
+} else if (s.tab === 'tasks') {
+title = wide ? 'Today' : 'Tasks'; eyebrow = '3 due today';
+c.accessory = { kind: 'capture', key: 'cap', placeholder: 'Add a task…' };
+} else if (s.tab === 'wiki') {
+title = 'Wiki'; eyebrow = '24 pages';
+c.primary = { icon: 'plus', label: 'New Page' };
+} else if (s.tab === 'you') {
+title = wide ? 'Agent permissions' : 'Jim'; eyebrow = wide ? 'Ask before the agent acts' : 'You';
+}
+return {
+theme: (this.props.dark ?? true) ? 'dark' : 'light',
+paneNav: wide && !deskOne, paneMain: !deskOne, deskOne: deskOne,
+wide: wide,
+n: { tabs: TABS, tab: s.tab, onTab: (t) => { c.onTab(t); }, search: s.search ? null : searchSpec, minimized: !!s.search, onExpand: () => set({ search: false, query: null }), accessory: s.search ? queryAcc : null },
+asideCalendar: s.tab === 'calendar', asideTasks: s.tab === 'tasks', asideYou: s.tab === 'you',
+screenClass: 'sg-screen' + (wide ? ' has-aside' : '') + (wide && W < 1000 ? ' is-hinged' : ''),
+asideStyle: wide ? '' : 'display: none;',
+asideChat: s.tab === 'chat', asideWiki: s.tab === 'wiki',
+asideTitle: { chat: 'Chat', wiki: 'Wiki', calendar: 'Calendar', tasks: 'Tasks', you: 'Jim' }[s.tab], asideEyebrow: { chat: 'Thursday 22 October', wiki: '24 pages', calendar: 'November 2026', tasks: '13 open', you: 'You' }[s.tab],
+rootStyle: 'width: ' + (this.props.width || 390) + 'px; height: ' + (this.props.height || 844) + 'px; font-family: var(--font-sans); color: var(--label); background: var(--canvas);',
+yes: true, no: false, four: 4, noop: function () {},
+c: c, title: title, eyebrow: eyebrow,
+hasHeader: view !== 'convo' && view !== 'map',
+isChat: view === 'chat', isConvo: view === 'convo', isCalendar: view === 'calendar', isTasks: view === 'tasks', isWiki: view === 'wiki', isPage: view === 'page', isYou: view === 'you', isSearch: view === 'search',
+isMap: view === 'map', notMap: view !== 'map',
+pState: s.sheet ? 'focused' : (s.answered ? 'done' : 'pending'), pDone: s.answered || 'Answered', pAnswer: s.answered ? 'Fri 13 – Sun 15 Nov' : null,
+qState: s.q, qAnswer: s.q === 'done' ? 'Stockholm Arlanda' : null,
+openReq: () => set({ sheet: true, q: s.q === 'focused' ? 'pending' : s.q }),
+openQ: () => set({ q: 'focused', sheet: false }),
+topTitle: title, showTop: view === 'convo' || !!s.scrolled,
+scrollStyle: 'padding-bottom: 420px;' + (view === 'convo' ? ' padding-top: 100px;' : ''),
+steps: [{ icon: 'calendar', label: 'Read calendar, 1–30 Nov', status: 'done' }, { icon: 'book', label: 'Wrote “Packing list — Lisbon”', status: 'done' }],
+days: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map((n, i) => ({ name: n, num: String(9 + i), busy: i !== 1 })),
+pins: [{ x: 52, y: 30, tint: 'red', active: true, label: 'Casa Alfama' }, { x: 26, y: 22, tint: 'orange' }, { x: 74, y: 40, tint: 'orange' }, { x: 38, y: 46, tint: 'orange' }],
+openChat: () => set({ detail: 'lisbon', search: false, min: false, scrolled: false, tab: 'chat' }),
+openPage: () => set({ detail: 'page', min: false, scrolled: false }),
+openMap: () => set({ detail: 'map', sheet: false }),
+onScroll: (e) => {
+const el = e && e.currentTarget; if (!el) return;
+const y = el.scrollTop, d = y - (this._y || 0); this._y = y;
+if (Math.abs(d) < 4) return;
+const min = v === 'bar' && d > 0 && y > 40, scrolled = y > 60;
+if (min !== !!s.min || scrolled !== !!s.scrolled) set({ min: min, scrolled: scrolled });
+}
+};
+}
+}
+</script>
+</body>
+</html>

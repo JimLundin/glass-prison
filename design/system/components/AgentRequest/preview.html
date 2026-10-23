@@ -1,0 +1,22 @@
+<!-- @dsCard group="Agent" height=320 -->
+<!doctype html>
+<html>
+<head><link rel="stylesheet" href="../../tokens.css"><link rel="stylesheet" href="../bundle.css">
+<script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+<script src="../bundle.js"></script>
+<script>document.documentElement.dataset.theme = new URLSearchParams(location.search).get('theme') || 'dark';</script>
+<style>body{margin:0;background:var(--canvas);color:var(--label);font-family:var(--font-sans)}</style><meta charset="utf-8"><title>AgentRequest — preview</title>
+<style>html,body{height:100%} #root{height:100%} .box{max-width:420px}</style></head>
+<body>
+<div id="root" class="sg-stage sg-stage-quiet"><i class="sg-blob sg-blob-c"></i><i class="sg-blob sg-blob-d"></i><div id="mount" style="display:contents"></div></div>
+<script>
+  var S = window.SmokedGlass, h = React.createElement;
+  ReactDOM.createRoot(document.getElementById('mount')).render(h('div',{className:'box'}, h(S.AgentRequest,{
+  icon:'calendar', tint:'orange', title:'Add an event to Calendar?', description:'The agent wants to create 1 event',
+  detail:['Lisbon weekend','Fri 13 Nov, 15:00 – Sun 15 Nov, 22:00','Personal calendar · busy'],
+  remember:'Always allow adding events',
+  actions:[{label:'Deny'},{label:'Allow',variant:'filled'}]})));
+</script>
+</body>
+</html>

@@ -1,0 +1,70 @@
+<!-- @dsCard group="Layout" height=900 subtitle="Each module's contribution at Compact · Medium · Wide" -->
+<!doctype html>
+<html>
+<head><link rel="stylesheet" href="../../tokens.css"><link rel="stylesheet" href="../bundle.css">
+<script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+<script src="../bundle.js"></script>
+<script>document.documentElement.dataset.theme = new URLSearchParams(location.search).get('theme') || 'dark';</script>
+<style>body{margin:0;background:var(--canvas);color:var(--label);font-family:var(--font-sans)}</style><meta charset="utf-8"><title>Dock — preview</title>
+<style>
+  html, body { margin: 0; background: var(--canvas-sunken); }
+  .board { transform-origin: 0 0; width: 1040px; padding: 20px; box-sizing: border-box; display: flex; flex-direction: column; gap: 18px; }
+  .picker { display: flex; gap: 8px; flex-wrap: wrap; }
+  .chip { appearance: none; border: 0.5px solid var(--separator); background: var(--canvas-raised); color: var(--label); height: 36px; padding: 0 14px; border-radius: var(--radius-pill); cursor: pointer; font: 600 15px/20px var(--font-sans); }
+  .chip[aria-pressed="true"] { background: var(--label); color: var(--canvas); }
+  .note { margin: 0; color: var(--label-secondary); max-width: 760px; }
+  .cap { font: 600 13px/18px var(--font-sans); color: var(--label-secondary); margin: 0 0 6px; }
+  .cap b { color: var(--label); }
+  .cell { position: relative; height: 340px; border-radius: 28px; overflow: hidden; border: 1px solid var(--separator); }
+  .w-c { width: 390px; } .w-m { width: 720px; } .w-w { width: 1000px; }
+  .faux { padding: 20px 16px; display: flex; flex-direction: column; gap: 10px; }
+  .fl { height: 56px; border-radius: var(--radius-md); background: var(--canvas-raised); display: flex; align-items: center; gap: 12px; padding: 0 14px; }
+  .fl i { width: 28px; height: 28px; border-radius: var(--radius-xs); flex: none; }
+  .fl span { height: 10px; border-radius: 5px; background: var(--fill-control); flex: 1; max-width: 260px; }
+  .w-m .faux, .w-w .faux { max-width: 720px; margin: 0 auto; }
+</style></head>
+<body>
+<div class="board" id="board"></div>
+<script>
+  var S = window.SmokedGlass, h = React.createElement;
+  var tabs = [{ id: 'chat', label: 'Chat', icon: 'bubble' }, { id: 'calendar', label: 'Calendar', icon: 'calendar' }, { id: 'tasks', label: 'Tasks', icon: 'checklist', badge: 3 }, { id: 'wiki', label: 'Wiki', icon: 'book' }, { id: 'you', label: 'You', icon: 'person' }];
+  function nav(id) { return h(S.TabBar, { items: tabs, value: id, action: { icon: 'search', label: 'Search' } }); }
+  var M = {
+    chat: { label: 'Chat · conversation', note: 'One level in: the tab bar steps aside. Back, title and actions form the context row; the Composer is the input. From Medium up they merge into one row.',
+      dock: function (nav) { return { back: {}, title: 'Trip planning', actions: [{ id: 'share', label: 'Share', icon: 'share' }, { id: 'rename', label: 'Rename', icon: 'square-pencil' }, { id: 'delete', label: 'Delete', icon: 'trash', destructive: true }], input: h(S.Composer, { placeholder: 'Reply…' }) }; } },
+    calendar: { label: 'Calendar · month', note: 'A view switcher takes the centre, one action plus a primary "New Event". The primary is a circle on Compact and a labelled button wider up.',
+      dock: function (nav) { return { nav: nav('calendar'), center: h(S.SegmentedControl, { options: ['Day', 'Week', 'Month'], defaultValue: 'Month', 'aria-label': 'Range' }), actions: [{ id: 'today', label: 'Today', icon: 'calendar' }], primary: { label: 'New Event', icon: 'plus' } }; } },
+    tasks: { label: 'Tasks · inbox', note: 'A capture field is the input: type, Enter, done. With no back or centre, actions sit beside the field. Focus the field on Compact and the tab bar collapses to a circle.',
+      dock: function (nav) { return { nav: nav('tasks'), navIcon: 'checklist', input: h(S.SearchField, { kind: 'capture', placeholder: 'Add a task…' }), actions: [{ id: 'filter', label: 'Filter', icon: 'filter' }] }; } },
+    wiki: { label: 'Wiki · page', note: 'Four actions: Compact shows the overflow menu only, Medium one plus overflow, Wide two plus overflow. The menu opens upward.',
+      dock: function (nav) { return { back: {}, title: 'Onboarding guide', actions: [{ id: 'edit', label: 'Edit', icon: 'square-pencil' }, { id: 'share', label: 'Share', icon: 'share' }, { id: 'pin', label: 'Pin', icon: 'pin' }, { id: 'delete', label: 'Delete', icon: 'trash', destructive: true }] }; } },
+    search: { label: 'Search · active', note: 'Global search borrows the input slot from whatever module is open. While it is active on Compact, the tab bar collapses to a circle that brings it back.',
+      dock: function (nav) { return { nav: nav('chat'), navIcon: 'search', inputActive: true, input: h(S.SearchField, { kind: 'query', placeholder: 'Search chats, tasks, wiki, events', defaultValue: 'lisbon' }) }; } },
+    you: { label: 'You · profile & settings', note: 'Contributes nothing: the dock is just navigation. Settings detail pages add only a back button.',
+      dock: function (nav) { return { nav: nav('you') }; } }
+  };
+  var tints = ['orange', 'teal', 'green', 'indigo', 'pink'];
+  function faux() { return h('div', { className: 'faux' }, tints.map(function (t) { return h('div', { key: t, className: 'fl' }, h('i', { style: { background: 'var(--system-' + t + ')' } }), h('span')); })); }
+  function cell(cls, label, size, d, showNav) {
+    var props = Object.assign({}, d); if (!showNav) delete props.nav;
+    return h('div', null, h('p', { className: 'cap' }, h('b', null, label), ' · ', size),
+      h('div', { className: 'cell sg-pane ' + cls }, h('div', { className: 'sg-pane-scroll' }, faux()), h('div', { className: 'sg-dock' }, h(S.Dock, props)), h('i', { className: 'sg-reach-guide' })));
+  }
+  function App() {
+    var st = React.useState('chat'), cur = st[0];
+    var m = M[cur], d = m.dock(nav);
+    return h(React.Fragment, null,
+      h('div', { className: 'picker' }, Object.keys(M).map(function (k) { return h('button', { key: k, className: 'chip', 'aria-pressed': k === cur, onClick: function () { st[1](k); } }, M[k].label.split(' · ')[0]); })),
+      h('p', { className: 'note subheadline' }, h('b', null, m.label), ' — ', m.note),
+      h(React.Fragment, { key: cur },
+        cell('w-c', 'Compact', 'phone 390', d, true),
+        cell('w-m', 'Medium', 'foldable 720', d, true),
+        cell('w-w', 'Wide', 'desktop main pane 1000 — nav lives under the aside pane', d, false)));
+  }
+  ReactDOM.createRoot(document.getElementById('board')).render(h(App));
+  function fit() { var b = document.getElementById('board'); var s = Math.min(1, window.innerWidth / 1040); b.style.transform = 'scale(' + s + ')'; document.body.style.height = (b.scrollHeight * s) + 'px'; }
+  setTimeout(fit, 50); window.addEventListener('resize', fit);
+</script>
+</body>
+</html>

@@ -1,0 +1,20 @@
+<!-- @dsCard group="Modules" height=380 -->
+<!doctype html>
+<html>
+<head><link rel="stylesheet" href="../../tokens.css"><link rel="stylesheet" href="../bundle.css">
+<script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+<script src="../bundle.js"></script>
+<script>document.documentElement.dataset.theme = new URLSearchParams(location.search).get('theme') || 'dark';</script>
+<style>body{margin:0;background:var(--canvas);color:var(--label);font-family:var(--font-sans)}</style><meta charset="utf-8"><title>MonthGrid — preview</title>
+<style>html,body{height:100%} #root{height:100%} .box{max-width:400px}</style></head>
+<body>
+<div id="root" style="padding:20px;box-sizing:border-box;background:var(--canvas);min-height:100%"><div id="mount"></div></div>
+<script>
+  var S = window.SmokedGlass, h = React.createElement;
+  var MI = {3:['indigo'],5:['mint'],9:['indigo'],10:['green'],13:['pink','blue'],14:['orange','orange'],15:['blue'],17:['teal'],19:['pink'],24:['indigo'],28:['red']};
+  var weeks = [0,1,2,3,4,5].map(function(r){ return { days: [0,1,2,3,4,5,6].map(function(i){ var n=r*7+i-5, m=n<1||n>30; return {num:String(n<1?31+n:(n>30?n-30:n)),muted:m,selected:n===13,items:m?[]:(MI[n]||[]).map(function(t){return {title:'',tint:t};})}; }), spans: r===2?[{from:4,to:6,tint:'orange'}]:[] }; });
+  ReactDOM.createRoot(document.getElementById('mount')).render(h('div',{className:'box'}, h(S.MonthGrid,{weeks:weeks})));
+</script>
+</body>
+</html>

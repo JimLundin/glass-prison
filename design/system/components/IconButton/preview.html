@@ -1,0 +1,20 @@
+<!-- @dsCard group="Actions" height=110 -->
+<!doctype html>
+<html>
+<head><link rel="stylesheet" href="../../tokens.css"><link rel="stylesheet" href="../bundle.css">
+<script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+<script src="../bundle.js"></script>
+<script>document.documentElement.dataset.theme = new URLSearchParams(location.search).get('theme') || 'dark';</script>
+<style>body{margin:0;background:var(--canvas);color:var(--label);font-family:var(--font-sans)}</style><meta charset="utf-8"><title>IconButton — preview</title>
+<style>html,body{height:100%} #root{height:100%} .row{display:flex;gap:12px;align-items:center;flex-wrap:wrap}</style></head>
+<body>
+<div id="root" class="sg-stage"><i class="sg-blob sg-blob-a"></i><i class="sg-blob sg-blob-b"></i><i class="sg-blob sg-blob-c"></i><i class="sg-blob sg-blob-d"></i><div id="mount" style="display:contents"></div></div>
+<script>
+  var S = window.SmokedGlass, h = React.createElement;
+  ReactDOM.createRoot(document.getElementById('mount')).render(h('div',{className:'row'},
+    h(S.IconButton,{icon:'chevron-left',label:'Back'}), h(S.IconButton,{icon:'ellipsis',label:'More'}), h(S.IconButton,{icon:'xmark',label:'Close',variant:'smoke'}),
+    h(S.IconButton,{icon:'plus',label:'Add',variant:'fill',size:'sm'}), h(S.IconButton,{icon:'arrow-up',label:'Send',variant:'accent',size:'sm'}), h(S.IconButton,{icon:'sparkle',label:'Suggest',variant:'tinted'}), h(S.IconButton,{icon:'search',label:'Search',size:'lg'})));
+</script>
+</body>
+</html>

@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Wiki — how a page is stored</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="ds/smokedglass/tokens.css">
+<link rel="stylesheet" href="ds/smokedglass/components/bundle.css">
+<script src="ds/smokedglass/components/bundle.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+body{margin:0}
+.fm{display:grid;grid-template-columns:1.15fr 0.85fr;gap:40px;padding:48px 56px;box-sizing:border-box;height:100%}
+.fm pre{align-self:start;margin:0;padding:20px 22px;border-radius:20px;background:var(--canvas-raised);color:var(--label-secondary);font:12.5px/1.6 var(--font-mono);overflow:hidden;white-space:pre}
+.fm pre b{color:var(--label);font-weight:600}.fm pre i{color:var(--accent-text);font-style:normal}.fm pre u{color:var(--success-text);text-decoration:none}
+.fm h1{margin:0 0 6px}.fm h2{margin:22px 0 6px}.fm p,.fm li{margin:0;color:var(--label-secondary)}.fm ul{margin:6px 0 0;padding-left:18px;display:flex;flex-direction:column;gap:6px}
+.fm strong{color:var(--label);font-weight:600}
+</style>
+</helmet>
+<div data-theme="{{theme}}" class="fm" style="width: 1440px; height: 900px; font-family: var(--font-sans); color: var(--label); background: var(--canvas);">
+<pre>{
+  <b>"id"</b>: "lisbon-trip", <b>"title"</b>: "Lisbon trip",
+  <b>"blocks"</b>: [
+    { <b>"type"</b>: "paragraph", <b>"claims"</b>: [
+      { <b>"id"</b>: "c4",
+        <b>"text"</b>: "and Maja has to be home by 22:00 on Sunday.",
+        <b>"sources"</b>: [<i>"s4"</i>],
+        <b>"span"</b>: { <i>"s4"</i>: "I have to be home by 22 on Sunday" } } ] },
+    { <b>"type"</b>: "facts", <b>"items"</b>: [
+      { <b>"label"</b>: "Staying at", <b>"value"</b>: "Casa Alfama",
+        <b>"place"</b>: "casa-alfama", <b>"sources"</b>: [<i>"s3"</i>] } ] },
+    { <b>"type"</b>: "timeline",
+      <b>"from"</b>: { <u>"module": "calendar", "range": ["2026-11-13", "2026-11-15"]</u> } },
+    { <b>"type"</b>: "tasks",  <b>"from"</b>: { <u>"module": "tasks", "list": "Lisbon trip"</u> } },
+    { <b>"type"</b>: "place",  <b>"from"</b>: { <u>"module": "places", "id": "casa-alfama"</u> } },
+    { <b>"type"</b>: "questions", <b>"items"</b>: [
+      { <b>"q"</b>: "Can you get a late check-out on Sunday?", <b>"status"</b>: "open" } ] }
+  ],
+  <b>"sources"</b>: {
+    <i>"s4"</i>: { <b>"kind"</b>: "document", <b>"title"</b>: "Email from Maja — Re: Lisbon?",
+          <b>"captured"</b>: "2026-10-22T20:44", <b>"origin"</b>: "mail://inbox/8c1f…",
+          <b>"content"</b>: { <b>"text"</b>: "Count me in!! Only thing: I have to be home by 22…" },
+          <b>"sha256"</b>: "4be0…" },
+    <i>"s6"</i>: { <b>"kind"</b>: "web", <b>"title"</b>: "Lisbon in November — climate averages",
+          <b>"captured"</b>: "2026-10-22T20:58", <b>"origin"</b>: "https://www.example-weather.org/…",
+          <b>"content"</b>: { <b>"text"</b>: "In November, daytime highs…", <b>"file"</b>: "snapshot.html" } },
+    <i>"s2"</i>: { <b>"kind"</b>: "voice", <b>"origin"</b>: "chat://lisbon-trip/turn/12",
+          <b>"captured"</b>: "2026-10-21T18:12",
+          <b>"content"</b>: { <b>"text"</b>: "Maja’s coming too…", <b>"file"</b>: "note.m4a" } }
+  }
+}</pre>
+<div>
+<p class="footnote">Wiki · proposal</p>
+<h1 class="title-1">A page is data, not markdown</h1>
+<p class="body">The page is a list of typed blocks. Text is stored as <strong>claims</strong> — one statement each — and every claim points at the exact words in a <strong>source</strong> it rests on.</p>
+<h2 class="headline">Why not markdown</h2>
+<ul class="subheadline">
+<li><strong>Citations need to point at a span</strong>, not a URL: “these words in Maja’s email”. Markdown has nowhere to keep that, so it would end up in a side file that drifts.</li>
+<li><strong>Claims need identities.</strong> When a source changes or is removed, the agent can find every statement that rested on it and re-check, rewrite or flag it.</li>
+<li><strong>Embeds stay live.</strong> A timeline, task list or place is a query into Calendar, Tasks or Places — the page shows today’s truth instead of a pasted copy.</li>
+<li><strong>Questions are tracked</strong>: open until answered; the answer is saved as a new source and the page cites it.</li>
+</ul>
+<h2 class="headline">What you still get</h2>
+<ul class="subheadline">
+<li>Export to markdown at any time — claims become sentences, citations become footnotes, embeds become a snapshot.</li>
+<li><strong>Only the agent writes.</strong> You steer it in chat (“add the flight times”, “Maja is vegetarian now”); every statement it writes must cite a stored source, including what it looks up itself.</li>
+<li><strong>Every source is a stored copy</strong> — a conversation, a transcribed voice note, a document, an image or a fetched web page — saved as it was when captured, with an origin URI back to where it came from. The original can change or vanish; the citation can't.</li>
+</ul>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"dark":{"editor":"boolean","default":true},"$preview":{"width":1440,"height":900}}'>
+class Component extends DCLogic {
+renderVals() { return { theme: (this.props.dark ?? true) ? 'dark' : 'light' }; }
+}
+</script>
+</body>
+</html>

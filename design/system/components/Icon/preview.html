@@ -1,0 +1,18 @@
+<!-- @dsCard group="Foundations" height=120 -->
+<!doctype html>
+<html>
+<head><link rel="stylesheet" href="../../tokens.css"><link rel="stylesheet" href="../bundle.css">
+<script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+<script src="../bundle.js"></script>
+<script>document.documentElement.dataset.theme = new URLSearchParams(location.search).get('theme') || 'dark';</script>
+<style>body{margin:0;background:var(--canvas);color:var(--label);font-family:var(--font-sans)}</style><meta charset="utf-8"><title>Icon — preview</title>
+<style>html,body{height:100%} #root{height:100%} .grid{display:flex;flex-wrap:wrap;gap:18px;color:var(--label);background:var(--canvas-raised);padding:16px;border-radius:var(--radius-lg)}</style></head>
+<body>
+<div id="mount"></div>
+<script>
+  var S = window.SmokedGlass, h = React.createElement;
+  ReactDOM.createRoot(document.getElementById('mount')).render(h('div',{className:'grid'}, S.Icon.names.map(function(n){ return h(S.Icon,{key:n,name:n,size:24,'aria-label':n,role:'img'}); })));
+</script>
+</body>
+</html>

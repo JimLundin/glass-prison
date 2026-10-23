@@ -1,0 +1,21 @@
+<!-- @dsCard group="Modules" height=260 -->
+<!doctype html>
+<html>
+<head><link rel="stylesheet" href="../../tokens.css"><link rel="stylesheet" href="../bundle.css">
+<script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+<script src="../bundle.js"></script>
+<script>document.documentElement.dataset.theme = new URLSearchParams(location.search).get('theme') || 'dark';</script>
+<style>body{margin:0;background:var(--canvas);color:var(--label);font-family:var(--font-sans)}</style><meta charset="utf-8"><title>EventRow — preview</title>
+<style>html,body{height:100%} #root{height:100%} .box{max-width:400px}</style></head>
+<body>
+<div id="root" style="padding:20px;box-sizing:border-box;background:var(--canvas);min-height:100%"><div id="mount"></div></div>
+<script>
+  var S = window.SmokedGlass, h = React.createElement;
+  ReactDOM.createRoot(document.getElementById('mount')).render(h('div',{className:'box'}, h(S.ListGroup,{header:'Friday 13',glass:false},
+  h(S.EventRow,{time:'11:30',tint:'pink',title:'Lunch with Maja',meta:'1 h',location:'Café Pascal'}),
+  h(S.EventRow,{time:'15:00',tint:'orange',title:'Lisbon weekend',meta:'Until Sun 22:00 · Personal',agent:true}),
+  h(S.EventRow,{time:'17:40',tint:'blue',title:'Flight to Lisbon',meta:'ARN → LIS · not booked',suggested:true}))));
+</script>
+</body>
+</html>

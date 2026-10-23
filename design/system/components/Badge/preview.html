@@ -1,0 +1,19 @@
+<!-- @dsCard group="Status" height=90 -->
+<!doctype html>
+<html>
+<head><link rel="stylesheet" href="../../tokens.css"><link rel="stylesheet" href="../bundle.css">
+<script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+<script src="../bundle.js"></script>
+<script>document.documentElement.dataset.theme = new URLSearchParams(location.search).get('theme') || 'dark';</script>
+<style>body{margin:0;background:var(--canvas);color:var(--label);font-family:var(--font-sans)}</style><meta charset="utf-8"><title>Badge — preview</title>
+<style>html,body{height:100%} #root{height:100%} .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;background:var(--canvas-raised);padding:14px;border-radius:var(--radius-lg)}</style></head>
+<body>
+<div id="mount"></div>
+<script>
+  var S = window.SmokedGlass, h = React.createElement;
+  ReactDOM.createRoot(document.getElementById('mount')).render(h('div',{className:'row'},
+    h(S.Badge,null,'Draft'), h(S.Badge,{tone:'accent'},'New'), h(S.Badge,{tone:'success',icon:'checkmark'},'Synced'), h(S.Badge,{tone:'warning'},'Offline'), h(S.Badge,{tone:'danger',icon:'xmark'},'Failed'), h(S.Badge,{tone:'count'},'3')));
+</script>
+</body>
+</html>

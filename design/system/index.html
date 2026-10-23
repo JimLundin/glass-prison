@@ -1,0 +1,45 @@
+<!doctype html><html><head><meta charset="utf-8"><title>Smoked Glass — components</title>
+<style>body{margin:0;padding:24px;font:14px -apple-system,system-ui,sans-serif;background:#111;color:#eee}a{color:#5aaaff}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(440px,1fr));gap:20px}figure{margin:0}figcaption{margin:0 0 6px;font-weight:600}
+iframe{width:100%;height:340px;border:1px solid #333;border-radius:12px;background:#000}</style></head><body>
+<h1>Smoked Glass — components</h1><p>Every component preview, live. <a id="t" href="?theme=light">Show light</a> · rules in <a href="README.md">README.md</a></p>
+<div class="grid" id="g"><figure><figcaption>AgentPrompt</figcaption><iframe src="components/AgentPrompt/preview.html?theme=THEME" loading="lazy"></iframe></figure>
+<figure><figcaption>AgentQuestion</figcaption><iframe src="components/AgentQuestion/preview.html?theme=THEME" loading="lazy"></iframe></figure>
+<figure><figcaption>AgentRequest</figcaption><iframe src="components/AgentRequest/preview.html?theme=THEME" loading="lazy"></iframe></figure>
+<figure><figcaption>AgentStatus</figcaption><iframe src="components/AgentStatus/preview.html?theme=THEME" loading="lazy"></iframe></figure>
+<figure><figcaption>AgentSteps</figcaption><iframe src="components/AgentSteps/preview.html?theme=THEME" loading="lazy"></iframe></figure>
+<figure><figcaption>Badge</figcaption><iframe src="components/Badge/preview.html?theme=THEME" loading="lazy"></iframe></figure>
+<figure><figcaption>BottomBar</figcaption><iframe src="components/BottomBar/preview.html?theme=THEME" loading="lazy"></iframe></figure>
+<figure><figcaption>Button</figcaption><iframe src="components/Button/preview.html?theme=THEME" loading="lazy"></iframe></figure>
+<figure><figcaption>Checkbox</figcaption><iframe src="components/Checkbox/preview.html?theme=THEME" loading="lazy"></iframe></figure>
+<figure><figcaption>ChoiceList</figcaption><iframe src="components/ChoiceList/preview.html?theme=THEME" loading="lazy"></iframe></figure>
+<figure><figcaption>Cluster</figcaption><iframe src="components/Cluster/preview.html?theme=THEME" loading="lazy"></iframe></figure>
+<figure><figcaption>Composer</figcaption><iframe src="components/Composer/preview.html?theme=THEME" loading="lazy"></iframe></figure>
+<figure><figcaption>Cover</figcaption><iframe src="components/Cover/preview.html?theme=THEME" loading="lazy"></iframe></figure>
+<figure><figcaption>Dock</figcaption><iframe src="components/Dock/preview.html?theme=THEME" loading="lazy"></iframe></figure>
+<figure><figcaption>EventRow</figcaption><iframe src="components/EventRow/preview.html?theme=THEME" loading="lazy"></iframe></figure>
+<figure><figcaption>Glass</figcaption><iframe src="components/Glass/preview.html?theme=THEME" loading="lazy"></iframe></figure>
+<figure><figcaption>Icon</figcaption><iframe src="components/Icon/preview.html?theme=THEME" loading="lazy"></iframe></figure>
+<figure><figcaption>IconButton</figcaption><iframe src="components/IconButton/preview.html?theme=THEME" loading="lazy"></iframe></figure>
+<figure><figcaption>ItemCard</figcaption><iframe src="components/ItemCard/preview.html?theme=THEME" loading="lazy"></iframe></figure>
+<figure><figcaption>ListGroup</figcaption><iframe src="components/ListGroup/preview.html?theme=THEME" loading="lazy"></iframe></figure>
+<figure><figcaption>ListRow</figcaption><iframe src="components/ListRow/preview.html?theme=THEME" loading="lazy"></iframe></figure>
+<figure><figcaption>MapPreview</figcaption><iframe src="components/MapPreview/preview.html?theme=THEME" loading="lazy"></iframe></figure>
+<figure><figcaption>Menu</figcaption><iframe src="components/Menu/preview.html?theme=THEME" loading="lazy"></iframe></figure>
+<figure><figcaption>Message</figcaption><iframe src="components/Message/preview.html?theme=THEME" loading="lazy"></iframe></figure>
+<figure><figcaption>MonthGrid</figcaption><iframe src="components/MonthGrid/preview.html?theme=THEME" loading="lazy"></iframe></figure>
+<figure><figcaption>PlaceChip</figcaption><iframe src="components/PlaceChip/preview.html?theme=THEME" loading="lazy"></iframe></figure>
+<figure><figcaption>Screen</figcaption><iframe src="components/Screen/preview.html?theme=THEME" loading="lazy"></iframe></figure>
+<figure><figcaption>SearchField</figcaption><iframe src="components/SearchField/preview.html?theme=THEME" loading="lazy"></iframe></figure>
+<figure><figcaption>SegmentedControl</figcaption><iframe src="components/SegmentedControl/preview.html?theme=THEME" loading="lazy"></iframe></figure>
+<figure><figcaption>SourceCard</figcaption><iframe src="components/SourceCard/preview.html?theme=THEME" loading="lazy"></iframe></figure>
+<figure><figcaption>Switch</figcaption><iframe src="components/Switch/preview.html?theme=THEME" loading="lazy"></iframe></figure>
+<figure><figcaption>TabBar</figcaption><iframe src="components/TabBar/preview.html?theme=THEME" loading="lazy"></iframe></figure>
+<figure><figcaption>TaskRow</figcaption><iframe src="components/TaskRow/preview.html?theme=THEME" loading="lazy"></iframe></figure>
+<figure><figcaption>TimeGrid</figcaption><iframe src="components/TimeGrid/preview.html?theme=THEME" loading="lazy"></iframe></figure>
+<figure><figcaption>TopEdge</figcaption><iframe src="components/TopEdge/preview.html?theme=THEME" loading="lazy"></iframe></figure>
+<figure><figcaption>WeekStrip</figcaption><iframe src="components/WeekStrip/preview.html?theme=THEME" loading="lazy"></iframe></figure>
+<figure><figcaption>WikiDoc</figcaption><iframe src="components/WikiDoc/preview.html?theme=THEME" loading="lazy"></iframe></figure>
+</div>
+<script>var th=new URLSearchParams(location.search).get('theme')||'dark';document.getElementById('g').innerHTML=document.getElementById('g').innerHTML.replace(/THEME/g,th);
+var t=document.getElementById('t');t.href='?theme='+(th==='dark'?'light':'dark');t.textContent='Show '+(th==='dark'?'light':'dark');</script></body></html>

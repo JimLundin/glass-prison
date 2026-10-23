@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>CalFoldDay</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="ds/smokedglass/tokens.css">
+<link rel="stylesheet" href="ds/smokedglass/components/bundle.css">
+<script src="ds/smokedglass/components/bundle.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>body{margin:0}</style>
+</helmet>
+<div style="width: 466px; height: 678px;">
+<dc-import name="CalendarProto" range="day" width="466" height="678" dark="{{dark}}" hint-size="466px,678px"></dc-import>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"dark":{"editor":"boolean","default":true},"$preview":{"width":466,"height":678}}'>
+class Component extends DCLogic {
+renderVals() { return { dark: this.props.dark ?? true }; }
+}
+</script>
+</body>
+</html>

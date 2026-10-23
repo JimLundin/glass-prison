@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Wiki — a cited page</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="ds/smokedglass/tokens.css">
+<link rel="stylesheet" href="ds/smokedglass/components/bundle.css">
+<script src="ds/smokedglass/components/bundle.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>body{margin:0}</style>
+</helmet>
+<div data-theme="{{theme}}" class="{{screenClass}}" style="{{rootStyle}}">
+<aside class="sg-pane sg-pane-aside" style="{{asideStyle}}" aria-label="Wiki">
+<div class="sg-pane-scroll" style="padding-bottom: 120px;">
+<header class="sg-pane-header" style="padding-top: 40px;">
+<p class="sg-pane-eyebrow footnote">24 pages · 31 sources</p>
+<h1 class="sg-pane-title large-title">Wiki</h1>
+</header>
+<div class="sg-pane-content">
+<x-import component-from-global-scope="SmokedGlass.ListGroup" header="Pages" glass="{{no}}">
+<x-import component-from-global-scope="SmokedGlass.ListRow" icon="book" tint="teal" title="Lisbon trip" subtitle="Travel · 6 sources · updated 4 min ago" on-click="{{openPage}}"></x-import>
+<x-import component-from-global-scope="SmokedGlass.ListRow" icon="book" tint="teal" title="Kitchen remodel" subtitle="Home · 9 sources · yesterday" on-click="{{noop}}"></x-import>
+<x-import component-from-global-scope="SmokedGlass.ListRow" icon="book" tint="teal" title="Maja" subtitle="People · 14 sources · Sun" on-click="{{noop}}"></x-import>
+<x-import component-from-global-scope="SmokedGlass.ListRow" icon="book" tint="teal" title="Tax 2026" subtitle="Money · 6 sources · 18 Oct" on-click="{{noop}}"></x-import>
+</x-import>
+<x-import component-from-global-scope="SmokedGlass.ListGroup" header="Sources" footer="Everything a page says points back to one of these. Each is a stored copy — a conversation, a voice note, a document, an image or a web page as it was when saved — so a citation can never change underneath you." glass="{{no}}">
+<x-import component-from-global-scope="SmokedGlass.ListRow" icon="bubble" tint="indigo" title="Lisbon trip" subtitle="Conversation · Thu 22 Oct · cited on 2 pages" on-click="{{noop}}"></x-import>
+<x-import component-from-global-scope="SmokedGlass.ListRow" icon="mic" tint="pink" title="Voice note on the way home" subtitle="Transcribed · Wed 21 Oct · cited on 2 pages" on-click="{{noop}}"></x-import>
+<x-import component-from-global-scope="SmokedGlass.ListRow" icon="doc" tint="brown" title="Booking confirmation — Casa Alfama.pdf" subtitle="Imported · Thu 22 Oct" on-click="{{noop}}"></x-import>
+<x-import component-from-global-scope="SmokedGlass.ListRow" icon="doc" tint="brown" title="Email from Maja — “Re: Lisbon?”" subtitle="Imported · Thu 22 Oct" on-click="{{noop}}"></x-import>
+<x-import component-from-global-scope="SmokedGlass.ListRow" icon="globe" tint="blue" title="Lisbon in November — climate averages" subtitle="Web page · saved copy from 22 Oct" on-click="{{noop}}"></x-import>
+</x-import>
+
+</div>
+</div>
+<sc-if value="{{wide}}" hint-placeholder-val="{{false}}">
+<div class="sg-dock">
+<x-import component-from-global-scope="SmokedGlass.Cluster" variant="bar" tabs="{{tabs}}" tab="wiki" on-tab="{{noop}}" search="{{search}}" aria-label="Navigation" style="width: 100%;"></x-import>
+</div>
+</sc-if>
+</aside>
+<main class="sg-pane sg-pane-main" aria-label="{{mainLabel}}">
+<sc-if value="{{showList}}" hint-placeholder-val="{{false}}">
+<div class="sg-pane-scroll" style="padding-bottom: 160px;">
+<header class="sg-pane-header" style="padding-top: 72px;">
+<p class="sg-pane-eyebrow footnote">24 pages · 31 sources</p>
+<h1 class="sg-pane-title large-title">Wiki</h1>
+</header>
+<div class="sg-pane-content">
+<x-import component-from-global-scope="SmokedGlass.ListGroup" header="Pages" glass="{{no}}">
+<x-import component-from-global-scope="SmokedGlass.ListRow" icon="book" tint="teal" title="Lisbon trip" subtitle="Travel · 6 sources · updated 4 min ago" on-click="{{openPage}}"></x-import>
+<x-import component-from-global-scope="SmokedGlass.ListRow" icon="book" tint="teal" title="Kitchen remodel" subtitle="Home · 9 sources · yesterday" on-click="{{noop}}"></x-import>
+<x-import component-from-global-scope="SmokedGlass.ListRow" icon="book" tint="teal" title="Maja" subtitle="People · 14 sources · Sun" on-click="{{noop}}"></x-import>
+<x-import component-from-global-scope="SmokedGlass.ListRow" icon="book" tint="teal" title="Tax 2026" subtitle="Money · 6 sources · 18 Oct" on-click="{{noop}}"></x-import>
+</x-import>
+<x-import component-from-global-scope="SmokedGlass.ListGroup" header="Sources" footer="Everything a page says points back to one of these. Each is a stored copy — a conversation, a voice note, a document, an image or a web page as it was when saved — so a citation can never change underneath you." glass="{{no}}">
+<x-import component-from-global-scope="SmokedGlass.ListRow" icon="bubble" tint="indigo" title="Lisbon trip" subtitle="Conversation · Thu 22 Oct · cited on 2 pages" on-click="{{noop}}"></x-import>
+<x-import component-from-global-scope="SmokedGlass.ListRow" icon="mic" tint="pink" title="Voice note on the way home" subtitle="Transcribed · Wed 21 Oct · cited on 2 pages" on-click="{{noop}}"></x-import>
+<x-import component-from-global-scope="SmokedGlass.ListRow" icon="doc" tint="brown" title="Booking confirmation — Casa Alfama.pdf" subtitle="Imported · Thu 22 Oct" on-click="{{noop}}"></x-import>
+<x-import component-from-global-scope="SmokedGlass.ListRow" icon="doc" tint="brown" title="Email from Maja — “Re: Lisbon?”" subtitle="Imported · Thu 22 Oct" on-click="{{noop}}"></x-import>
+<x-import component-from-global-scope="SmokedGlass.ListRow" icon="globe" tint="blue" title="Lisbon in November — climate averages" subtitle="Web page · saved copy from 22 Oct" on-click="{{noop}}"></x-import>
+</x-import>
+
+</div>
+</div>
+</sc-if>
+<sc-if value="{{showPage}}" hint-placeholder-val="{{true}}">
+<div class="sg-pane-scroll" style="{{scrollStyle}}">
+<sc-if value="{{showHeader}}" hint-placeholder-val="{{true}}">
+<header class="sg-pane-header" style="{{headerStyle}}">
+<p class="sg-pane-eyebrow footnote">Travel · written by the agent · updated 4 min ago · 6 sources</p>
+<h1 class="sg-pane-title large-title">Lisbon trip</h1>
+</header>
+</sc-if>
+<div class="sg-pane-content">
+<x-import component-from-global-scope="SmokedGlass.WikiDoc" doc="{{doc}}" sources="{{sources}}" start="{{from}}" active-claim="{{activeClaim}}" active-source="{{activeSource}}" on-cite="{{onCite}}" on-source="{{onSource}}" on-question="{{onQuestion}}"></x-import>
+</div>
+</div>
+<x-import component-from-global-scope="SmokedGlass.TopEdge" title="Lisbon trip" show="{{showTop}}"></x-import>
+</sc-if>
+<div class="sg-dock">
+<x-import component-from-global-scope="SmokedGlass.Cluster" variant="row" tabs="{{cTabs}}" tab="wiki" on-tab="{{noop}}" search="{{search}}" back="{{back}}" primary="{{primary}}" actions="{{actions}}" sheet="{{sheet}}" gather="{{gather}}" flat="{{flat}}" style="width: 100%;"></x-import>
+</div>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"dark":{"editor":"boolean","default":true},"view":{"editor":"enum","options":["page","list"],"default":"page"},"from":{"editor":"int","default":0},"cite":{"editor":"string","default":""},"q":{"editor":"string","default":""},"width":{"editor":"int","default":390},"height":{"editor":"int","default":844},"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+renderVals() {
+const DOC = {"id": "lisbon-trip", "title": "Lisbon trip", "updated": "4 min ago", "blocks": [{"type": "paragraph", "claims": [{"id": "c1", "text": "A weekend in Lisbon with Maja, Friday 13 to Sunday 15 November 2026.", "sources": ["s1", "s2"], "span": {"s1": "Find a free weekend in November for Lisbon", "s2": "Maja’s coming too"}}, {"id": "c2", "text": "You’re staying at Casa Alfama and can check in from 15:00 on Friday.", "sources": ["s3"], "span": {"s3": "Check-in: Friday 13 November 2026, from 15:00."}}, {"id": "c3", "text": "Flights aren’t booked yet: you can’t leave work before 15:00 on Friday,", "sources": ["s1"], "span": {"s1": "I can’t leave work before three."}}, {"id": "c4", "text": "and Maja has to be home by 22:00 on Sunday.", "sources": ["s4"], "span": {"s4": "I have to be home by 22 on Sunday"}}]}, {"type": "facts", "items": [{"id": "f1", "label": "Dates", "value": "Fri 13 – Sun 15 Nov", "sources": ["s3"], "span": {"s3": "Check-out: Sunday 15 November 2026, by 11:00."}}, {"id": "f2", "label": "Travelling", "value": "You and Maja", "sources": ["s2", "s4"], "span": {"s2": "Maja’s coming too", "s4": "Count me in!!"}}, {"id": "f3", "label": "Staying at", "value": "Casa Alfama", "place": true, "sources": ["s3"], "span": {"s3": "Rua dos Remédios 81, 1100-445 Lisboa."}}, {"id": "f4", "label": "Seat", "value": "Window", "sources": ["s1"], "span": {"s1": "Window seat if you book anything."}}]}, {"type": "timeline", "from": {"module": "calendar", "range": ["2026-11-13", "2026-11-15"]}, "range": "13–15 Nov", "items": [{"day": "Fri 13", "time": "15:00", "title": "Check in at Casa Alfama", "tint": "orange", "meta": "From 15:00"}, {"day": "Fri 13", "time": "17:40", "title": "Flight to Lisbon", "tint": "blue", "suggested": true}, {"day": "Sat 14", "time": "10:00", "title": "Walk through Alfama", "tint": "orange", "agent": true, "meta": "From the hotel"}, {"day": "Sat 14", "time": "20:00", "title": "Dinner at Taberna do Largo", "tint": "orange", "suggested": true}, {"day": "Sun 15", "time": "11:00", "title": "Check out", "tint": "orange", "meta": "By 11:00"}, {"day": "Sun 15", "time": "18:40", "title": "Flight home", "tint": "blue", "suggested": true}]}, {"type": "heading", "text": "Food"}, {"type": "paragraph", "claims": [{"id": "c5", "text": "Maja doesn’t eat meat, so dinners need good fish or vegetarian options.", "sources": ["s2"], "span": {"s2": "She doesn’t eat meat, so look for somewhere with good fish or something veggie."}}, {"id": "c6", "text": "November is mild — highs around 18 °C — but expect a few showers.", "sources": ["s6"], "span": {"s6": "daytime highs in Lisbon average around 18 °C"}}]}, {"type": "place", "placeId": "casa-alfama", "name": "Casa Alfama", "subtitle": "Rua dos Remédios 81 · Alfama", "pins": [{"x": 52, "y": 38, "tint": "red", "active": true, "label": "Casa Alfama"}, {"x": 28, "y": 30, "tint": "orange"}, {"x": 72, "y": 55, "tint": "orange"}]}, {"type": "heading", "text": "Packing"}, {"type": "paragraph", "claims": [{"id": "c7", "text": "Bring a light rain shell and shoes with real grip — the hills are steep and the stones get slippery.", "sources": ["s5"], "span": {"s5": "Shoes with real grip — the hills are steep and the stones get slippery."}}]}, {"type": "tasks", "from": {"module": "tasks", "list": "Lisbon trip"}, "list": "Lisbon trip", "items": [{"title": "Book airport transfer", "meta": "Arrive 21:55 Fri", "agent": true}, {"title": "Check passport expiry date", "meta": "Before booking flights"}, {"title": "Pack for Lisbon", "meta": "Fri 13 Nov"}, {"title": "Reserve dinner for two", "meta": "Sat 14 Nov", "done": true}]}, {"type": "questions", "items": [{"id": "q1", "q": "Do you and Maja fly together, or meet there?", "status": "open"}, {"id": "q2", "q": "Can you get a late check-out on Sunday?", "status": "open"}, {"id": "q3", "q": "Window or aisle?", "status": "answered", "answer": "Window.", "sources": ["s1"], "span": {"s1": "Window seat if you book anything."}}]}, {"type": "sources"}]};
+const SOURCES = {"s1": {"kind": "conversation", "title": "Lisbon trip", "when": "Thu 22 Oct, 20:41", "where": "Chat", "speaker": "You", "excerpt": "Find a free weekend in November for Lisbon and start a packing list. Nothing too early on Friday — I can’t leave work before three. Window seat if you book anything."}, "s2": {"kind": "voice", "title": "Voice note on the way home", "when": "Wed 21 Oct, 18:12", "where": "Transcribed in Chat", "speaker": "You", "excerpt": "Maja’s coming too, she said yes this morning. She doesn’t eat meat, so look for somewhere with good fish or something veggie."}, "s3": {"kind": "document", "title": "Booking confirmation — Casa Alfama.pdf", "when": "Imported Thu 22 Oct", "where": "page 1", "excerpt": "Check-in: Friday 13 November 2026, from 15:00. Check-out: Sunday 15 November 2026, by 11:00. Rua dos Remédios 81, 1100-445 Lisboa. Guests: 2."}, "s4": {"kind": "document", "title": "Email from Maja — “Re: Lisbon?”", "when": "Imported Thu 22 Oct", "where": "Mail", "excerpt": "Count me in!! Only thing: I have to be home by 22 on Sunday, I’m working Monday morning."}, "s6": {"kind": "web", "title": "Lisbon in November — climate averages", "when": "Fetched Thu 22 Oct, 20:58", "origin": "https://www.example-weather.org/lisbon/november", "captured": "22 Oct 2026", "excerpt": "In November, daytime highs in Lisbon average around 18 °C and nights about 12 °C. Rain falls on roughly 9 days of the month, usually in short showers."}, "s5": {"kind": "document", "title": "City break packing list (2025).md", "when": "Imported Sep 2025", "where": "Files", "excerpt": "Light rain shell. Two warm layers. Shoes with real grip — the hills are steep and the stones get slippery."}};
+const W = +(this.props.width || 390), H = +(this.props.height || 844), wide = W >= 840, desk = W >= 1000;
+const key = [this.props.view, this.props.from, this.props.cite, this.props.q, W].join(':');
+const own = (this.state && this.state.k === key) ? this.state : { k: key };
+const c0 = String(this.props.cite || '').split(':');
+const s = Object.assign({ view: this.props.view || 'page', cite: this.props.cite ? { source: c0[0] || null, claim: c0[1] } : null, q: this.props.q || null }, own);
+const set = (x) => this.setState(Object.assign({}, own, x, { k: key }));
+const noop = function () {};
+const claims = {};
+DOC.blocks.forEach((b) => (b.claims || []).concat(b.items || []).forEach((c) => { if (c.id) claims[c.id] = c; }));
+const TABS = [{ id: 'chat', label: 'Chat', icon: 'bubble' }, { id: 'calendar', label: 'Calendar', icon: 'calendar' }, { id: 'tasks', label: 'Tasks', icon: 'checklist', badge: 3 }, { id: 'wiki', label: 'Wiki', icon: 'book' }, { id: 'you', label: 'You', icon: 'person' }];
+const close = { icon: 'xmark', label: 'Close', onClick: () => set({ cite: null, q: null }) };
+let sheet = null;
+if (s.cite && s.cite.source) {
+  const src = SOURCES[s.cite.source] || {}, cl = claims[s.cite.claim];
+  sheet = { kind: 'source', key: 'src:' + s.cite.source + ':' + s.cite.claim, source: src, span: cl && cl.span ? cl.span[s.cite.source] : '', claim: cl ? (cl.text || (cl.label ? cl.label + ': ' + cl.value : cl.answer)) : null,
+    actions: [{ label: src.kind === 'web' ? 'Open Saved Copy' : (src.kind === 'conversation' || src.kind === 'voice') ? 'Open in Chat' : 'Open Document', variant: 'filled' }], dismiss: close };
+} else if (s.cite) {
+  const cl = claims[s.cite.claim];
+  sheet = { kind: 'card', key: 'nosrc:' + s.cite.claim, title: 'Source missing', subtitle: cl ? '“' + cl.text + '”' : '',
+    lines: [{ icon: 'sparkle', text: 'Its source was deleted. The agent is looking for another one and will rewrite or remove this.' }],
+    actions: [{ label: 'Remove Now' }], dismiss: close };
+} else if (s.q) {
+  const qq = (DOC.blocks.find((b) => b.type === 'questions') || { items: [] }).items.find((x) => x.id === s.q) || {};
+  sheet = { kind: 'question', key: 'q:' + s.q, title: qq.q, hint: 'Your answer is saved as a source for this page', options: [{ value: 'together', label: 'Fly together' }, { value: 'meet', label: 'Meet there' }], other: 'Something else…', onReplyInChat: null, actions: [{ label: 'Save Answer', variant: 'filled' }], dismiss: { icon: 'xmark', label: 'Later', onClick: () => set({ q: null }) } };
+}
+const from = +(this.props.from || 0);
+const isList = s.view === 'list';
+const pageActions = [{ id: 'ask', label: 'Ask the Agent', icon: 'sparkle' }, { id: 'import', label: 'Add Source', icon: 'doc' }, { id: 'find', label: 'Find', icon: 'search' }, { id: 'share', label: 'Share', icon: 'share' }, { id: 'delete', label: 'Delete', icon: 'trash', destructive: true }];
+return {
+  theme: (this.props.dark ?? true) ? 'dark' : 'light', no: false, yes: true, noop: noop,
+  wide: wide, screenClass: 'sg-screen' + (wide ? ' has-aside' : '') + (wide && !desk ? ' is-hinged' : ''),
+  rootStyle: 'width: ' + W + 'px; height: ' + H + 'px; font-family: var(--font-sans); color: var(--label); background: var(--canvas);',
+  asideStyle: wide ? '' : 'display: none;',
+  showList: !wide && isList, showPage: wide || !isList, mainLabel: isList && !wide ? 'Wiki' : 'Lisbon trip',
+  showHeader: from === 0, showTop: from > 0, headerStyle: 'padding-top: ' + (wide ? 40 : 72) + 'px;',
+  scrollStyle: 'padding-bottom: ' + (sheet ? 380 : 140) + 'px;' + (from > 0 ? ' padding-top: 96px;' : ''),
+  doc: DOC, sources: SOURCES, from: from,
+  activeClaim: s.cite ? s.cite.claim : null, activeSource: s.cite ? s.cite.source : null,
+  onCite: (id, claim) => set({ cite: { source: id, claim: claim }, q: null }),
+  onSource: (id) => set({ cite: { source: id, claim: null }, q: null }),
+  onQuestion: (q) => set({ q: q.id, cite: null }),
+  tabs: TABS, search: { label: 'Search', placeholder: 'Search everything', onOpen: noop, onQuery: noop },
+  cTabs: wide ? [] : TABS, gather: wide && !desk, flat: desk,
+  back: (!wide && !isList) ? { onClick: () => set({ view: 'list', cite: null, q: null }) } : null,
+  primary: (!wide && isList) ? { icon: 'doc', label: 'Import Source' } : null,
+  actions: (!wide && isList) ? null : pageActions,
+  sheet: sheet, openPage: () => set({ view: 'page' })
+};
+}
+}
+</script>
+</body>
+</html>

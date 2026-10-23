@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Calendar — day, week, month</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="ds/smokedglass/tokens.css">
+<link rel="stylesheet" href="ds/smokedglass/components/bundle.css">
+<script src="ds/smokedglass/components/bundle.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>body{margin:0}</style>
+</helmet>
+<div data-theme="{{theme}}" class="{{screenClass}}" style="{{rootStyle}}">
+<aside class="sg-pane sg-pane-aside" style="{{asideStyle}}" aria-label="Calendar">
+<div class="sg-pane-scroll" style="padding-bottom: 120px;">
+<header class="sg-pane-header" style="padding-top: 40px;">
+<p class="sg-pane-eyebrow footnote">November 2026</p>
+<h1 class="sg-pane-title large-title">Calendar</h1>
+</header>
+<div class="sg-pane-content">
+<sc-if value="{{notMonth}}" hint-placeholder-val="{{true}}">
+<x-import component-from-global-scope="SmokedGlass.MonthGrid" weeks="{{miniWeeks}}" on-select="{{pickMonthDay}}" aria-label="November 2026"></x-import>
+</sc-if>
+<sc-if value="{{isMonth}}" hint-placeholder-val="{{false}}">
+<x-import component-from-global-scope="SmokedGlass.ListGroup" header="{{agendaHeader}}" glass="{{no}}">
+<sc-for list="{{agenda}}" as="e">
+<x-import component-from-global-scope="SmokedGlass.EventRow" time="{{e.start}}" tint="{{e.tint}}" title="{{e.title}}" meta="{{e.meta}}" suggested="{{e.suggested}}" agent="{{e.agent}}"></x-import>
+</sc-for>
+</x-import>
+</sc-if>
+<x-import component-from-global-scope="SmokedGlass.ListGroup" header="Coming up" glass="{{no}}">
+<x-import component-from-global-scope="SmokedGlass.EventRow" time="Fri" tint="orange" title="Lisbon weekend" meta="13–15 Nov" agent="{{yes}}"></x-import>
+<x-import component-from-global-scope="SmokedGlass.EventRow" time="Tue" tint="teal" title="Dentist" meta="17 Nov · 08:30" location="Odengatan 12"></x-import>
+<x-import component-from-global-scope="SmokedGlass.EventRow" time="Thu" tint="pink" title="Maja’s birthday" meta="19 Nov · all day"></x-import>
+</x-import>
+</div>
+</div>
+<sc-if value="{{wide}}" hint-placeholder-val="{{false}}">
+<div class="sg-dock">
+<x-import component-from-global-scope="SmokedGlass.Cluster" variant="bar" tabs="{{tabs}}" tab="calendar" on-tab="{{noop}}" search="{{search}}" aria-label="Navigation" style="width: 100%;"></x-import>
+</div>
+</sc-if>
+</aside>
+<main class="sg-pane sg-pane-main" aria-label="Calendar">
+<div class="sg-pane-scroll" style="{{scrollStyle}}">
+<header class="sg-pane-header" style="{{headerStyle}}">
+<p class="sg-pane-eyebrow footnote">{{eyebrow}}</p>
+<h1 class="sg-pane-title large-title">{{title}}</h1>
+</header>
+<sc-if value="{{isDay}}" hint-placeholder-val="{{false}}">
+<div class="sg-pane-content" style="gap: 12px;">
+<x-import component-from-global-scope="SmokedGlass.WeekStrip" days="{{strip}}" selected="{{sel}}" on-select="{{pick}}"></x-import>
+<x-import component-from-global-scope="SmokedGlass.TimeGrid" days="{{dayCols}}" events="{{dayEvents}}" all-day="{{daySpans}}" start-hour="{{eight}}" end-hour="{{twentythree}}" hour-height="{{dayHH}}" on-event="{{openEvent}}"></x-import>
+</div>
+</sc-if>
+<sc-if value="{{isWeek}}" hint-placeholder-val="{{true}}">
+<x-import component-from-global-scope="SmokedGlass.TimeGrid" days="{{weekCols}}" events="{{events}}" all-day="{{spans}}" start-hour="{{eight}}" end-hour="{{twentythree}}" hour-height="{{weekHH}}" compact="{{compact}}" on-select="{{pickDay}}" on-event="{{openEvent}}"></x-import>
+</sc-if>
+<sc-if value="{{isMonth}}" hint-placeholder-val="{{false}}">
+<div class="sg-pane-content" style="{{monthStyle}}">
+<x-import component-from-global-scope="SmokedGlass.MonthGrid" weeks="{{monthWeeks}}" titles="{{monthTitles}}" on-select="{{pickMonthDay}}" aria-label="November 2026"></x-import>
+<sc-if value="{{monthAgenda}}" hint-placeholder-val="{{true}}">
+<x-import component-from-global-scope="SmokedGlass.ListGroup" header="{{agendaHeader}}" glass="{{no}}">
+<sc-for list="{{agenda}}" as="e">
+<x-import component-from-global-scope="SmokedGlass.EventRow" time="{{e.start}}" tint="{{e.tint}}" title="{{e.title}}" meta="{{e.meta}}" suggested="{{e.suggested}}" agent="{{e.agent}}"></x-import>
+</sc-for>
+</x-import>
+</sc-if>
+</div>
+</sc-if>
+</div>
+<div class="sg-dock">
+<x-import component-from-global-scope="SmokedGlass.Cluster" variant="row" tabs="{{cTabs}}" tab="calendar" on-tab="{{noop}}" search="{{search}}" accessory="{{switcher}}" primary="{{primary}}" actions="{{actions}}" sheet="{{sheet}}" gather="{{gather}}" flat="{{flat}}" style="width: 100%;"></x-import>
+</div>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"dark":{"editor":"boolean","default":true},"range":{"editor":"enum","options":["day","week","month"],"default":"week"},"card":{"editor":"boolean","default":false},"width":{"editor":"int","default":390},"height":{"editor":"int","default":844},"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+renderVals() {
+const W = +(this.props.width || 390), H = +(this.props.height || 844), wide = W >= 840, desk = W >= 1000;
+const key = [this.props.range, this.props.card, W].join(':');
+const own = (this.state && this.state.k === key) ? this.state : { k: key };
+const s = Object.assign({ range: this.props.range || 'week', sel: 4, card: this.props.card ? 'flight' : null }, own);
+const set = (x) => this.setState(Object.assign({}, own, x, { k: key }));
+const noop = function () {};
+const NAMES = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+const LONG = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+const EV = [
+  { day: 0, start: '09:00', end: '09:15', title: 'Standup', tint: 'teal' },
+  { day: 0, start: '13:00', end: '14:00', title: 'Design review', tint: 'indigo', place: 'Room 4' },
+  { day: 1, start: '09:00', end: '09:15', title: 'Standup', tint: 'teal' },
+  { day: 1, start: '17:00', end: '18:00', title: 'Gym', tint: 'green', place: 'SATS Odenplan' },
+  { day: 2, start: '09:00', end: '09:15', title: 'Standup', tint: 'teal' },
+  { day: 2, start: '12:00', end: '13:00', title: 'Lunch with Erik', tint: 'pink', place: 'Bar Agrikultur' },
+  { day: 3, start: '09:00', end: '09:15', title: 'Standup', tint: 'teal' },
+  { day: 3, start: '14:00', end: '15:30', title: 'Kitchen contractor', tint: 'brown', place: 'At home' },
+  { day: 4, start: '09:00', end: '09:15', title: 'Standup', tint: 'teal' },
+  { day: 4, start: '11:30', end: '12:30', title: 'Lunch with Maja', tint: 'pink', place: 'Café Pascal' },
+  { day: 4, id: 'flight', start: '17:40', end: '21:55', title: 'Flight to Lisbon', tint: 'blue', place: 'ARN Terminal 5', suggested: true },
+  { day: 5, start: '10:00', end: '12:00', title: 'Walk through Alfama', tint: 'orange', place: 'From the hotel', agent: true },
+  { day: 5, start: '20:00', end: '22:00', title: 'Dinner at Taberna do Largo', tint: 'orange', place: 'Alfama', suggested: true },
+  { day: 6, start: '18:40', end: '22:00', title: 'Flight home', tint: 'blue', place: 'LIS Terminal 1', suggested: true }
+];
+const SPANS = [{ from: 4, to: 6, title: 'Lisbon weekend', tint: 'orange', agent: true }];
+const openEvent = (e) => set({ card: e.id || e.title });
+const pick = (i) => set({ sel: i });
+// month: Mon 26 Oct … Sun 6 Dec
+const MI = { 3: [['Q4 planning', 'indigo']], 5: [['Haircut', 'mint']], 9: [['Design review', 'indigo']], 10: [['Gym', 'green']], 11: [['Lunch with Erik', 'pink']], 12: [['Kitchen contractor', 'brown']],
+  13: [['Lunch with Maja', 'pink'], ['Flight to Lisbon', 'blue', 1]], 14: [['Walk through Alfama', 'orange'], ['Dinner at Taberna', 'orange', 1]], 15: [['Flight home', 'blue', 1]],
+  17: [['Dentist', 'teal']], 19: [['Maja’s birthday', 'pink']], 20: [['Kitchen demolition', 'brown']], 24: [['Q4 review', 'indigo']], 26: [['Gym', 'green']], 28: [['Christmas market', 'red']] };
+const selDate = 9 + s.sel;
+const mkWeeks = (titles) => [0, 1, 2, 3, 4, 5].map((r) => {
+  const days = [0, 1, 2, 3, 4, 5, 6].map((i) => {
+    const n = r * 7 + i - 5; // 1 Nov is index 6 of row 0
+    const muted = n < 1 || n > 30, num = n < 1 ? 31 + n : (n > 30 ? n - 30 : n);
+    return { num: String(num), muted: muted, selected: !muted && n === selDate, span: r === 2,
+      items: muted ? [] : (MI[n] || []).map((x) => ({ title: x[0], tint: x[1], suggested: !!x[2] })) };
+  });
+  return { days: days, spans: r === 2 ? SPANS : [] };
+});
+const pickMonthDay = (r, i, d) => { if (d.muted) return; const n = +d.num; if (n >= 9 && n <= 15) set({ sel: n - 9 }); };
+const flight = EV.find((e) => e.id === 'flight');
+const cardEv = s.card ? (EV.find((e) => (e.id || e.title) === s.card) || flight) : null;
+const sheet = cardEv ? { kind: 'card', key: 'ev:' + cardEv.title, title: cardEv.title, subtitle: LONG[cardEv.day] + ' ' + (9 + cardEv.day) + ' November · ' + cardEv.start + '–' + cardEv.end,
+  lines: [cardEv.place ? { icon: 'location', text: cardEv.place } : null, cardEv.suggested ? { icon: 'sparkle', text: 'Suggested by the agent · not booked' } : { icon: 'calendar', text: 'Personal' }].filter(Boolean),
+  actions: cardEv.suggested ? [{ label: 'Dismiss' }, { label: 'Book', variant: 'filled' }] : [{ label: 'Edit' }, { label: 'Ask' }],
+  dismiss: { icon: 'chevron-left', label: 'Back', onClick: () => set({ card: null }) } } : null;
+const day = s.sel, inDay = EV.filter((e) => e.day === day).map((e) => Object.assign({}, e, { day: 0 }));
+const r = s.range;
+return {
+  theme: (this.props.dark ?? true) ? 'dark' : 'light', no: false, yes: true, noop: noop, eight: 8, twentythree: 23,
+  wide: wide, screenClass: 'sg-screen' + (wide ? ' has-aside' : '') + (wide && !desk ? ' is-hinged' : ''),
+  rootStyle: 'width: ' + W + 'px; height: ' + H + 'px; font-family: var(--font-sans); color: var(--label); background: var(--canvas);',
+  asideStyle: wide ? '' : 'display: none;',
+  scrollStyle: 'padding-bottom: ' + (cardEv ? 320 : 140) + 'px;' + (wide ? '' : ''),
+  headerStyle: 'padding-top: ' + (wide ? 40 : 72) + 'px;' + (wide && r !== 'day' ? ' max-width: none;' : ''),
+  monthStyle: 'gap: 16px;' + (wide ? ' max-width: none;' : ''),
+  tabs: [{ id: 'chat', label: 'Chat', icon: 'bubble' }, { id: 'calendar', label: 'Calendar', icon: 'calendar' }, { id: 'tasks', label: 'Tasks', icon: 'checklist', badge: 3 }, { id: 'wiki', label: 'Wiki', icon: 'book' }, { id: 'you', label: 'You', icon: 'person' }],
+  search: { label: 'Search', placeholder: 'Search everything', onOpen: noop, onQuery: noop },
+  cTabs: wide ? [] : [{ id: 'chat', label: 'Chat', icon: 'bubble' }, { id: 'calendar', label: 'Calendar', icon: 'calendar' }, { id: 'tasks', label: 'Tasks', icon: 'checklist', badge: 3 }, { id: 'wiki', label: 'Wiki', icon: 'book' }, { id: 'you', label: 'You', icon: 'person' }],
+  gather: wide && !desk, flat: desk,
+  switcher: { kind: 'switcher', key: 'range', options: ['Day', 'Week', 'Month'], value: r.charAt(0).toUpperCase() + r.slice(1), onChange: (v) => set({ range: String(v).toLowerCase() }), 'aria-label': 'Range' },
+  primary: { icon: 'plus', label: 'New Event' }, actions: [{ id: 'today', label: 'Today', icon: 'clock' }],
+  sheet: sheet,
+  isDay: r === 'day', isWeek: r === 'week', isMonth: r === 'month', notMonth: r !== 'month',
+  eyebrow: r === 'month' ? '2026' : 'November 2026', title: r === 'day' ? LONG[day] + ' ' + (9 + day) : r === 'week' ? 'Week 46' : 'November',
+  strip: NAMES.map((n, i) => ({ name: n, num: String(9 + i), busy: true })), sel: day, pick: pick,
+  dayCols: [{ name: NAMES[day], num: String(9 + day) }], dayEvents: inDay, daySpans: SPANS.filter((a) => day >= a.from && day <= a.to).map((a) => Object.assign({}, a, { from: 0, to: 0 })), dayHH: desk ? 60 : 56,
+  weekCols: NAMES.map((n, i) => ({ name: n, num: String(9 + i), selected: i === day })), events: EV, spans: SPANS, weekHH: desk ? 52 : 44, compact: !desk, pickDay: (i) => set({ sel: i, range: 'day' }),
+  openEvent: openEvent,
+  monthWeeks: mkWeeks(desk), miniWeeks: mkWeeks(false), monthTitles: desk, monthAgenda: !wide, pickMonthDay: pickMonthDay,
+  agendaHeader: LONG[day] + ' ' + (9 + day),
+  agenda: EV.filter((e) => e.day === day).map((e) => ({ start: e.start, tint: e.tint, title: e.title, meta: e.end + (e.place ? ' · ' + e.place : ''), suggested: !!e.suggested, agent: !!e.agent }))
+};
+}
+}
+</script>
+</body>
+</html>
