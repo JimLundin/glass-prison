@@ -1,0 +1,21 @@
+<!-- @dsCard group="Agent" height=400 -->
+<!doctype html>
+<html>
+<head><link rel="stylesheet" href="../../tokens.css"><link rel="stylesheet" href="../bundle.css">
+<script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+<script src="../bundle.js"></script>
+<script>document.documentElement.dataset.theme = new URLSearchParams(location.search).get('theme') || 'dark';</script>
+<style>body{margin:0;background:var(--canvas);color:var(--label);font-family:var(--font-sans)}</style><meta charset="utf-8"><title>AgentQuestion — preview</title>
+<style>html,body{height:100%} #root{height:100%} .box{max-width:420px}</style></head>
+<body>
+<div id="root" class="sg-stage sg-stage-quiet"><i class="sg-blob sg-blob-c"></i><i class="sg-blob sg-blob-d"></i><div id="mount" style="display:contents"></div></div>
+<script>
+  var S = window.SmokedGlass, h = React.createElement;
+  ReactDOM.createRoot(document.getElementById('mount')).render(h('div',{className:'box'}, h(S.AgentQuestion,{
+  title:'Where are you flying from?', progress:'1 of 2', hint:'Pick one, or type your own',
+  options:[{value:'arn',label:'Stockholm Arlanda',detail:'ARN'},{value:'bma',label:'Stockholm Bromma',detail:'BMA'},{value:'got',label:'Göteborg Landvetter',detail:'GOT'}],
+  defaultValue:'arn', other:'Somewhere else…', actions:[{label:'Skip'},{label:'Next',variant:'filled'}]})));
+</script>
+</body>
+</html>

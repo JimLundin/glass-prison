@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>iPhone Duo folded — question</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="ds/smokedglass/tokens.css">
+<link rel="stylesheet" href="ds/smokedglass/components/bundle.css">
+<script src="ds/smokedglass/components/bundle.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+body{margin:0}
+a{color:var(--accent-text)}a:hover{color:var(--label)}
+</style>
+</helmet>
+<div data-theme="{{theme}}" class="sg-screen" style="width: 466px; height: 678px; font-family: var(--font-sans); color: var(--label); background: var(--canvas);">
+<main class="sg-pane sg-pane-main" aria-label="Lisbon trip">
+<div class="sg-pane-scroll" style="padding-bottom: 420px; padding-top: 90px;">
+<div style="display: flex; flex-direction: column; gap: 14px;">
+<x-import component-from-global-scope="SmokedGlass.Message" by="user">Now find flights for that weekend. Nothing too early on Friday.</x-import>
+<x-import component-from-global-scope="SmokedGlass.Message" by="agent">Flying from Stockholm Arlanda. One more question and I’ll search.</x-import>
+<x-import component-from-global-scope="SmokedGlass.AgentPrompt" state="done" answer="Stockholm Arlanda" kind="Question" icon="sparkle" tint="blue" title="Where are you flying from?" cta="Answer" on-open="{{noop}}"></x-import>
+<x-import component-from-global-scope="SmokedGlass.AgentPrompt" state="focused" kind="Question" icon="clock" tint="indigo" title="Back on Sunday by…" cta="Answer" on-open="{{noop}}"></x-import>
+</div>
+</div>
+<x-import component-from-global-scope="SmokedGlass.TopEdge" title="{{topTitle}}" show="{{yes}}"></x-import>
+<div class="sg-dock">
+<x-import component-from-global-scope="SmokedGlass.Cluster" variant="{{c.variant}}" tabs="{{c.tabs}}" tab="{{c.tab}}" on-tab="{{noop}}" back="{{c.back}}" actions="{{c.actions}}" primary="{{c.primary}}" accessory="{{c.accessory}}" sheet="{{c.sheet}}" search="{{c.search}}" gather="{{c.gather}}" flat="{{c.flat}}" minimized="{{c.minimized}}" style="width: 100%;"></x-import>
+</div>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"dark":{"editor":"boolean","default":true},"$preview":{"width":466,"height":678}}'>
+class Component extends DCLogic {
+renderVals() {
+const noop = function () {};
+const TABS = [{ id: 'chat', label: 'Chat', icon: 'bubble' }, { id: 'calendar', label: 'Calendar', icon: 'calendar' }, { id: 'tasks', label: 'Tasks', icon: 'checklist', badge: 3 }, { id: 'wiki', label: 'Wiki', icon: 'book' }, { id: 'you', label: 'You', icon: 'person' }];
+const SEARCH = { label: 'Search', placeholder: 'Search everything', onOpen: noop, onQuery: noop };
+const CHAT_ACTIONS = [{ id: 'share', label: 'Share', icon: 'share' }, { id: 'rename', label: 'Rename', icon: 'square-pencil' }, { id: 'pin', label: 'Pin', icon: 'pin' }, { id: 'delete', label: 'Delete', icon: 'trash', destructive: true }];
+const REPLY = { kind: 'composer', key: 'reply', placeholder: 'Reply…' };
+const LATER = { icon: 'xmark', label: 'Later', onClick: noop };
+return Object.assign({ theme: (this.props.dark ?? true) ? 'dark' : 'light', no: false, yes: true, noop: noop }, { topTitle: 'Lisbon trip',
+c: { variant: 'row', tabs: TABS, tab: 'chat', back: { onClick: noop }, actions: CHAT_ACTIONS, accessory: REPLY,
+  sheet: { kind: 'question', key: 'q2', title: 'Back on Sunday by…', progress: '2 of 2', options: [{ value: '18', label: '18:00' }, { value: '22', label: '22:00' }, { value: 'any', label: 'Any time' }, { value: 'mon', label: 'Monday is fine' }], columns: 2, defaultValue: '22', onReplyInChat: null, actions: [{ label: 'Previous' }, { label: 'Search Flights', variant: 'filled' }], dismiss: LATER } } });
+}
+}
+</script>
+</body>
+</html>

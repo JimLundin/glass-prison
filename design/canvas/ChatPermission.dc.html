@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Chat — permission request</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="ds/smokedglass/tokens.css">
+<link rel="stylesheet" href="ds/smokedglass/components/bundle.css">
+<script src="ds/smokedglass/components/bundle.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+body{margin:0}
+a{color:var(--accent-text)}a:hover{color:var(--label)}
+</style>
+</helmet>
+<div data-theme="{{theme}}" class="sg-screen" style="width: 390px; height: 844px; font-family: var(--font-sans); color: var(--label); background: var(--canvas);">
+<main class="sg-pane sg-pane-main" aria-label="Lisbon trip">
+<div class="sg-pane-scroll" style="padding-bottom: 420px; padding-top: 100px;">
+<div style="display: flex; flex-direction: column; gap: 16px;">
+<x-import component-from-global-scope="SmokedGlass.ItemCard" icon="book" tint="teal" title="Packing list — Lisbon" subtitle="Wiki · 24 items · ready" href="Wiki.dc.html"></x-import>
+<x-import component-from-global-scope="SmokedGlass.Message" by="agent">Your list is ready. Want me to block 13–15 November so nothing gets booked over the trip?</x-import>
+<x-import component-from-global-scope="SmokedGlass.Message" by="user">Yes, block it.</x-import>
+<x-import component-from-global-scope="SmokedGlass.AgentPrompt" state="focused" kind="Permission" icon="calendar" tint="orange" title="Add “Lisbon weekend” to Calendar?" cta="Review" on-open="{{noop}}"></x-import>
+</div>
+</div>
+<x-import component-from-global-scope="SmokedGlass.TopEdge" title="{{topTitle}}" show="{{yes}}"></x-import>
+<div class="sg-dock">
+<x-import component-from-global-scope="SmokedGlass.Cluster" variant="{{c.variant}}" tabs="{{c.tabs}}" tab="{{c.tab}}" on-tab="{{noop}}" back="{{c.back}}" actions="{{c.actions}}" primary="{{c.primary}}" accessory="{{c.accessory}}" sheet="{{c.sheet}}" search="{{c.search}}" gather="{{c.gather}}" flat="{{c.flat}}" minimized="{{c.minimized}}" style="width: 100%;"></x-import>
+</div>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"dark":{"editor":"boolean","default":true},"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+renderVals() {
+const noop = function () {};
+const TABS = [{ id: 'chat', label: 'Chat', icon: 'bubble' }, { id: 'calendar', label: 'Calendar', icon: 'calendar' }, { id: 'tasks', label: 'Tasks', icon: 'checklist', badge: 3 }, { id: 'wiki', label: 'Wiki', icon: 'book' }, { id: 'you', label: 'You', icon: 'person' }];
+const SEARCH = { label: 'Search', placeholder: 'Search everything', onOpen: noop, onQuery: noop };
+const CHAT_ACTIONS = [{ id: 'share', label: 'Share', icon: 'share' }, { id: 'rename', label: 'Rename', icon: 'square-pencil' }, { id: 'pin', label: 'Pin', icon: 'pin' }, { id: 'delete', label: 'Delete', icon: 'trash', destructive: true }];
+const REPLY = { kind: 'composer', key: 'reply', placeholder: 'Reply…' };
+const LATER = { icon: 'xmark', label: 'Later', onClick: noop };
+return Object.assign({ theme: (this.props.dark ?? true) ? 'dark' : 'light', no: false, yes: true, noop: noop }, { topTitle: 'Lisbon trip',
+c: { variant: 'row', tabs: TABS, tab: 'chat', back: { onClick: noop }, actions: CHAT_ACTIONS, accessory: REPLY,
+  sheet: { kind: 'request', key: 'req', icon: 'calendar', tint: 'orange', title: 'Add an event to Calendar?', description: 'The agent wants to create 1 event', detail: ['Lisbon weekend', 'Fri 13 Nov, 15:00 – Sun 15 Nov, 22:00', 'Personal calendar · busy'], remember: 'Always allow adding events', actions: [{ label: 'Deny' }, { label: 'Allow', variant: 'filled' }], dismiss: LATER } } });
+}
+}
+</script>
+</body>
+</html>

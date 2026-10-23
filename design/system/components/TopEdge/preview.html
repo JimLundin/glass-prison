@@ -1,0 +1,20 @@
+<!-- @dsCard group="Layout" height=140 -->
+<!doctype html>
+<html>
+<head><link rel="stylesheet" href="../../tokens.css"><link rel="stylesheet" href="../bundle.css">
+<script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+<script src="../bundle.js"></script>
+<script>document.documentElement.dataset.theme = new URLSearchParams(location.search).get('theme') || 'dark';</script>
+<style>body{margin:0;background:var(--canvas);color:var(--label);font-family:var(--font-sans)}</style><meta charset="utf-8"><title>TopEdge — preview</title>
+<style>html,body{margin:0;height:100%} .box{position:relative;height:140px;overflow:hidden;background:var(--canvas)} .lines{padding:20px 16px;display:flex;flex-direction:column;gap:10px} .lines span{height:14px;border-radius:7px;background:var(--fill-control)}</style></head>
+<body>
+<div id="root"></div>
+<script>
+  var S = window.SmokedGlass, h = React.createElement;
+  ReactDOM.createRoot(document.getElementById('root')).render(h('div', { className: 'box' },
+    h('div', { className: 'lines' }, [90, 70, 85, 60, 80, 75].map(function (w, i) { return h('span', { key: i, style: { width: w + '%' } }); })),
+    h(S.TopEdge, { title: 'Lisbon trip', show: true })));
+</script>
+</body>
+</html>

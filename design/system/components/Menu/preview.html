@@ -1,0 +1,24 @@
+<!-- @dsCard group="Actions" height=260 -->
+<!doctype html>
+<html>
+<head><link rel="stylesheet" href="../../tokens.css"><link rel="stylesheet" href="../bundle.css">
+<script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+<script src="../bundle.js"></script>
+<script>document.documentElement.dataset.theme = new URLSearchParams(location.search).get('theme') || 'dark';</script>
+<style>body{margin:0;background:var(--canvas);color:var(--label);font-family:var(--font-sans)}</style><meta charset="utf-8"><title>Menu — preview</title>
+<style>html,body{height:100%} #root{height:100%;align-items:flex-end;justify-content:flex-end}</style></head>
+<body>
+<div id="root" class="sg-stage sg-stage-quiet"><i class="sg-blob sg-blob-c"></i><i class="sg-blob sg-blob-d"></i><div id="mount" style="display:contents"></div></div>
+<script>
+  var S = window.SmokedGlass, h = React.createElement;
+  function Demo() {
+    var ref = React.useRef(null);
+    React.useEffect(function () { var b = ref.current && ref.current.querySelector('button'); if (b) b.click(); }, []);
+    return h('div', { ref: ref, className: 'sg-glass sg-glass-regular sg-shape-pill', style: { padding: '4px', marginRight: '24px' } },
+      h(S.Menu, { items: [{ id: 'share', label: 'Share…', icon: 'share' }, { id: 'pin', label: 'Pin', icon: 'pin' }, { id: 'rename', label: 'Rename', icon: 'square-pencil' }, { id: 'delete', label: 'Delete', icon: 'trash', destructive: true }] }));
+  }
+  ReactDOM.createRoot(document.getElementById('mount')).render(h(Demo));
+</script>
+</body>
+</html>

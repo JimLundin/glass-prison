@@ -36,8 +36,11 @@ apps/web/                       the app
   src/model/types.ts            the data model (chats, prompts, events, tasks, places, wiki pages)
   src/data/                     sample data (the Lisbon trip)
 
+design/                         THE DESIGN REFERENCE — design system, every board as a screenshot, board sources
 docs/DESIGN.md                  the design rules (from the design system)
 docs/ARCHITECTURE.md            how the shell, requests, focus cards, modules and the wiki model fit together
 ```
 
-The canvas and design system this was built from stay the reference for visuals; this repo is where they become product.
+**`design/` is the source of truth.** It holds the design system (open `design/system/index.html` for a live component gallery), a screenshot of every design board, and the boards' sources. When the app and `design/` disagree, the design wins.
+
+The app defaults to dark (Smoke), the primary theme; switch in You → Appearance.

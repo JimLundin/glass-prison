@@ -1,0 +1,20 @@
+<!-- @dsCard group="Materials" height=220 -->
+<!doctype html>
+<html>
+<head><link rel="stylesheet" href="../../tokens.css"><link rel="stylesheet" href="../bundle.css">
+<script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+<script src="../bundle.js"></script>
+<script>document.documentElement.dataset.theme = new URLSearchParams(location.search).get('theme') || 'dark';</script>
+<style>body{margin:0;background:var(--canvas);color:var(--label);font-family:var(--font-sans)}</style><meta charset="utf-8"><title>Glass — preview</title>
+<style>html,body{height:100%} #root{height:100%} .wrap{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;width:100%}.cell{height:150px;padding:14px;box-sizing:border-box;display:flex;flex-direction:column;justify-content:flex-end}.cell .subheadline{opacity:.85}</style></head>
+<body>
+<div id="root" class="sg-stage"><i class="sg-blob sg-blob-a"></i><i class="sg-blob sg-blob-b"></i><i class="sg-blob sg-blob-c"></i><i class="sg-blob sg-blob-d"></i><div id="mount" style="display:contents"></div></div>
+<script>
+  var S = window.SmokedGlass, h = React.createElement;
+  function Cell(v,label,note){ return h(S.Glass,{variant:v,shape:'card',className:'cell'}, h('div',{className:'headline'},label), h('div',{className:'subheadline'},note)); }
+  ReactDOM.createRoot(document.getElementById('mount')).render(h('div',{className:'wrap'},
+    Cell('thin','Thin','Icons, chips'), Cell('regular','Regular','Bars, composer'), Cell('thick','Thick','Sheets, lists'), Cell('smoke','Smoke','Over media')));
+</script>
+</body>
+</html>

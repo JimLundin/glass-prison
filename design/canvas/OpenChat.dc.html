@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>iPhone Duo open — Chat</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="ds/smokedglass/tokens.css">
+<link rel="stylesheet" href="ds/smokedglass/components/bundle.css">
+<script src="ds/smokedglass/components/bundle.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+body{margin:0}
+a{color:var(--accent-text)}a:hover{color:var(--label)}
+</style>
+</helmet>
+<div data-theme="{{theme}}" class="sg-screen has-aside is-hinged" style="width: 890px; height: 626px; font-family: var(--font-sans); color: var(--label); background: var(--canvas);">
+<aside class="sg-pane sg-pane-aside" aria-label="Chat">
+<div class="sg-pane-scroll" style="padding-bottom: 120px;">
+<header class="sg-pane-header" style="padding-top: 40px;">
+<p class="sg-pane-eyebrow footnote">Thursday 22 October</p>
+<h1 class="sg-pane-title large-title">Chat</h1>
+</header>
+<div class="sg-pane-content">
+<x-import component-from-global-scope="SmokedGlass.ListGroup" header="Needs you" glass="{{no}}">
+<x-import component-from-global-scope="SmokedGlass.ListRow" icon="calendar" tint="orange" title="Lisbon trip" subtitle="Wants to add an event · 2 min" on-click="{{noop}}"></x-import>
+<x-import component-from-global-scope="SmokedGlass.ListRow" icon="bubble" tint="indigo" title="Q4 planning" subtitle="Asked you a question · 1 h" on-click="{{noop}}"></x-import>
+</x-import>
+<x-import component-from-global-scope="SmokedGlass.ListGroup" header="Recent" glass="{{no}}">
+<x-import component-from-global-scope="SmokedGlass.ListRow" icon="bubble" tint="teal" title="Kitchen remodel quotes" subtitle="Compared three offers · Yesterday" on-click="{{noop}}"></x-import>
+<x-import component-from-global-scope="SmokedGlass.ListRow" icon="bubble" tint="green" title="Weekly review" subtitle="Moved 4 tasks to next week · Mon" on-click="{{noop}}"></x-import>
+<x-import component-from-global-scope="SmokedGlass.ListRow" icon="bubble" tint="pink" title="Birthday ideas for Maja" subtitle="Saved 6 ideas to the wiki · Sun" on-click="{{noop}}"></x-import>
+<x-import component-from-global-scope="SmokedGlass.ListRow" icon="bubble" tint="brown" title="Tax documents 2026" subtitle="Checklist created · 18 Oct" on-click="{{noop}}"></x-import>
+</x-import>
+</div>
+</div>
+<div class="sg-dock">
+<x-import component-from-global-scope="SmokedGlass.Cluster" variant="{{n.variant}}" tabs="{{n.tabs}}" tab="{{n.tab}}" on-tab="{{noop}}" back="{{n.back}}" actions="{{n.actions}}" primary="{{n.primary}}" accessory="{{n.accessory}}" sheet="{{n.sheet}}" search="{{n.search}}" gather="{{n.gather}}" flat="{{n.flat}}" minimized="{{n.minimized}}" style="width: 100%;"></x-import>
+</div>
+</aside>
+<main class="sg-pane sg-pane-main" aria-label="Chat">
+<div class="sg-pane-scroll" style="padding-bottom: 160px; padding-top: 90px;">
+<div class="sg-pane-content">
+<div style="display: flex; flex-direction: column; gap: 16px;">
+<x-import component-from-global-scope="SmokedGlass.Message" by="system">Today 20:41</x-import>
+<x-import component-from-global-scope="SmokedGlass.Message" by="user">Find a free weekend in November for Lisbon and start a packing list.</x-import>
+<x-import component-from-global-scope="SmokedGlass.Message" by="agent">The weekend of 13–15 November is open — nothing from Friday 15:00 until Sunday night.</x-import>
+<x-import component-from-global-scope="SmokedGlass.AgentSteps" steps="{{steps}}"></x-import>
+<x-import component-from-global-scope="SmokedGlass.ItemCard" icon="book" tint="teal" title="Packing list — Lisbon" subtitle="Wiki · 24 items · ready" href="Wiki.dc.html"></x-import>
+<div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+<span class="subheadline" style="color: var(--label-secondary);">Staying at</span>
+<x-import component-from-global-scope="SmokedGlass.PlaceChip" name="Casa Alfama" href="Place.dc.html"></x-import>
+</div>
+<x-import component-from-global-scope="SmokedGlass.Message" by="agent">Want me to block the weekend so nothing gets booked over it?</x-import>
+<x-import component-from-global-scope="SmokedGlass.Message" by="user">Yes — and look at flights.</x-import>
+</div>
+</div>
+</div>
+<x-import component-from-global-scope="SmokedGlass.TopEdge" title="{{topTitle}}" show="{{yes}}"></x-import>
+<div class="sg-dock">
+<x-import component-from-global-scope="SmokedGlass.Cluster" variant="{{c.variant}}" tabs="{{c.tabs}}" tab="{{c.tab}}" on-tab="{{noop}}" back="{{c.back}}" actions="{{c.actions}}" primary="{{c.primary}}" accessory="{{c.accessory}}" sheet="{{c.sheet}}" search="{{c.search}}" gather="{{c.gather}}" flat="{{c.flat}}" minimized="{{c.minimized}}" style="width: 100%;"></x-import>
+</div>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"dark":{"editor":"boolean","default":true},"$preview":{"width":890,"height":626}}'>
+class Component extends DCLogic {
+renderVals() {
+const noop = function () {};
+const TABS = [{ id: 'chat', label: 'Chat', icon: 'bubble' }, { id: 'calendar', label: 'Calendar', icon: 'calendar' }, { id: 'tasks', label: 'Tasks', icon: 'checklist', badge: 3 }, { id: 'wiki', label: 'Wiki', icon: 'book' }, { id: 'you', label: 'You', icon: 'person' }];
+const SEARCH = { label: 'Search', placeholder: 'Search everything', onOpen: noop, onQuery: noop };
+const CHAT_ACTIONS = [{ id: 'share', label: 'Share', icon: 'share' }, { id: 'rename', label: 'Rename', icon: 'square-pencil' }, { id: 'pin', label: 'Pin', icon: 'pin' }, { id: 'delete', label: 'Delete', icon: 'trash', destructive: true }];
+const REPLY = { kind: 'composer', key: 'reply', placeholder: 'Reply…' };
+const LATER = { icon: 'xmark', label: 'Later', onClick: noop };
+return Object.assign({ theme: (this.props.dark ?? true) ? 'dark' : 'light', no: false, yes: true, noop: noop }, { topTitle: 'Lisbon trip', steps: [{ icon: 'calendar', label: 'Read calendar, 1–30 Nov', status: 'done' }, { icon: 'book', label: 'Wrote “Packing list — Lisbon”', status: 'done' }], n: { variant: 'bar', tabs: TABS, tab: 'chat', search: SEARCH },  c: Object.assign({ variant: 'row', tabs: [] }, { gather: true }, { accessory: REPLY, actions: [{ id: 'new', label: 'New Chat', icon: 'plus' }].concat(CHAT_ACTIONS) }) });
+}
+}
+</script>
+</body>
+</html>

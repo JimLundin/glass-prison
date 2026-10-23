@@ -1,0 +1,63 @@
+<!-- @dsCard group="Layout" height=380 subtitle="Compact · Medium · Large · short height" -->
+<!doctype html>
+<html>
+<head><link rel="stylesheet" href="../../tokens.css"><link rel="stylesheet" href="../bundle.css">
+<script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+<script src="../bundle.js"></script>
+<script>document.documentElement.dataset.theme = new URLSearchParams(location.search).get('theme') || 'dark';</script>
+<style>body{margin:0;background:var(--canvas);color:var(--label);font-family:var(--font-sans)}</style><meta charset="utf-8"><title>Screen — preview</title>
+<style>
+  html, body { margin: 0; background: var(--canvas-sunken); overflow: hidden; }
+  .board { position: absolute; left: 0; top: 0; transform-origin: 0 0; display: grid; grid-template-columns: 390px 720px 1280px; grid-template-rows: auto auto; gap: 48px 40px; padding: 40px; }
+  .dev { display: flex; flex-direction: column; gap: 14px; }
+  .frame { position: relative; overflow: hidden; border: 1px solid var(--separator); box-shadow: var(--shadow-sheet); }
+  .phone { width: 390px; height: 800px; border-radius: 48px; }
+  .fold { width: 720px; height: 800px; border-radius: 34px; }
+  .desk { width: 1280px; height: 800px; border-radius: 14px; }
+  .land { width: 844px; height: 390px; border-radius: 48px; grid-column: 1 / span 2; }
+  .cap { font: 600 22px/28px var(--font-sans); color: var(--label-secondary); }
+  .cap b { color: var(--label); }
+  .msgs { display: flex; flex-direction: column; gap: 12px; }
+  .msg { max-width: 78%; padding: 10px 14px; border-radius: var(--radius-md); background: var(--canvas-raised); }
+  .msg.me { align-self: flex-end; background: var(--accent-tint); }
+  .hero { height: 160px; border-radius: var(--radius-lg); background: var(--system-orange); position: relative; overflow: hidden; }
+  .hero::after { content: ""; position: absolute; width: 140px; height: 140px; border-radius: 50%; right: 40px; top: 40px; background: var(--system-blue); }
+</style></head>
+<body>
+<div class="board" id="board"></div>
+<script>
+  var S = window.SmokedGlass, h = React.createElement;
+  var tabs = [{ id: 'chats', label: 'Chats', icon: 'bubble' }, { id: 'projects', label: 'Projects', icon: 'folder' }, { id: 'you', label: 'You', icon: 'person' }];
+  function tabbar() { return h(S.TabBar, { items: tabs, action: { icon: 'search', label: 'Search' } }); }
+  function chats() {
+    var rows = [['Trip planning', 'Yesterday · 12 messages', 'orange'], ['Design system', 'Today · 4 files', 'teal'], ['Reading list', 'Mon · 31 links', 'green'], ['Kitchen remodel', 'Oct 14', 'brown'], ['Sprint notes', 'Oct 12', 'indigo'], ['Birthday ideas', 'Oct 9', 'pink'], ['Taxes 2026', 'Oct 2', 'blue'], ['Garden', 'Sep 28', 'mint']];
+    return h(S.ListGroup, null, rows.map(function (r) { return h(S.ListRow, { key: r[0], icon: 'bubble', tint: r[2], title: r[0], subtitle: r[1], onClick: function () {} }); }));
+  }
+  function convo() {
+    return h('div', { className: 'msgs body' },
+      h('div', { className: 'hero' }),
+      h('div', { className: 'msg me' }, 'Can you plan three days in Lisbon in late November?'),
+      h('div', { className: 'msg' }, 'Here is a loose plan: Alfama and the castle on day one, Belém and the riverfront on day two, and a day trip to Sintra on day three.'),
+      h('div', { className: 'msg me' }, 'Swap Sintra for Cascais.'),
+      h('div', { className: 'msg' }, 'Done — Cascais by train from Cais do Sodré, about 40 minutes along the coast.'));
+  }
+  function convoDock() {
+    return [h(S.BottomBar, { key: 'b', leading: h(S.IconButton, { icon: 'chevron-left', label: 'Back', variant: 'plain' }), center: h('span', { className: 'headline' }, 'Trip planning'), trailing: h(S.IconButton, { icon: 'ellipsis', label: 'More', variant: 'plain' }) }),
+            h(S.Composer, { key: 'c', placeholder: 'Reply…' })];
+  }
+  function dev(cls, label, size, screen) {
+    return h('div', { className: 'dev', style: cls === 'land' ? { gridColumn: '1 / span 2' } : null },
+      h('div', { className: 'frame ' + cls }, screen, h('i', { className: 'sg-reach-guide' })),
+      h('div', { className: 'cap' }, h('b', null, label), ' · ', size));
+  }
+  ReactDOM.createRoot(document.getElementById('board')).render(h(React.Fragment, null,
+    dev('phone', 'Compact', 'phone, 390', h(S.Screen, { title: 'Chats', eyebrow: 'Thursday', dock: tabbar() }, chats())),
+    dev('fold', 'Medium', 'foldable open, 720', h(S.Screen, { title: 'Trip planning', eyebrow: 'Yesterday', dock: convoDock() }, convo())),
+    dev('desk', 'Large', 'desktop, 1280', h(S.Screen, { asideTitle: 'Chats', asideEyebrow: 'Thursday', aside: chats(), asideDock: tabbar(), title: 'Trip planning', eyebrow: 'Yesterday', dock: h(S.Composer, { placeholder: 'Reply…' }) }, convo())),
+    dev('land', 'Short height', 'phone landscape, 844 × 390 (optional)', h(S.Screen, { title: 'Chats', dock: tabbar() }, chats()))));
+  function fit() { var b = document.getElementById('board'); var s = window.innerWidth / b.scrollWidth; b.style.transform = 'scale(' + s + ')'; document.body.style.height = (b.scrollHeight * s) + 'px'; }
+  setTimeout(fit, 0); window.addEventListener('resize', fit);
+</script>
+</body>
+</html>

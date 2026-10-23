@@ -1,0 +1,24 @@
+<!-- @dsCard group="Wiki" height=420 -->
+<!doctype html>
+<html>
+<head><link rel="stylesheet" href="../../tokens.css"><link rel="stylesheet" href="../bundle.css">
+<script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+<script src="../bundle.js"></script>
+<script>document.documentElement.dataset.theme = new URLSearchParams(location.search).get('theme') || 'dark';</script>
+<style>body{margin:0;background:var(--canvas);color:var(--label);font-family:var(--font-sans)}</style><meta charset="utf-8"><title>WikiDoc — preview</title>
+<style>html,body{height:100%} #root{height:100%} .box{max-width:400px}</style></head>
+<body>
+<div id="root" style="padding:20px;box-sizing:border-box;background:var(--canvas);min-height:100%"><div id="mount"></div></div>
+<script>
+  var S = window.SmokedGlass, h = React.createElement;
+  var sources = { s1: { kind: 'conversation', title: 'Lisbon trip', when: 'Thu 22 Oct' }, s3: { kind: 'document', title: 'Booking confirmation — Casa Alfama.pdf', when: 'Imported Thu 22 Oct' } };
+  var doc = { blocks: [
+    { type: 'paragraph', claims: [{ id: 'c1', text: 'A weekend in Lisbon, 13–15 November.', sources: ['s1'] }, { id: 'c2', text: 'Check-in is from 15:00 on Friday.', sources: ['s3'] }, { id: 'c3', text: 'November is usually mild.', sources: [] }] },
+    { type: 'facts', items: [{ id: 'f1', label: 'Staying at', value: 'Casa Alfama', place: true, sources: ['s3'] }] },
+    { type: 'timeline', range: '13–15 Nov', items: [{ day: 'Fri 13', time: '15:00', title: 'Check in', tint: 'orange' }, { day: 'Fri 13', time: '17:40', title: 'Flight to Lisbon', tint: 'blue', suggested: true }] },
+    { type: 'sources' }] };
+  ReactDOM.createRoot(document.getElementById('mount')).render(h('div', { className: 'box' }, h(S.WikiDoc, { doc: doc, sources: sources, activeClaim: 'c2', activeSource: 's3' })));
+</script>
+</body>
+</html>

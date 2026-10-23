@@ -1,0 +1,62 @@
+<!-- @dsCard group="Layout" height=640 subtitle="Row and the Bar reference · tap a chat, the module circle, “…”, or Review" -->
+<!doctype html>
+<html>
+<head><link rel="stylesheet" href="../../tokens.css"><link rel="stylesheet" href="../bundle.css">
+<script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+<script src="../bundle.js"></script>
+<script>document.documentElement.dataset.theme = new URLSearchParams(location.search).get('theme') || 'dark';</script>
+<style>body{margin:0;background:var(--canvas);color:var(--label);font-family:var(--font-sans)}</style><meta charset="utf-8"><title>Cluster — preview</title>
+<style>html,body{margin:0;background:var(--canvas-sunken)} .wrap{display:flex;gap:24px;padding:20px;flex-wrap:wrap;justify-content:center} .cap{font:600 13px/18px var(--font-sans);color:var(--label-secondary);margin:0 0 6px} .phone{width:360px;height:600px;border-radius:40px;overflow:hidden;border:1px solid var(--separator)}</style></head>
+<body>
+<div class="wrap" id="root"></div>
+<script>
+  var S = window.SmokedGlass, h = React.createElement;
+  var TABS = [{ id: 'chat', label: 'Chat', icon: 'bubble' }, { id: 'calendar', label: 'Calendar', icon: 'calendar' }, { id: 'tasks', label: 'Tasks', icon: 'checklist', badge: 3 }, { id: 'wiki', label: 'Wiki', icon: 'book' }, { id: 'you', label: 'You', icon: 'person' }];
+  var CHATS = ['Lisbon trip', 'Kitchen remodel quotes', 'Weekly review', 'Birthday ideas for Maja', 'Tax documents 2026', 'Garden plans', 'Reading list', 'Q4 planning'];
+  function Demo(p) {
+    var st = React.useState({ tab: 'chat', detail: null, min: false, sheet: false, search: false, scrolled: false, answered: null });
+    var s = st[0]; function set(x) { st[1](Object.assign({}, s, x)); }
+    var last = React.useRef(0);
+    function onScroll(e) { var y = e.currentTarget.scrollTop, d = y - last.current; last.current = y;
+      if (Math.abs(d) > 4) set({ min: d > 0 && y > 40, scrolled: y > 60 }); }
+    var c = { variant: p.variant, tabs: TABS, tab: s.tab, onTab: function (t) { set({ tab: t, detail: null, sheet: false, search: false }); },
+      onExpand: function () { set({ min: false, search: false }); }, minimized: s.min || s.search, search: { onOpen: function () { set({ search: true }); } } };
+    var title = s.detail || (s.tab[0].toUpperCase() + s.tab.slice(1));
+    if (s.detail) {
+      c.back = { onClick: function () { set({ detail: null, sheet: false }); } };
+      c.actions = [{ id: 'share', label: 'Share', icon: 'share' }, { id: 'rename', label: 'Rename', icon: 'square-pencil' }, { id: 'delete', label: 'Delete', icon: 'trash', destructive: true }];
+      c.accessory = h(S.Composer, { key: 'reply', placeholder: 'Reply…', onSend: function () {} });
+      if (s.sheet) c.sheet = h(S.AgentRequest, { key: 'req', icon: 'calendar', tint: 'orange', title: 'Add an event to Calendar?', description: 'Lisbon weekend · Fri 13 – Sun 15 Nov', actions: [{ label: 'Later', onClick: function () { set({ sheet: false }); } }, { label: 'Deny', onClick: function () { set({ sheet: false, answered: 'Denied' }); } }, { label: 'Allow', variant: 'filled', onClick: function () { set({ sheet: false, answered: 'Allowed' }); } }] });
+    } else if (s.search) {
+      c.accessory = h(S.SearchField, { kind: 'query', placeholder: 'Search everything', autoFocus: true, onCancel: function () { set({ search: false }); } });
+    } else if (s.tab === 'calendar') {
+      c.accessory = h('div', { className: 'sg-cl-center' }, h(S.SegmentedControl, { options: ['Day', 'Week', 'Month'], defaultValue: 'Week' }));
+      c.primary = { icon: 'plus', label: 'New Event' };
+    } else if (s.tab === 'chat') {
+      c.accessory = h(S.Composer, { key: 'ask', placeholder: 'Ask anything…' });
+    } else if (s.tab === 'tasks') {
+      c.accessory = h(S.SearchField, { kind: 'capture', placeholder: 'Add a task…' });
+    }
+    var body = s.detail
+      ? h('div', { style: { display: 'flex', flexDirection: 'column', gap: '14px' } },
+          h(S.Message, { from: 'user' }, 'Find a free weekend in November for Lisbon.'),
+          h(S.Message, { from: 'agent' }, 'The weekend of 13–15 November is open — nothing from Friday 15:00 until Sunday night.'),
+          h(S.AgentSteps, { steps: [{ icon: 'calendar', label: 'Read calendar, 1–30 Nov' }, { icon: 'book', label: 'Wrote “Packing list — Lisbon”' }] }),
+          h(S.Message, { from: 'agent' }, 'Want me to block the weekend so nothing gets booked over it?'),
+          h(S.AgentPrompt, { kind: 'Permission', icon: 'calendar', tint: 'orange', title: 'Add “Lisbon weekend” to Calendar?', cta: 'Review',
+            state: s.sheet ? 'focused' : (s.answered ? 'done' : 'pending'), doneLabel: s.answered, answer: s.answered ? 'Fri 13 – Sun 15 Nov' : null,
+            onOpen: function () { set({ sheet: true }); } }))
+      : h(S.ListGroup, { glass: false }, CHATS.map(function (t, i) { return h(S.ListRow, { key: t, icon: 'bubble', tint: ['orange', 'teal', 'green', 'pink', 'brown', 'mint', 'indigo', 'blue'][i], title: t, subtitle: 'Yesterday', onClick: function () { set({ detail: t, min: false }); } }); }));
+    return h('div', null, h('p', { className: 'cap' }, p.label),
+      h('div', { className: 'phone sg-screen' }, h('main', { className: 'sg-pane sg-pane-main' },
+        h('div', { className: 'sg-pane-scroll', onScroll: onScroll, style: { paddingBottom: '260px', paddingTop: s.detail ? '100px' : 0 } },
+          s.detail ? null : h('header', { className: 'sg-pane-header', style: { paddingTop: '56px' } }, h('h1', { className: 'sg-pane-title large-title' }, title)),
+          body),
+        h(S.TopEdge, { title: title, show: !!s.detail || s.scrolled }),
+        h('div', { className: 'sg-dock' }, h(S.Cluster, c)))));
+  }
+  ReactDOM.createRoot(document.getElementById('root')).render(h(React.Fragment, null, h(Demo, { variant: 'row', label: 'Row' }), h(Demo, { variant: 'bar', label: 'Bar (iOS reference)' })));
+</script>
+</body>
+</html>

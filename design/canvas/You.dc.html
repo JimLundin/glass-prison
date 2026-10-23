@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>You — settings</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="ds/smokedglass/tokens.css">
+<link rel="stylesheet" href="ds/smokedglass/components/bundle.css">
+<script src="ds/smokedglass/components/bundle.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+body{margin:0}
+a{color:var(--accent-text)}a:hover{color:var(--label)}
+</style>
+</helmet>
+<div data-theme="{{theme}}" class="sg-screen" style="width: 390px; height: 844px; font-family: var(--font-sans); color: var(--label); background: var(--canvas);">
+<main class="sg-pane sg-pane-main" aria-label="You">
+<div class="sg-pane-scroll" style="padding-bottom: 140px;">
+<header class="sg-pane-header" style="padding-top: 72px; display: flex; align-items: center; gap: 16px;">
+<span aria-hidden="true" class="title-2" style="width: 64px; height: 64px; border-radius: 50%; background: var(--system-indigo); color: #ffffff; display: grid; place-items: center; flex: none;">J</span>
+<div>
+<p class="sg-pane-eyebrow footnote">You</p>
+<h1 class="sg-pane-title large-title">Jim</h1>
+</div>
+</header>
+<div class="sg-pane-content">
+<x-import component-from-global-scope="SmokedGlass.ListGroup" header="Agent permissions" footer="Anything set to Ask comes to you as a card at the bottom of the screen first." glass="{{no}}">
+<x-import component-from-global-scope="SmokedGlass.ListRow" icon="calendar" tint="orange" title="Calendar" detail="Ask" on-click="{{noop}}"></x-import>
+<x-import component-from-global-scope="SmokedGlass.ListRow" icon="checklist" tint="green" title="Tasks" detail="Allowed" on-click="{{noop}}"></x-import>
+<x-import component-from-global-scope="SmokedGlass.ListRow" icon="book" tint="teal" title="Wiki" detail="Allowed" on-click="{{noop}}"></x-import>
+<x-import component-from-global-scope="SmokedGlass.ListRow" icon="globe" tint="blue" title="Web search" detail="Ask" on-click="{{noop}}"></x-import>
+<x-import component-from-global-scope="SmokedGlass.ListRow" icon="location" tint="red" title="Location" detail="While using" on-click="{{noop}}"></x-import>
+</x-import>
+<x-import component-from-global-scope="SmokedGlass.ListGroup" header="Preferences" glass="{{no}}">
+<x-import component-from-global-scope="SmokedGlass.ListRow" icon="sparkle" tint="indigo" title="Appearance" detail="Automatic" on-click="{{noop}}"></x-import>
+<x-import component-from-global-scope="SmokedGlass.ListRow" icon="bell" tint="pink" title="Notifications" on-click="{{noop}}"></x-import>
+<x-import component-from-global-scope="SmokedGlass.ListRow" icon="gear" tint="brown" title="General" on-click="{{noop}}"></x-import>
+</x-import>
+<x-import component-from-global-scope="SmokedGlass.ListGroup" glass="{{no}}">
+<x-import component-from-global-scope="SmokedGlass.ListRow" title="Sign Out" destructive="{{yes}}" accessory="{{none}}" on-click="{{noop}}"></x-import>
+</x-import>
+</div>
+</div>
+<div class="sg-dock">
+<x-import component-from-global-scope="SmokedGlass.Cluster" variant="{{c.variant}}" tabs="{{c.tabs}}" tab="{{c.tab}}" on-tab="{{noop}}" back="{{c.back}}" actions="{{c.actions}}" primary="{{c.primary}}" accessory="{{c.accessory}}" sheet="{{c.sheet}}" search="{{c.search}}" gather="{{c.gather}}" flat="{{c.flat}}" minimized="{{c.minimized}}" style="width: 100%;"></x-import>
+</div>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"dark":{"editor":"boolean","default":true},"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+renderVals() {
+const noop = function () {};
+const TABS = [{ id: 'chat', label: 'Chat', icon: 'bubble' }, { id: 'calendar', label: 'Calendar', icon: 'calendar' }, { id: 'tasks', label: 'Tasks', icon: 'checklist', badge: 3 }, { id: 'wiki', label: 'Wiki', icon: 'book' }, { id: 'you', label: 'You', icon: 'person' }];
+const SEARCH = { label: 'Search', placeholder: 'Search everything', onOpen: noop, onQuery: noop };
+const CHAT_ACTIONS = [{ id: 'share', label: 'Share', icon: 'share' }, { id: 'rename', label: 'Rename', icon: 'square-pencil' }, { id: 'pin', label: 'Pin', icon: 'pin' }, { id: 'delete', label: 'Delete', icon: 'trash', destructive: true }];
+const REPLY = { kind: 'composer', key: 'reply', placeholder: 'Reply…' };
+const LATER = { icon: 'xmark', label: 'Later', onClick: noop };
+return Object.assign({ theme: (this.props.dark ?? true) ? 'dark' : 'light', no: false, yes: true, noop: noop }, { none: null, c: { variant: 'row', tabs: TABS, tab: 'you', search: SEARCH } });
+}
+}
+</script>
+</body>
+</html>

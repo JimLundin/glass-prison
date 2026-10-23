@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Desktop — Search</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="ds/smokedglass/tokens.css">
+<link rel="stylesheet" href="ds/smokedglass/components/bundle.css">
+<script src="ds/smokedglass/components/bundle.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+body{margin:0}
+a{color:var(--accent-text)}a:hover{color:var(--label)}
+</style>
+</helmet>
+<div data-theme="{{theme}}" class="sg-screen has-aside" style="width: 1440px; height: 900px; font-family: var(--font-sans); color: var(--label); background: var(--canvas);">
+<aside class="sg-pane sg-pane-aside" aria-label="Lisbon">
+<div class="sg-pane-scroll" style="padding-bottom: 120px;">
+<header class="sg-pane-header" style="padding-top: 40px;">
+<p class="sg-pane-eyebrow footnote">Search · 8 results</p>
+<h1 class="sg-pane-title large-title">Lisbon</h1>
+</header>
+<div class="sg-pane-content">
+<x-import component-from-global-scope="SmokedGlass.ListGroup" glass="{{no}}">
+<x-import component-from-global-scope="SmokedGlass.ListRow" icon="sparkle" tint="blue" title="Ask the agent about “lisbon”" subtitle="Start a chat with this as the question" on-click="{{noop}}"></x-import>
+</x-import>
+<x-import component-from-global-scope="SmokedGlass.ListGroup" header="Chat" glass="{{no}}">
+<x-import component-from-global-scope="SmokedGlass.ListRow" icon="bubble" tint="orange" title="Lisbon trip" subtitle="Today · 14 messages" on-click="{{noop}}"></x-import>
+</x-import>
+<x-import component-from-global-scope="SmokedGlass.ListGroup" header="Wiki" glass="{{no}}">
+<x-import component-from-global-scope="SmokedGlass.ListRow" icon="book" tint="teal" title="Packing list — Lisbon" subtitle="Travel · 4 min ago" on-click="{{noop}}"></x-import>
+<x-import component-from-global-scope="SmokedGlass.ListRow" icon="book" tint="teal" title="City break" subtitle="Travel · mentions Lisbon, Porto" on-click="{{noop}}"></x-import>
+</x-import>
+<x-import component-from-global-scope="SmokedGlass.ListGroup" header="Calendar" glass="{{no}}">
+<x-import component-from-global-scope="SmokedGlass.ListRow" icon="calendar" tint="orange" title="Lisbon weekend" subtitle="Fri 13 – Sun 15 Nov" on-click="{{noop}}"></x-import>
+<x-import component-from-global-scope="SmokedGlass.ListRow" icon="calendar" tint="blue" title="Flight to Lisbon" subtitle="Suggestion · Fri 13 Nov, 17:40" on-click="{{noop}}"></x-import>
+</x-import>
+<x-import component-from-global-scope="SmokedGlass.ListGroup" header="Places" glass="{{no}}">
+<x-import component-from-global-scope="SmokedGlass.ListRow" icon="location" tint="red" title="Casa Alfama" subtitle="Hotel · in Packing list — Lisbon" on-click="{{noop}}"></x-import>
+</x-import>
+</div>
+</div>
+<div class="sg-dock">
+<x-import component-from-global-scope="SmokedGlass.Cluster" variant="{{n.variant}}" tabs="{{n.tabs}}" tab="{{n.tab}}" on-tab="{{noop}}" back="{{n.back}}" actions="{{n.actions}}" primary="{{n.primary}}" accessory="{{n.accessory}}" sheet="{{n.sheet}}" search="{{n.search}}" gather="{{n.gather}}" flat="{{n.flat}}" minimized="{{n.minimized}}" style="width: 100%;"></x-import>
+</div>
+</aside>
+<main class="sg-pane sg-pane-main" aria-label="Search">
+<div class="sg-pane-scroll" style="padding-bottom: 160px;">
+<header class="sg-pane-header" style="padding-top: 40px;">
+<p class="sg-pane-eyebrow footnote">Wiki · Travel</p>
+<h1 class="sg-pane-title large-title">Packing list — Lisbon</h1>
+</header>
+<div class="sg-pane-content">
+<article style="display: flex; flex-direction: column; gap: 10px;">
+<p class="body" style="margin: 0;">Three days, 13–15 November. Expect 14–18 °C, some rain and steep cobbled streets. Based on <a href="Wiki.dc.html">City break</a>.</p>
+<div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+<span class="subheadline" style="color: var(--label-secondary);">Staying at</span>
+<x-import component-from-global-scope="SmokedGlass.PlaceChip" name="Casa Alfama" href="Place.dc.html"></x-import>
+</div>
+<h2 class="title-3" style="margin: 8px 0 0;">Clothes</h2>
+<div style="display: flex; flex-direction: column; gap: 0px;">
+<x-import component-from-global-scope="SmokedGlass.Checkbox" default-checked="{{yes}}" strike="{{yes}}">Light rain shell</x-import>
+<x-import component-from-global-scope="SmokedGlass.Checkbox">Two warm layers</x-import>
+<x-import component-from-global-scope="SmokedGlass.Checkbox">Walking shoes with grip</x-import>
+<x-import component-from-global-scope="SmokedGlass.Checkbox">One evening outfit</x-import>
+</div>
+<h2 class="title-3" style="margin: 8px 0 0;">Documents</h2>
+<div style="display: flex; flex-direction: column; gap: 0px;">
+<x-import component-from-global-scope="SmokedGlass.Checkbox">Passport — check expiry</x-import>
+<x-import component-from-global-scope="SmokedGlass.Checkbox">Boarding passes</x-import>
+<x-import component-from-global-scope="SmokedGlass.Checkbox">EU health card</x-import>
+</div>
+</article>
+</div>
+</div>
+<div class="sg-dock">
+<x-import component-from-global-scope="SmokedGlass.Cluster" variant="{{c.variant}}" tabs="{{c.tabs}}" tab="{{c.tab}}" on-tab="{{noop}}" back="{{c.back}}" actions="{{c.actions}}" primary="{{c.primary}}" accessory="{{c.accessory}}" sheet="{{c.sheet}}" search="{{c.search}}" gather="{{c.gather}}" flat="{{c.flat}}" minimized="{{c.minimized}}" style="width: 100%;"></x-import>
+</div>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"dark":{"editor":"boolean","default":true},"$preview":{"width":1440,"height":900}}'>
+class Component extends DCLogic {
+renderVals() {
+const noop = function () {};
+const TABS = [{ id: 'chat', label: 'Chat', icon: 'bubble' }, { id: 'calendar', label: 'Calendar', icon: 'calendar' }, { id: 'tasks', label: 'Tasks', icon: 'checklist', badge: 3 }, { id: 'wiki', label: 'Wiki', icon: 'book' }, { id: 'you', label: 'You', icon: 'person' }];
+const SEARCH = { label: 'Search', placeholder: 'Search everything', onOpen: noop, onQuery: noop };
+const CHAT_ACTIONS = [{ id: 'share', label: 'Share', icon: 'share' }, { id: 'rename', label: 'Rename', icon: 'square-pencil' }, { id: 'pin', label: 'Pin', icon: 'pin' }, { id: 'delete', label: 'Delete', icon: 'trash', destructive: true }];
+const REPLY = { kind: 'composer', key: 'reply', placeholder: 'Reply…' };
+const LATER = { icon: 'xmark', label: 'Later', onClick: noop };
+return Object.assign({ theme: (this.props.dark ?? true) ? 'dark' : 'light', no: false, yes: true, noop: noop }, {   n: { variant: 'bar', tabs: TABS, tab: 'chat', minimized: true, accessory: { kind: 'query', key: 'q', placeholder: 'Search everything', defaultValue: 'lisbon' } },  c: Object.assign({ variant: 'row', tabs: [] }, { flat: true }, { actions: [{ id: 'edit', label: 'Edit', icon: 'square-pencil' }, { id: 'ask', label: 'Ask', icon: 'sparkle' }, { id: 'find', label: 'Find', icon: 'search' }, { id: 'share', label: 'Share', icon: 'share' }, { id: 'delete', label: 'Delete', icon: 'trash', destructive: true }] }) });
+}
+}
+</script>
+</body>
+</html>

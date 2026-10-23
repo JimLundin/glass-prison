@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Desktop — permission request</title>
+<script src="./support.js"></script>
+<link rel="stylesheet" href="ds/smokedglass/tokens.css">
+<link rel="stylesheet" href="ds/smokedglass/components/bundle.css">
+<script src="ds/smokedglass/components/bundle.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+body{margin:0}
+a{color:var(--accent-text)}a:hover{color:var(--label)}
+</style>
+</helmet>
+<div data-theme="{{theme}}" class="sg-screen has-aside" style="width: 1440px; height: 900px; font-family: var(--font-sans); color: var(--label); background: var(--canvas);">
+<aside class="sg-pane sg-pane-aside" aria-label="Chats">
+<div class="sg-pane-scroll" style="padding-bottom: 120px;">
+<header class="sg-pane-header" style="padding-top: 40px;">
+<p class="sg-pane-eyebrow footnote">Thursday 22 October</p>
+<h1 class="sg-pane-title large-title">Chat</h1>
+</header>
+<div class="sg-pane-content">
+<x-import component-from-global-scope="SmokedGlass.ListGroup" header="Needs you" glass="{{no}}">
+<x-import component-from-global-scope="SmokedGlass.ListRow" icon="globe" tint="blue" title="Lisbon trip" subtitle="Wants to search the web · now" on-click="{{noop}}"></x-import>
+<x-import component-from-global-scope="SmokedGlass.ListRow" icon="bubble" tint="indigo" title="Q4 planning" subtitle="Asked you a question · 1 h" on-click="{{noop}}"></x-import>
+</x-import>
+<x-import component-from-global-scope="SmokedGlass.ListGroup" header="Recent" glass="{{no}}">
+<x-import component-from-global-scope="SmokedGlass.ListRow" icon="bubble" tint="teal" title="Kitchen remodel quotes" subtitle="Yesterday" on-click="{{noop}}"></x-import>
+<x-import component-from-global-scope="SmokedGlass.ListRow" icon="bubble" tint="green" title="Weekly review" subtitle="Mon" on-click="{{noop}}"></x-import>
+<x-import component-from-global-scope="SmokedGlass.ListRow" icon="bubble" tint="pink" title="Birthday ideas for Maja" subtitle="Sun" on-click="{{noop}}"></x-import>
+<x-import component-from-global-scope="SmokedGlass.ListRow" icon="bubble" tint="brown" title="Tax documents 2026" subtitle="18 Oct" on-click="{{noop}}"></x-import>
+</x-import>
+</div>
+</div>
+<div class="sg-dock">
+<x-import component-from-global-scope="SmokedGlass.Cluster" variant="{{n.variant}}" tabs="{{n.tabs}}" tab="{{n.tab}}" on-tab="{{noop}}" back="{{n.back}}" actions="{{n.actions}}" primary="{{n.primary}}" accessory="{{n.accessory}}" sheet="{{n.sheet}}" search="{{n.search}}" gather="{{n.gather}}" flat="{{n.flat}}" minimized="{{n.minimized}}" style="width: 100%;"></x-import>
+</div>
+</aside>
+<main class="sg-pane sg-pane-main" aria-label="Lisbon trip">
+<div class="sg-pane-scroll" style="padding-bottom: 360px; padding-top: 90px;">
+<div class="sg-pane-content" style="gap: 16px;">
+<div style="display: flex; flex-direction: column; gap: 16px;">
+<x-import component-from-global-scope="SmokedGlass.Message" by="system">Today 20:54</x-import>
+<x-import component-from-global-scope="SmokedGlass.Message" by="user">Now find flights for that weekend. Nothing too early on Friday.</x-import>
+<x-import component-from-global-scope="SmokedGlass.Message" by="agent">Flying from Stockholm Arlanda on Friday 13 November after 15:00, back before 22:00 on Sunday. To compare fares I need to look at airline and travel sites.</x-import>
+<x-import component-from-global-scope="SmokedGlass.AgentSteps" steps="{{steps}}"></x-import>
+<x-import component-from-global-scope="SmokedGlass.AgentPrompt" state="focused" kind="Permission" icon="globe" tint="blue" title="Search the web for flights?" cta="Review" on-open="{{noop}}"></x-import>
+</div>
+</div>
+</div>
+<x-import component-from-global-scope="SmokedGlass.TopEdge" title="{{topTitle}}" show="{{yes}}"></x-import>
+<div class="sg-dock">
+<x-import component-from-global-scope="SmokedGlass.Cluster" variant="{{c.variant}}" tabs="{{c.tabs}}" tab="{{c.tab}}" on-tab="{{noop}}" back="{{c.back}}" actions="{{c.actions}}" primary="{{c.primary}}" accessory="{{c.accessory}}" sheet="{{c.sheet}}" search="{{c.search}}" gather="{{c.gather}}" flat="{{c.flat}}" minimized="{{c.minimized}}" style="width: 100%;"></x-import>
+</div>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"dark":{"editor":"boolean","default":true},"$preview":{"width":1440,"height":900}}'>
+class Component extends DCLogic {
+renderVals() {
+const noop = function () {};
+const TABS = [{ id: 'chat', label: 'Chat', icon: 'bubble' }, { id: 'calendar', label: 'Calendar', icon: 'calendar' }, { id: 'tasks', label: 'Tasks', icon: 'checklist', badge: 3 }, { id: 'wiki', label: 'Wiki', icon: 'book' }, { id: 'you', label: 'You', icon: 'person' }];
+const SEARCH = { label: 'Search', placeholder: 'Search everything', onOpen: noop, onQuery: noop };
+const CHAT_ACTIONS = [{ id: 'share', label: 'Share', icon: 'share' }, { id: 'rename', label: 'Rename', icon: 'square-pencil' }, { id: 'pin', label: 'Pin', icon: 'pin' }, { id: 'delete', label: 'Delete', icon: 'trash', destructive: true }];
+const REPLY = { kind: 'composer', key: 'reply', placeholder: 'Reply…' };
+const LATER = { icon: 'xmark', label: 'Later', onClick: noop };
+return Object.assign({ theme: (this.props.dark ?? true) ? 'dark' : 'light', no: false, yes: true, noop: noop }, { topTitle: 'Lisbon trip',
+steps: [{ icon: 'calendar', label: 'Checked Friday afternoon is free', status: 'done' }, { icon: 'search', label: 'Found 14 direct flights on Friday', status: 'done' }],
+n: { variant: 'bar', tabs: TABS, tab: 'chat', search: SEARCH },
+c: { variant: 'row', tabs: [], actions: CHAT_ACTIONS, accessory: REPLY, flat: true,
+  sheet: { kind: 'request', key: 'web', icon: 'globe', tint: 'blue', title: 'Search the web?', description: 'To compare fares on airline and travel sites. It won’t book anything.', actions: [{ label: 'Deny' }, { label: 'Allow for This Chat' }, { label: 'Allow Once', variant: 'filled', kbd: '⏎' }], dismiss: { icon: 'xmark', label: 'Later', kbd: 'esc', onClick: noop } } } });
+}
+}
+</script>
+</body>
+</html>

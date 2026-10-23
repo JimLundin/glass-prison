@@ -1,0 +1,20 @@
+<!-- @dsCard group="Locations" height=300 -->
+<!doctype html>
+<html>
+<head><link rel="stylesheet" href="../../tokens.css"><link rel="stylesheet" href="../bundle.css">
+<script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+<script src="../bundle.js"></script>
+<script>document.documentElement.dataset.theme = new URLSearchParams(location.search).get('theme') || 'dark';</script>
+<style>body{margin:0;background:var(--canvas);color:var(--label);font-family:var(--font-sans)}</style><meta charset="utf-8"><title>MapPreview — preview</title>
+<style>html,body{height:100%} #root{height:100%} .col{display:flex;gap:16px;flex-wrap:wrap}.col>*{flex:1 1 300px}</style></head>
+<body>
+<div id="root" style="padding:20px;box-sizing:border-box;background:var(--canvas);min-height:100%"><div id="mount"></div></div>
+<script>
+  var S = window.SmokedGlass, h = React.createElement;
+  ReactDOM.createRoot(document.getElementById('mount')).render(h('div',{className:'col'},
+  h(S.MapPreview,{height:220,title:'Taberna do Largo',subtitle:'Alfama · 12 min walk from hotel',action:{label:'Directions'},pins:[{x:46,y:66,tint:'red',active:true,label:'Taberna do Largo'},{x:72,y:70,tint:'blue'}]}),
+  h(S.MapPreview,{height:220,title:'3 places for dinner',subtitle:'Near Alfama',pins:[{x:30,y:40,tint:'orange'},{x:55,y:55,tint:'orange'},{x:78,y:36,tint:'orange'}]})));
+</script>
+</body>
+</html>

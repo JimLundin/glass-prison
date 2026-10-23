@@ -1,0 +1,53 @@
+<!-- @dsCard height=320 -->
+<!doctype html>
+<html>
+<head><link rel="stylesheet" href="../../tokens.css"><link rel="stylesheet" href="../bundle.css">
+<script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+<script src="../bundle.js"></script>
+<script>document.documentElement.dataset.theme = new URLSearchParams(location.search).get('theme') || 'dark';</script>
+<style>body{margin:0;background:var(--canvas);color:var(--label);font-family:var(--font-sans)}</style><meta charset="utf-8"><title>Smoked Glass — cover</title>
+<style>
+  html, body { margin: 0; height: 100%; }
+  .cover { position: relative; width: 960px; height: 320px; overflow: hidden; background: var(--canvas); }
+  .cover svg { position: absolute; inset: 0; }
+  .blue { fill: var(--system-blue); }
+  .orange { fill: var(--system-orange); }
+  .green { fill: var(--system-green); }
+  .smoke { fill: var(--smoke-block); }
+  .yellow { fill: var(--system-yellow); }
+  .lens { fill: var(--glass-regular); stroke: var(--glass-stroke); stroke-width: 1; rx: var(--radius-sheet); }
+  .tab { fill: var(--fill-control); }
+  .name { position: absolute; left: 48px; bottom: 64px; max-width: 440px; margin: 0; font-family: var(--font-display); font-weight: 700; font-size: 112px; line-height: 0.95; letter-spacing: -0.035em; color: var(--label); }
+  .tagline { position: absolute; left: 50px; bottom: 32px; max-width: 440px; margin: 0; font-family: var(--font-sans); font-size: 14px; line-height: 20px; color: var(--label-secondary); }
+</style></head>
+<body>
+<div class="cover">
+  <svg width="960" height="320" viewBox="0 0 960 320" aria-hidden="true">
+    <!--
+      blocks: system-blue disc r104, system-orange pill 280x112, smoke-block slab 120x232 (rx = radius-pill), system-green disc r56, system-yellow disc r20
+      arrangement: one tall smoke slab with satellites, discs and pills bleeding off the top and right edges, all right of x = 480
+      pattern: "a literal motif (lens)" — README: glass floats over content and blurs it; a radius-sheet glass lens crosses the blocks and frosts what it covers (blur-regular)
+      scales: pill radii = half the short side; lens rx = radius-sheet (34px); lens inset by space-6 steps; lozenge rx = radius-pill
+    -->
+    <defs>
+      <filter id="frost" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="16" /></filter>
+      <clipPath id="lensclip"><rect x="584" y="112" width="304" height="152" rx="34" /></clipPath>
+      <g id="blocks">
+        <rect class="smoke" x="520" y="-40" width="120" height="232" rx="60" />
+        <circle class="blue" cx="720" cy="96" r="104" />
+        <rect class="orange" x="736" y="176" width="280" height="112" rx="56" />
+        <circle class="green" cx="900" cy="40" r="56" />
+        <circle class="yellow" cx="600" cy="268" r="20" />
+      </g>
+    </defs>
+    <use href="#blocks" />
+    <g clip-path="url(#lensclip)"><use href="#blocks" filter="url(#frost)" /></g>
+    <rect class="lens" x="584" y="112" width="304" height="152" />
+    <rect class="tab" x="608" y="216" width="128" height="32" rx="16" />
+  </svg>
+  <h1 class="name">Smoked<br>Glass</h1>
+  <p class="tagline">Frosted and smoked glass over quiet content.</p>
+</div>
+</body>
+</html>
