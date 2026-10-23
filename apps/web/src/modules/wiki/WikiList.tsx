@@ -1,5 +1,4 @@
-import { ListGroup, ListRow } from '@smoked-glass/ui';
-import { Page } from '../../app/shell/Page';
+import { WikiListView } from '@smoked-glass/ui';
 import { useBar } from '../../app/state/bar';
 import { useNav } from '../../app/state/nav';
 import { PAGES, SOURCES } from '../../data/wiki';
@@ -9,16 +8,9 @@ const KIND_TINT = { conversation: 'indigo', voice: 'pink', document: 'brown', we
 
 export function WikiList({ wide }: { wide?: boolean }) {
   const nav = useNav();
-  return (
-    <Page eyebrow={`${PAGES.length} pages · ${Object.keys(SOURCES).length} sources`} title="Wiki" wide={wide}>
-      <ListGroup header="Pages" glass={false}>
-        {PAGES.map((p) => <ListRow key={p.id} icon="book" tint="teal" title={p.title} subtitle={`${p.group} · updated ${p.updated}`} onClick={() => nav.push({ view: 'page', id: p.id })} />)}
-      </ListGroup>
-      <ListGroup header="Sources" glass={false} footer="Each is a stored copy — a conversation, a voice note, a document, an image or a web page as it was when saved.">
-        {Object.entries(SOURCES).map(([id, s]) => <ListRow key={id} icon={KIND_ICON[s.kind]} tint={KIND_TINT[s.kind]} title={s.title} subtitle={s.when} />)}
-      </ListGroup>
-    </Page>
-  );
+  return <WikiListView wide={wide}
+    pages={PAGES.map(p => ({ id: p.id, icon: 'book', tint: 'teal', title: p.title, subtitle: `${p.group} · updated ${p.updated}`, onClick: () => nav.push({ view: 'page', id: p.id }) }))}
+    sources={Object.entries(SOURCES).map(([id, s]) => ({ id, icon: KIND_ICON[s.kind], tint: KIND_TINT[s.kind], title: s.title, subtitle: s.when }))} />;
 }
 
 /** Phone root: the list, and the one thing the Wiki asks for — importing a source. Pages are written by the agent. */

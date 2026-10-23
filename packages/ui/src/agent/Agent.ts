@@ -48,7 +48,8 @@ export function ItemCard(p) {
 }
 export function actionButtons(actions, dismiss) {
   var out = (actions || []).map(function (a, i) {
-    return h(Button, { key: i, variant: a.variant || 'gray', destructive: a.destructive, onClick: a.onClick, size: a.size, kbd: a.kbd }, a.label);
+    if (a.iconOnly && a.icon) return h(IconButton, { key: i, icon: a.icon, label: a.label, disabled: a.disabled, onClick: a.onClick, variant: 'fill', className: 'sg-request-nav' });
+    return h(Button, { key: i, variant: a.variant || 'gray', destructive: a.destructive, disabled: a.disabled, onClick: a.onClick, size: a.size, kbd: a.kbd }, a.label);
   });
   // the way out without answering: a circle at the end of the row, where the bar's Back / module circle sits
   // with a keyboard, the exit shows its key (esc) in place of the glyph
@@ -90,7 +91,7 @@ export function AgentQuestion(p) {
     h('div', { className: 'sg-question-head' },
       h('h2', { className: 'headline' }, p.title),
       p.progress ? h('span', { className: 'footnote sg-question-progress' }, p.progress) : null),
-    h(ChoiceList, { options: p.options, multiple: p.multiple, columns: p.columns, other: p.other, legend: p.hint, defaultValue: p.defaultValue, onChange: p.onChange }),
+    h(ChoiceList, { options: p.options, multiple: p.multiple, columns: p.columns, other: p.other, otherValue: p.otherValue, legend: p.hint, defaultValue: p.defaultValue, onChange: p.onChange }),
     h('div', { className: 'sg-request-foot' },
       p.onReplyInChat !== null ? h(Button, { variant: 'plain', size: 'sm', onClick: p.onReplyInChat }, 'Reply in Chat') : h('span'),
       h('div', { className: 'sg-request-actions' }, actionButtons(p.actions, p.dismiss))));

@@ -3,6 +3,7 @@ import * as R from 'react';
 const h: any = R.createElement;
 import { AgentQuestion, AgentRequest, actionButtons } from '../agent/Agent';
 import { Composer } from '../fields/Composer';
+import { DetailCard } from './DetailCard';
 import { Menu } from '../fields/Menu';
 import { SearchField } from '../fields/SearchField';
 import { cx, omit } from '../internal/util';
@@ -41,10 +42,7 @@ export function fromSpec(x) {
   if (k === 'request') return h(AgentRequest, Object.assign({ key: key }, rest));
   if (k === 'question') return h(AgentQuestion, Object.assign({ key: key }, rest));
   if (k === 'source') return h(SourceCard, Object.assign({ key: key }, rest));
-  if (k === 'card') return h('section', { key: key, className: cx('sg-request', x.dismiss && 'has-exit'), 'aria-label': x.title },
-    h('div', { className: 'sg-request-titles' }, h('h2', { className: 'title-3' }, x.title), x.subtitle ? h('p', { className: 'subheadline' }, x.subtitle) : null),
-    (x.lines || []).length ? h('div', { className: 'sg-card-lines' }, x.lines.map(function (l, i) { return h('span', { key: i, className: 'subheadline sg-card-line' }, h(Icon, { name: l.icon || 'clock', size: 18 }), l.text); })) : null,
-    (x.actions || x.dismiss) ? h('div', { className: 'sg-request-foot' }, h('span'), h('div', { className: 'sg-request-actions' }, actionButtons(x.actions, x.dismiss))) : null);
+  if (k === 'card') return h(DetailCard, Object.assign({ key: key }, rest));
   return null;
 }
 export function isTextEntry(el) {
@@ -93,7 +91,8 @@ export function Cluster(p) {
 
   if (v === 'bar') {
     var min = !sheet && !!(p.minimized || (focus && acc));
-    var tabW = Math.min(W - H - G, tabs.length * 58 + 8);
+    var tabW = Math.min(W - H - 4, Math.max(tabs.length * 44 + 16, Math.min(W - H - G, tabs.length * 58 + 8)));
+    g.iconTabs = tabW < tabs.length * 52 + 8;
     // lead: tab bar ⇄ circle (active tab or back)
     g.lead = (detail || min) ? { l: 0, b: 0, w: H, h: H } : { l: 0, b: 0, w: tabW, h: H };
     // trail
@@ -164,9 +163,9 @@ export function Cluster(p) {
   // ---- lead piece
   var leadOn = g.lead.w > 0 && g.lead.o !== 0;
   var tabsLayer = h(Layer, { on: leadOn && (v === 'bar' ? (!detail && !g.min) : !!g.flatTabs) },
-    h('div', { className: 'sg-cl-tabs', role: 'tablist' }, tabs.map(function (t) {
+    h('div', { className: cx('sg-cl-tabs', g.iconTabs && 'is-icons'), role: 'tablist' }, tabs.map(function (t) {
       var on = t.id === cur.id;
-      return h('button', { key: t.id, type: 'button', role: 'tab', 'aria-selected': on, className: cx('sg-tab', on && 'is-on'), onClick: function () { if (swOpen) setSw(false); if (p.onTab) p.onTab(t.id); } },
+      return h('button', { key: t.id, type: 'button', role: 'tab', 'aria-label': t.label, title: g.iconTabs ? t.label : undefined, 'aria-selected': on, className: cx('sg-tab', on && 'is-on'), onClick: function () { if (swOpen) setSw(false); if (p.onTab) p.onTab(t.id); } },
         h('span', { className: 'sg-tab-icon' }, h(Icon, { name: t.icon, size: 22, strokeWidth: on ? 2 : 1.75 }), t.badge ? h('span', { className: 'sg-tab-badge' }, t.badge) : null),
         h('span', { className: 'caption-1' }, t.label));
     })));
@@ -182,16 +181,16 @@ export function Cluster(p) {
   // ---- trail piece
   var trailRow = v === 'row' ? h(Layer, { on: trailKind !== 'none' && g.trail.o !== 0 },
       bloom === 'trail' ? h(IconButton, { icon: 'xmark', label: 'Close', variant: 'plain', size: 'lg', onClick: function () { setBloom('none'); }, className: 'sg-cl-circlebtn' })
-      : trailKind === 'primary' ? h(IconButton, { icon: p.primary.icon || 'plus', label: p.primary.label, variant: 'plain', size: 'lg', onClick: p.primary.onClick, className: 'sg-cl-circlebtn sg-cl-prim' })
+      : trailKind === 'primary' ? h(IconButton, { icon: p.primary.icon || 'plus', label: p.primary.label, variant: 'plain', size: 'lg', onClick: p.primary.onClick, disabled: p.primary.disabled, className: 'sg-cl-circlebtn sg-cl-prim' })
       : trailKind === 'more' ? h(IconButton, { icon: 'ellipsis', label: 'More', variant: 'plain', size: 'lg', onClick: function () { setBloom('trail'); }, className: 'sg-cl-circlebtn', 'aria-haspopup': 'menu', 'aria-expanded': false })
-      : trailKind === 'actions' ? h('div', { className: 'sg-cl-actions' }, flatItems.slice(0, 4).map(function (a) { return h(IconButton, { key: a.id || a.label, icon: a.icon || 'plus', label: a.label, title: a.label, variant: 'plain', onClick: a.onClick, className: a.destructive ? 'is-destructive' : undefined }); }),
+      : trailKind === 'actions' ? h('div', { className: 'sg-cl-actions' }, flatItems.slice(0, 4).map(function (a) { return h(IconButton, { key: a.id || a.label, icon: a.icon || 'plus', label: a.label, title: a.label, variant: 'plain', onClick: a.onClick, disabled: a.disabled, className: a.destructive ? 'is-destructive' : undefined }); }),
           flatItems.length > 4 ? h(Menu, { items: flatItems.slice(4) }) : null) : null) : null;
   // ---- bloom: items stack up from the circle over a dimmed, blurred screen
   var bloomItems = bloom === 'lead' ? tabs.map(function (t) {
       return { id: t.id, label: t.label, icon: t.icon, badge: t.badge, on: t.id === cur.id, onClick: function () { setBloom('none'); if (p.onTab && t.id !== cur.id) p.onTab(t.id); } };
     })
     : bloom === 'trail' ? (p.primary ? [Object.assign({ id: '__primary' }, p.primary)] : []).concat(actions).concat(p.more || []).map(function (a) {
-      return { id: a.id || a.label, label: a.label, icon: a.icon || 'plus', destructive: a.destructive, onClick: function () { setBloom('none'); if (a.onClick) a.onClick(); } };
+      return { id: a.id || a.label, label: a.label, icon: a.icon || 'plus', destructive: a.destructive, disabled: a.disabled, onClick: function () { setBloom('none'); if (a.onClick) a.onClick(); } };
     }) : null;
   var lastBloom = R.useRef({ side: 'lead', items: [] });
   if (bloomItems) lastBloom.current = { side: bloom, items: bloomItems };
@@ -204,7 +203,7 @@ export function Cluster(p) {
     h('div', { className: cx('sg-cl-vbar sg-glass sg-glass-regular', open && 'is-on', p.bloomLabels === false && 'no-labels'), role: 'menu', 'aria-hidden': open ? undefined : true, style: { left: vx + 'px', bottom: (H + G) + 'px' } },
       shownItems.map(function (it, i) {
         var n = shownItems.length;
-        return h('button', { key: it.id, type: 'button', role: 'menuitem', tabIndex: open ? 0 : -1, 'aria-label': it.label, 'aria-current': it.on ? 'page' : undefined,
+        return h('button', { key: it.id, type: 'button', role: 'menuitem', disabled: it.disabled, tabIndex: open && !it.disabled ? 0 : -1, 'aria-label': it.label, 'aria-current': it.on ? 'page' : undefined,
             className: cx('sg-tab', it.on && 'is-on', it.destructive && 'is-destructive'),
             style: { transitionDelay: (open ? 60 + (n - 1 - i) * 24 : 0) + 'ms' }, onClick: it.onClick },
           h('span', { className: 'sg-tab-icon' }, h(Icon, { name: it.icon, size: 22, strokeWidth: it.on ? 2 : 1.75 }), it.badge ? h('span', { className: 'sg-tab-badge' }, it.badge) : null),
@@ -212,21 +211,21 @@ export function Cluster(p) {
       }))) : null;
   var trailLayer = v === 'row' ? trailRow : h(Layer, { on: trailKind !== 'none' },
     trailKind === 'search' ? h(IconButton, { icon: 'search', label: (p.search && p.search.label) || 'Search', variant: 'plain', size: 'lg', onClick: p.search && p.search.onOpen, className: 'sg-cl-circlebtn' })
-    : trailKind === 'primary' ? h(IconButton, { icon: p.primary.icon || 'plus', label: p.primary.label, variant: 'plain', size: 'lg', onClick: p.primary.onClick, className: 'sg-cl-circlebtn sg-cl-prim' })
-    : trailKind === 'more' ? h(Menu, { items: actions.map(function (a) { return { id: a.id, label: a.label, icon: a.icon, onClick: a.onClick, destructive: a.destructive }; }).concat(p.more || []), className: 'sg-cl-circlebtn' })
-    : trailKind === 'actions' ? h('div', { className: 'sg-cl-actions' }, actions.slice(0, 3).map(function (a) { return h(IconButton, { key: a.id, icon: a.icon, label: a.label, variant: 'plain', onClick: a.onClick }); }),
+    : trailKind === 'primary' ? h(IconButton, { icon: p.primary.icon || 'plus', label: p.primary.label, variant: 'plain', size: 'lg', onClick: p.primary.onClick, disabled: p.primary.disabled, className: 'sg-cl-circlebtn sg-cl-prim' })
+    : trailKind === 'more' ? h(Menu, { items: actions.map(function (a) { return { id: a.id, label: a.label, icon: a.icon, onClick: a.onClick, disabled: a.disabled, destructive: a.destructive }; }).concat(p.more || []), className: 'sg-cl-circlebtn' })
+    : trailKind === 'actions' ? h('div', { className: 'sg-cl-actions' }, actions.slice(0, 3).map(function (a) { return h(IconButton, { key: a.id, icon: a.icon, label: a.label, variant: 'plain', onClick: a.onClick, disabled: a.disabled }); }),
         (actions.length > 3 || (p.more && p.more.length)) ? h(Menu, { items: actions.slice(3).concat(p.more || []) }) : null)
     : null);
 
   var pieceCls = function (k, extra) { return cx('sg-cl-piece sg-glass', extra || 'sg-glass-regular', 'sg-cl-' + k); };
-  return h('div', { ref: rootRef, className: cx('sg-cluster', 'is-' + v, p.className), style: { height: total + 'px' }, role: 'region', 'aria-label': p['aria-label'] || 'Controls' },
+  return h('div', { ref: rootRef, className: cx('sg-cluster', 'is-' + v, p.flat && !sheet && p.accessory && p.accessory.kind === 'switcher' && 'has-sized-switcher', p.className), style: { height: total + 'px' }, role: 'region', 'aria-label': p['aria-label'] || 'Controls' },
     h('div', { className: cx(pieceCls('acc', sheet ? 'sg-glass-thick' : 'sg-glass-regular'), bloomSearch && 'is-raised'), style: geo(g.acc),
         // only typing changes the bar's shape (the keyboard is the cue); tapping a switcher or button never does
         onFocus: function (e) { setFocus(isTextEntry(e.target)); }, onBlur: function (e) { if (!e.currentTarget.contains(e.relatedTarget) || !isTextEntry(e.relatedTarget)) setFocus(false); } },
       h(Layer, { on: acc && !sheet, anchor: 'bottom', innerRef: accRef, className: 'sg-cl-acclayer' }, accNode),
       h(Layer, { on: sheet, anchor: 'bottom', innerRef: sheetRef, className: 'sg-cl-sheetlayer' }, sheetNode)),
     h('div', { className: pieceCls('prim', 'sg-glass-thin'), style: geo(g.prim) },
-      h(Layer, { on: !!g.prim.w }, p.primary && v === 'bar' ? h(IconButton, { icon: p.primary.icon || 'plus', label: p.primary.label, variant: 'plain', size: 'lg', onClick: p.primary.onClick, className: 'sg-cl-circlebtn' }) : null)),
+      h(Layer, { on: !!g.prim.w }, p.primary && v === 'bar' ? h(IconButton, { icon: p.primary.icon || 'plus', label: p.primary.label, variant: 'plain', size: 'lg', onClick: p.primary.onClick, disabled: p.primary.disabled, className: 'sg-cl-circlebtn' }) : null)),
     bloomLayer,
     h('div', { className: pieceCls('trail'), style: geo(g.trail) }, trailLayer),
     h('div', { className: pieceCls('lead'), style: geo(g.lead) }, tabsLayer, circleLayer, switcherLayer));

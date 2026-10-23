@@ -1,4 +1,4 @@
-import { Cluster, type ClusterProps } from '@smoked-glass/ui';
+import { ApplicationLayout, type ClusterProps } from '@smoked-glass/ui';
 import { MODULE, MODULES } from '../../modules/registry';
 import { PlaceView } from '../../modules/places/PlaceView';
 import { SearchResults } from '../../modules/search/SearchResults';
@@ -46,33 +46,10 @@ export function AppShell() {
     gather: size === 'expanded', flat: size === 'large',
   };
 
-  if (compact) return (
-    <div className="sg-screen">
-      <main className="sg-pane sg-pane-main" aria-label={M.label}>
-        {main}
-        <div className="sg-dock"><Cluster {...itemBar} /></div>
-      </main>
-    </div>
-  );
-
-  const searching = nav.search !== null;
-  return (
-    <div className={'sg-screen has-aside' + (hinged ? ' is-hinged' : '')}>
-      <aside className="sg-pane sg-pane-aside" aria-label={M.label}>
-        <M.List />
-        <div className="sg-dock">
-          <Cluster variant="bar" aria-label="Navigation" tabs={tabs} tab={nav.module} onTab={onTab}
-            search={searching ? null : { label: 'Search', onOpen: () => nav.setSearch('') }}
-            minimized={searching} onExpand={() => nav.setSearch(null)}
-            accessory={searching ? { kind: 'query', key: 'search', placeholder: 'Search everything', autoFocus: true, defaultValue: nav.search ?? '', onChange: (v: string) => nav.setSearch(v), onCancel: () => nav.setSearch(null) } : null} />
-        </div>
-      </aside>
-      <main className="sg-pane sg-pane-main" aria-label={M.label}>
-        {main}
-        <div className="sg-dock"><Cluster {...itemBar} /></div>
-      </main>
-    </div>
-  );
+  return <ApplicationLayout size={size} hinged={hinged} label={M.label} tabs={tabs} tab={nav.module} onTab={onTab}
+    aside={<M.List />} bar={itemBar} search={{ query: nav.search, onChange: nav.setSearch }}>
+    {main}
+  </ApplicationLayout>;
 }
 
 function stripKeys<T extends { actions?: { kbd?: string }[]; dismiss?: { kbd?: string } }>(spec: T): T {

@@ -1,5 +1,4 @@
-import { EventRow, ListGroup, MonthGrid, TimeGrid, WeekStrip, type MonthDay } from '@smoked-glass/ui';
-import { Page } from '../../app/shell/Page';
+import { CalendarPage, DayAgendaView, type MonthDay } from '@smoked-glass/ui';
 import { useBar } from '../../app/state/bar';
 import { useFocus } from '../../app/state/focus';
 import { useSizeClass } from '../../app/state/size';
@@ -43,33 +42,21 @@ export function CalendarView() {
   const spans = SPANS.map((s) => ({ from: WEEK.indexOf(s.from), to: WEEK.indexOf(s.to), title: s.title, tint: s.tint, agent: s.agent }));
   const onEvent = (e: { id?: string }) => { const ev = EVENTS.find((x) => x.id === e.id); if (ev) openEvent(ev); };
 
-  if (range === 'day') return (
-    <Page eyebrow="November 2026" title={`${LONG[di]} ${dayNum(date)}`} wide={!compact}>
-      <WeekStrip days={NAMES.map((n, i) => ({ name: n, num: String(9 + i), busy: true }))} selected={di} onSelect={(i: number) => set((s) => ({ ...s, date: WEEK[i] }))} />
-      <TimeGrid days={[{ name: NAMES[di], num: String(dayNum(date)) }]} events={weekEvents.filter((e) => e.day === di).map((e) => ({ ...e, day: 0 }))}
-        allDay={spans.filter((s) => di >= s.from && di <= s.to).map((s) => ({ ...s, from: 0, to: 0 }))} startHour={8} endHour={23} hourHeight={desk ? 60 : 56} onEvent={onEvent} />
-    </Page>
-  );
-  if (range === 'week') return (
-    <Page eyebrow="November 2026" title="Week 46" wide={!compact} bare={!compact}>
-      <TimeGrid days={NAMES.map((n, i) => ({ name: n, num: String(9 + i), selected: i === di }))} events={weekEvents} allDay={spans} startHour={8} endHour={23}
-        hourHeight={desk ? 52 : 44} compact={!desk} onSelect={(i: number) => set({ range: 'day', date: WEEK[i] })} onEvent={onEvent} />
-    </Page>
-  );
-  return (
-    <Page eyebrow="2026" title="November" wide={!compact} bare={!compact}>
-      <MonthGrid weeks={monthWeeks(date, desk)} titles={desk} onSelect={(_r: number, _c: number, d: MonthDay) => { if (!d.muted) set((s) => ({ ...s, date: `2026-11-${d.num.padStart(2, '0')}` })); }} />
-      {compact ? <DayAgenda date={date} /> : null}
-    </Page>
-  );
+  return <CalendarPage range={range} size={size}
+    eyebrow={range === 'month' ? '2026' : 'November 2026'} title={range === 'day' ? `${LONG[di]} ${dayNum(date)}` : range === 'week' ? 'Week 46' : 'November'}
+    week={{ days: NAMES.map((name, i) => ({ name, num: String(9 + i), busy: true })), selected: di, onSelect: i => set(s => ({ ...s, date: WEEK[i] })) }}
+    grid={{ days: range === 'day' ? [{ name: NAMES[di], num: String(dayNum(date)) }] : NAMES.map((name, i) => ({ name, num: String(9 + i), selected: i === di })),
+      events: range === 'day' ? weekEvents.filter(e => e.day === di).map(e => ({ ...e, day: 0 })) : weekEvents,
+      allDay: range === 'day' ? spans.filter(s => di >= s.from && di <= s.to).map(s => ({ ...s, from: 0, to: 0 })) : spans,
+      onSelect: i => set({ range: 'day', date: WEEK[i] }), onEvent }}
+    month={{ weeks: monthWeeks(date, desk), onSelect: (_r, _c, d) => { if (!d.muted) set(s => ({ ...s, date: `2026-11-${d.num.padStart(2, '0')}` })); } }}
+    agenda={dayAgenda(date)} />;
 }
 
-export function DayAgenda({ date }: { date: string }) {
-  const evs = EVENTS.filter((e) => e.date === date);
-  return (
-    <ListGroup header={`${LONG[WEEK.indexOf(date)] ?? ''} ${dayNum(date)}`} glass={false}>
-      {evs.length ? evs.map((e) => <EventRow key={e.id} time={e.start} tint={e.tint} title={e.title} meta={e.end + (e.place ? ' · ' + e.place : '')} suggested={e.suggested} agent={e.agent} />)
-        : <EventRow time="" title="Nothing planned" />}
-    </ListGroup>
-  );
+export function dayAgenda(date: string) {
+  return { title: `${LONG[WEEK.indexOf(date)] ?? ''} ${dayNum(date)}`, events: EVENTS.filter(e => e.date === date).map(e => ({
+    id: e.id, time: e.start, tint: e.tint, title: e.title, meta: e.end + (e.place ? ' · ' + e.place : ''), suggested: e.suggested, agent: e.agent,
+  })) };
 }
+
+export function DayAgenda({ date }: { date: string }) { return <DayAgendaView {...dayAgenda(date)} />; }

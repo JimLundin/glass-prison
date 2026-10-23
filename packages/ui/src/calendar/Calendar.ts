@@ -16,7 +16,7 @@ export function TimeGrid(p) {
       })),
     spans.length ? h('div', { className: 'sg-tg-allday', role: 'row' }, h('span', { className: 'caption-2 sg-tg-adlabel' }, 'all-day'),
       h('div', { className: 'sg-tg-adlane' }, spans.map(function (a, i) {
-        return h('div', { key: i, className: cx('sg-ev sg-ev-span', a.agent && 'is-agent', a.suggested && 'is-suggested'), style: Object.assign(evStyle(a.tint), { gridColumn: (a.from + 1) + ' / ' + (a.to + 2) }) },
+        return h(a.onClick ? 'button' : 'div', { key: a.id || i, type: a.onClick ? 'button' : undefined, onClick: a.onClick, className: cx('sg-ev sg-ev-span', a.agent && 'is-agent', a.suggested && 'is-suggested'), style: Object.assign(evStyle(a.tint), { gridColumn: (a.from + 1) + ' / ' + (a.to + 2) }) },
           h('span', { className: 'footnote sg-ev-title' }, a.title));
       }))) : null,
     h('div', { className: 'sg-tg-body', style: { height: ((end - start) * hh) + 'px' } },
@@ -48,7 +48,7 @@ export function MonthGrid(p) {
       return h('div', { key: r, className: 'sg-mg-week', role: 'row' },
         w.days.map(function (d, i) {
           var Tag = p.onSelect ? 'button' : 'div';
-          return h(Tag, { key: i, style: { gridColumn: String(i + 1) }, type: Tag === 'button' ? 'button' : undefined, onClick: p.onSelect ? function () { p.onSelect(r, i, d); } : undefined, role: 'gridcell', 'aria-selected': !!d.selected,
+          return h(Tag, { key: i, style: { gridColumn: String(i + 1) }, type: Tag === 'button' ? 'button' : undefined, onClick: p.onSelect ? function () { p.onSelect(r, i, d); } : undefined, role: 'gridcell', 'aria-selected': !!d.selected, 'aria-label': d.label,
               className: cx('sg-mg-day', d.muted && 'is-muted', d.selected && 'is-on', d.today && 'is-today', d.span && 'has-span') },
             h('span', { className: 'subheadline sg-mg-num' }, d.num),
             titles ? h('span', { className: 'sg-mg-items' }, (d.items || []).slice(0, 3).map(function (it, k) {

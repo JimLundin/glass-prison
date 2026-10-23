@@ -10,7 +10,7 @@ import { Checkbox } from '../selection/Selection';
 export function TaskRow(p) {
   var st = useControlled(p.done, !!p.defaultDone);
   return h('div', { className: cx('sg-row sg-task', st[0] && 'is-done', p.className) },
-    h(Checkbox, { checked: !!st[0], label: st[0] ? 'Mark ' + p.title + ' as not done' : 'Mark ' + p.title + ' as done',
+    h(Checkbox, { checked: !!st[0], disabled: p.disabled, label: st[0] ? 'Mark ' + p.title + ' as not done' : 'Mark ' + p.title + ' as done',
       onChange: function (v) { st[1](v); if (p.onToggle) p.onToggle(v); } }),
     h('span', { className: 'sg-row-main' },
       h('span', { className: 'sg-row-title body sg-task-title' }, p.title),
@@ -18,7 +18,7 @@ export function TaskRow(p) {
       (p.badge || p.agent) ? h('span', { className: 'sg-row-badges' }, p.agent ? h(Badge, { tone: 'accent', icon: 'sparkle' }, typeof p.agent === 'string' ? p.agent : 'From chat') : null, p.badge || null) : null));
 }
 export function EventRow(p) {
-  return h('div', { className: cx('sg-row sg-event', p.suggested && 'is-suggested', p.className) },
+  return h('div', { role: p.onClick ? 'button' : undefined, tabIndex: p.onClick ? 0 : undefined, onClick: p.onClick, onKeyDown: function (e) { if (p.onClick && e.target === e.currentTarget && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); p.onClick(); } }, className: cx('sg-row sg-event', p.onClick && 'is-action', p.suggested && 'is-suggested', p.className) },
     h('span', { className: 'sg-event-time subheadline' }, p.time),
     h('span', { className: 'sg-event-dot', style: { '--sg-tint': 'var(--system-' + (p.tint || 'blue') + ')' }, 'aria-hidden': true }),
     h('span', { className: 'sg-row-main' },

@@ -97,10 +97,11 @@ body { font-family: var(--font-sans); color: var(--label); background: var(--can
 .sg-row { appearance: none; border: 0; background: none; margin: 0; width: 100%; text-align: left; color: var(--label); font: inherit; display: flex; align-items: center; gap: var(--space-3); padding: 0 var(--space-4); min-height: 44px; position: relative; box-sizing: border-box; }
 .sg-row.is-action { cursor: pointer; }
 .sg-row.is-action:active { background: var(--fill-control); }
-.sg-row + .sg-row::before { content: ""; position: absolute; top: 0; right: 0; left: var(--space-4); height: 0.5px; background: var(--separator); }
+.sg-row + .sg-row::before, .sg-setting + .sg-row::before { content: ""; position: absolute; top: 0; right: 0; left: var(--space-4); height: 0.5px; background: var(--separator); }
 .sg-list-body:has(.sg-row-tile) .sg-row + .sg-row::before { left: calc(var(--space-4) + 29px + var(--space-3)); }
 .sg-row-tile { width: 29px; height: 29px; border-radius: var(--radius-xs); display: grid; place-items: center; color: #ffffff; flex: none; }
 .sg-row-main { flex: 1; display: flex; flex-direction: column; padding: 11px 0; min-width: 0; }
+.sg-row-title, .sg-row-sub { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .sg-row-sub { color: var(--label-secondary); }
 .sg-row-detail { color: var(--label-secondary); }
 .sg-row-chev { color: var(--label-tertiary); }
@@ -125,7 +126,8 @@ body { font-family: var(--font-sans); color: var(--label); background: var(--can
 
 /* ---------- Screen: reach zone + size classes ----------
    Breakpoints mirror tokens.json `layout` (container queries cannot read var()). */
-.sg-screen { container: sg-screen / size; position: relative; display: flex; width: 100%; height: 100%; background: var(--canvas); color: var(--label); overflow: hidden; }
+/* Only panes scroll. Hidden overflow lets focus pan the entire shell across modules. */
+.sg-screen { container: sg-screen / size; position: relative; display: flex; width: 100%; height: 100%; background: var(--canvas); color: var(--label); overflow: clip; }
 .sg-pane { container: sg-pane / size; position: relative; flex: 1; min-width: 0; height: 100%; }
 .sg-pane-aside { display: none; flex: none; width: var(--aside-width); border-right: 0.5px solid var(--separator); }
 .sg-pane-scroll { position: absolute; inset: 0; overflow-y: auto; overscroll-behavior: contain; padding: 0 var(--space-4) var(--dock-clearance); box-sizing: border-box; }
@@ -141,6 +143,7 @@ body { font-family: var(--font-sans); color: var(--label); background: var(--can
   .sg-pane-scroll { padding-left: var(--space-5); padding-right: var(--space-5); }
   .sg-pane-header, .sg-pane-content { max-width: var(--content-max); margin-left: auto; margin-right: auto; }
   .sg-dock { left: 50%; right: auto; width: calc(100% - 2 * var(--space-5)); max-width: var(--dock-max); transform: translateX(-50%); }
+  .sg-pane-main > .sg-dock { max-width: var(--content-max); }
 }
 @container sg-screen (min-width: 840px) { .sg-pane-aside { display: block; } }
 @container sg-screen (min-width: 1200px) { .sg-pane-aside { width: 380px; } }
@@ -231,6 +234,9 @@ body { font-family: var(--font-sans); color: var(--label); background: var(--can
 .sg-choice-detail { color: var(--label-secondary); }
 .sg-choice-input { flex: 1; min-width: 0; appearance: none; border: 0; outline: 0; background: transparent; color: var(--label); font-family: var(--font-sans); height: 46px; padding: 0; }
 .sg-choice-input::placeholder { color: var(--label-secondary); }
+.sg-setting > .sg-choices-legend { display: flex; align-items: center; gap: var(--space-3); width: 100%; padding: var(--space-3) var(--space-4); box-sizing: border-box; color: var(--label); }
+.sg-setting > .sg-choices-grid { padding: 0 var(--space-4) var(--space-4); }
+.sg-setting + .sg-setting { border-top: 0.5px solid var(--separator); }
 
 /* ---------- Messages ---------- */
 .sg-msg { color: var(--label); }
@@ -325,14 +331,18 @@ span.sg-place { cursor: default; }
 
 /* ================= Cluster ================= */
 .sg-cluster { --sg-spring: cubic-bezier(0.34, 1.18, 0.5, 1); --sg-ease: cubic-bezier(0.32, 0.72, 0, 1); position: relative; width: 100%; transition: height 500ms var(--sg-ease); pointer-events: none; }
+.sg-cluster.has-sized-switcher { max-width: 372px; margin-inline: auto; }
 .sg-cl-piece { position: absolute; overflow: hidden; pointer-events: auto; box-sizing: border-box;
   transition: left 520ms var(--sg-spring), bottom 520ms var(--sg-spring), width 520ms var(--sg-spring), height 520ms var(--sg-spring), border-radius 520ms var(--sg-ease), opacity 260ms ease, background-color 300ms ease; }
+.sg-cl-piece.sg-glass { border: 0; box-shadow: inset 0 0 0 .5px var(--glass-stroke), var(--shadow-glass); }
 .sg-cl-piece[style*="opacity: 0"] { pointer-events: none; }
 .sg-cl-layer { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; transition: opacity 220ms ease 120ms, transform 420ms var(--sg-spring) 60ms, filter 220ms ease 120ms; }
 .sg-cl-layer.is-bottom { inset: auto 0 0 0; display: block; }
 .sg-cl-layer.is-off { opacity: 0; transform: scale(0.86); filter: blur(4px); pointer-events: none; transition: opacity 140ms ease, transform 300ms var(--sg-ease), filter 140ms ease; }
 .sg-cl-tabs { display: flex; gap: 2px; padding: 4px; width: 100%; height: 100%; box-sizing: border-box; justify-content: space-between; }
-.sg-cl-tabs .sg-tab { min-width: 0; flex: 1; height: 48px; padding: 0 4px; }
+.sg-cl-tabs .sg-tab { min-width: 44px; flex: 1 1 auto; height: 48px; padding: 0 4px; }
+.sg-cl-tabs.is-icons .caption-1 { display: none; }
+.sg-cl-tabs.is-icons .sg-tab { padding: 0; }
 .sg-cl-circlebtn.sg-iconbtn { width: 56px; height: 56px; }
 .sg-cl-cur { color: var(--label); }
 .sg-cl-actions { display: flex; align-items: center; gap: 0; padding: 0 4px; }
@@ -342,7 +352,7 @@ span.sg-place { cursor: default; }
 .sg-cl-trail .sg-menu-wrap .sg-iconbtn { width: 56px; height: 56px; }
 .sg-cl-trail .sg-cl-actions .sg-menu-wrap .sg-iconbtn { width: 44px; height: 48px; }
 /* accessory content: the piece is the glass, so inner glass goes flat */
-.sg-cl-acc .sg-glass { background: transparent !important; -webkit-backdrop-filter: none !important; backdrop-filter: none !important; border-color: transparent !important; box-shadow: none !important; }
+.sg-cl-acc .sg-glass { background: transparent !important; -webkit-backdrop-filter: none !important; backdrop-filter: none !important; border: 0 !important; box-shadow: none !important; }
 .sg-cl-acc .sg-composer, .sg-cl-acc .sg-field, .sg-cl-acc .sg-request { border-radius: 0; }
 .sg-cl-acclayer > .sg-field { height: 56px; }
 .sg-cl-acclayer > .sg-cl-title { height: 56px; display: flex; align-items: center; justify-content: center; padding: 0 var(--space-4); }
@@ -399,8 +409,8 @@ span.sg-place { cursor: default; }
 .sg-seg-item { height: 36px; }
 .sg-seg-item.is-on { color: var(--label); }
 /* inside glass (cluster accessory, dock chips) the track goes away and items take the tab size */
-.sg-cl-acc .sg-seg, .sg-dock-chip .sg-seg { background: transparent; padding: 4px; width: 100%; box-sizing: border-box; }
-.sg-cl-acc .sg-seg-item, .sg-dock-chip .sg-seg-item { height: 48px; }
+.sg-cl-acc .sg-seg, .sg-dock-chip .sg-seg { background: transparent; padding: 4px; width: 100%; min-width: 0; box-sizing: border-box; }
+.sg-cl-acc .sg-seg-item, .sg-dock-chip .sg-seg-item { height: 48px; min-width: 44px; padding-inline: 0; }
 .sg-cl-acclayer > .sg-cl-center { padding: 0; min-height: 56px; display: block; }
 .sg-composer-input:placeholder-shown { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
@@ -450,6 +460,7 @@ button.sg-prompt:focus-visible { outline: 2px solid var(--focus-ring); outline-o
 
 /* focus cards: the answer row is the bar's row — 48px pills, inset 4px, with the way out as a circle at the end */
 .sg-request-exit.sg-iconbtn { width: 48px; height: 48px; flex: none; color: var(--label); }
+.sg-request-nav.sg-iconbtn { width: 48px; height: 48px; flex: none; }
 .sg-cl-sheetlayer > .sg-request.has-exit { padding-bottom: 4px; }
 .sg-cl-sheetlayer .sg-request.has-exit .sg-request-foot { margin: 2px -12px 0; }
 .sg-request.has-exit { touch-action: pan-x; }
@@ -523,6 +534,8 @@ button.sg-prompt:focus-visible { outline: 2px solid var(--focus-ring); outline-o
 .sg-claim.is-on { background: var(--accent-tint); box-shadow: 0 0 0 2px var(--accent-tint); }
 .sg-claim.is-unsourced { text-decoration: underline dotted var(--warning-text); text-decoration-thickness: 1.5px; text-underline-offset: 4px; }
 .sg-cite { appearance: none; border: 0; font: 600 11px/1 var(--font-rounded); font-variant-numeric: tabular-nums; color: var(--accent-text); background: var(--fill-control); min-width: 17px; height: 17px; padding: 0 4px; margin-left: 2px; border-radius: 9px; vertical-align: 3px; cursor: pointer; box-sizing: border-box; }
+.sg-wk .sg-claim-link { color: inherit; text-decoration: underline; text-decoration-color: var(--label-tertiary); text-decoration-thickness: 1px; text-underline-offset: 3px; cursor: pointer; -webkit-user-select: text; user-select: text; }
+.sg-wk .sg-claim-link:is(:hover, :focus-visible, .is-on) { color: var(--accent-text); text-decoration-color: currentColor; }
 .sg-cite.is-on { background: var(--accent); color: var(--label-on-smoke); }
 .sg-cite.is-missing { color: var(--warning-text); background: color-mix(in srgb, var(--system-orange) 18%, transparent); }
 .sg-cite:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 1px; }

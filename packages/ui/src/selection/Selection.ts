@@ -24,7 +24,7 @@ export function ChoiceList(p) {
   var nameRef = R.useRef(p.name || ('sg-choice-' + (++choiceSeq)));
   var multi = !!p.multiple;
   var st = useControlled(p.value, p.defaultValue !== undefined ? p.defaultValue : (multi ? [] : null));
-  var os = R.useState(''), other = os[0], setOther = os[1];
+  var os = useControlled(p.otherValue, ''), other = os[0], setOther = os[1];
   var opts = (p.options || []).map(function (o) { return typeof o === 'string' ? { value: o, label: o } : o; });
   function isOn(v) { return multi ? (st[0] || []).indexOf(v) >= 0 : st[0] === v; }
   function pick(v) {
@@ -46,5 +46,5 @@ export function ChoiceList(p) {
         h('input', { type: multi ? 'checkbox' : 'radio', name: nameRef.current, className: 'sg-vh', checked: isOn('__other'), onChange: function () { pick('__other'); } }),
         h(Tick, { on: isOn('__other') }),
         h('input', { type: 'text', className: 'sg-choice-input body', placeholder: p.other, 'aria-label': p.other, value: other,
-          onChange: function (e) { setOther(e.target.value); if (!isOn('__other')) pick('__other'); } })) : null));
+          onChange: function (e) { var text = e.target.value; setOther(text); var next = multi ? (isOn('__other') ? st[0] : (st[0] || []).concat(['__other'])) : '__other'; st[1](next); if (p.onChange) p.onChange(next, text); } })) : null));
 }

@@ -19,7 +19,7 @@ export function Menu(p) {
   return h('div', { className: cx('sg-menu-wrap', p.align === 'start' && 'is-start', p.className), ref: ref },
     open ? h('div', { className: 'sg-menu sg-glass sg-glass-thick', role: 'menu' },
       (p.items || []).map(function (it) {
-        return h('button', { key: it.id, type: 'button', role: 'menuitem', className: cx('sg-menu-item body', it.destructive && 'is-destructive'),
+        return h('button', { key: it.id, type: 'button', role: 'menuitem', disabled: it.disabled, className: cx('sg-menu-item body', it.destructive && 'is-destructive'),
           onClick: function () { setOpen(false); if (it.onClick) it.onClick(); } },
           h('span', null, it.label), it.icon ? h(Icon, { name: it.icon, size: 20 }) : null);
       })) : null,

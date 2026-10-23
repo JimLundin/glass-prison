@@ -1,5 +1,4 @@
-import { ListGroup, ListRow, TaskRow } from '@smoked-glass/ui';
-import { Page } from '../../app/shell/Page';
+import { TaskListsView, TasksPage, type TaskViewRow } from '@smoked-glass/ui';
 import { useBar } from '../../app/state/bar';
 import { useNav } from '../../app/state/nav';
 import { useSizeClass } from '../../app/state/size';
@@ -18,23 +17,17 @@ export function TasksView({ route }: { route?: Route }) {
     actions: [{ id: 'filter', label: 'Filter', icon: 'filter' }, { id: 'done', label: 'Show Done', icon: 'checkmark' }],
   }, [listId]);
   const today = tasks.filter((t) => t.due === 'today'), upcoming = tasks.filter((t) => t.due !== 'today');
-  const row = (t: (typeof tasks)[number]) => <TaskRow key={t.id} title={t.title} meta={t.meta} done={!!t.done} agent={t.agent} onToggle={(d: boolean) => store.toggleTask(t.id, d)} />;
-  return (
-    <Page eyebrow={`${today.filter((t) => !t.done).length} due today`} title={size === 'compact' && listId === 'today' ? 'Tasks' : list.title} wide={size !== 'compact'}>
-      {today.length ? <ListGroup header="Today" glass={false}>{today.map(row)}</ListGroup> : null}
-      {upcoming.length ? <ListGroup header="Upcoming" glass={false}>{upcoming.map(row)}</ListGroup> : null}
-    </Page>
-  );
+  const row = (t: (typeof tasks)[number]): TaskViewRow => ({ id: t.id, title: t.title, meta: t.meta, done: !!t.done, agent: t.agent, onToggle: (d: boolean) => store.toggleTask(t.id, d) });
+  return <TasksPage title={size === 'compact' && listId === 'today' ? 'Tasks' : list.title} wide={size !== 'compact'}
+    dueToday={today.filter(t => !t.done).length} today={today.map(row)} upcoming={upcoming.map(row)} />;
 }
 
 export function TaskLists() {
   const store = useStore();
   const nav = useNav();
-  return (
-    <Page eyebrow={`${store.tasks.filter((t) => !t.done).length} open`} title="Tasks" wide>
-      <ListGroup header="Lists" glass={false}>
-        {LISTS.map((l) => <ListRow key={l.id} icon="checklist" tint={l.tint} title={l.title} subtitle={`${store.tasks.filter((t) => (l.id === 'today' ? t.due === 'today' : t.list === l.id) && !t.done).length} open`} onClick={() => nav.push({ view: 'list', id: l.id })} />)}
-      </ListGroup>
-    </Page>
-  );
+  return <TaskListsView open={store.tasks.filter(t => !t.done).length} lists={LISTS.map(l => ({
+    id: l.id, icon: 'checklist', tint: l.tint, title: l.title,
+    subtitle: `${store.tasks.filter(t => (l.id === 'today' ? t.due === 'today' : t.list === l.id) && !t.done).length} open`,
+    onClick: () => nav.push({ view: 'list', id: l.id }),
+  }))} />;
 }

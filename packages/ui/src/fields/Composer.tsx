@@ -16,8 +16,18 @@ export function Composer(p: ComposerProps) {
   useLayoutEffect(() => {
     const element = input.current;
     if (!element) return;
-    element.style.height = '22px';
-    element.style.height = `${Math.min(Math.max(element.scrollHeight - 26, 22), 160)}px`;
+    const measure = () => {
+      element.style.height = '22px';
+      element.style.height = `${Math.min(Math.max(element.scrollHeight - 26, 22), 160)}px`;
+    };
+    let width = element.clientWidth;
+    measure();
+    const observer = new ResizeObserver(() => {
+      const next = element.clientWidth;
+      if (next !== width) { width = next; measure(); }
+    });
+    observer.observe(element);
+    return () => observer.disconnect();
   }, [value]);
 
   async function send() {

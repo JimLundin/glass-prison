@@ -1,6 +1,5 @@
 import { useState } from 'react';
-import { WikiDoc } from '@smoked-glass/ui';
-import { Page } from '../../app/shell/Page';
+import { WikiPageView as PageView } from '@smoked-glass/ui';
 import { useBar } from '../../app/state/bar';
 import { useFocus } from '../../app/state/focus';
 import { useNav } from '../../app/state/nav';
@@ -40,9 +39,7 @@ export function WikiPageView({ route }: { route: Route }) {
   });
 
   return (
-    <Page eyebrow={`${page.group} · written by the agent · updated ${page.updated}`} title={page.title} wide={size !== 'compact'}>
-      <WikiDoc doc={page.doc} sources={SOURCES} activeClaim={focus.spec ? active?.claim : null} activeSource={focus.spec ? active?.source : null}
+    <PageView eyebrow={`${page.group} · written by the agent · updated ${page.updated}`} title={page.title} wide={size !== 'compact'} doc={page.doc} sources={SOURCES} activeClaim={focus.spec ? active?.claim : null} activeSource={focus.spec ? active?.source : null}
         onCite={openSource} onSource={(id) => openSource(id, null)} onQuestion={onQuestion} onPlace={() => nav.openPlace('casa-alfama')} />
-    </Page>
   );
 }
