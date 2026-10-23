@@ -8,6 +8,7 @@
   "exports": {
     ".": "./src/index.ts",
     "./preview": "./src/preview/DesignPreview.tsx",
+    "./prototype": "./src/layout/Workspace.prototype.tsx",
     "./styles.css": "./src/styles/index.css",
     "./tokens.json": "./tokens/tokens.json"
   },
