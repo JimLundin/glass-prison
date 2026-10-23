@@ -1,7 +1,6 @@
 // @ts-nocheck — internals ported from the Smoked Glass canvas bundle; the typed surface is src/index.ts
 import * as R from 'react';
 const h: any = R.createElement;
-import { actionButtons, useSwipeDown } from '../agent/Agent';
 import { cx } from '../internal/util';
 import { TaskRow } from '../modules/Rows';
 import { MapPreview, PlaceChip } from '../places/Places';
@@ -89,16 +88,4 @@ export function WikiDoc(p) {
     }
     return null;
   }));
-}
-export function SourceCard(p) {
-  var src = p.source || {}, k = sourceKind(src), ex = src.excerpt || '', span = p.span || '', at = span ? ex.indexOf(span) : -1;
-  var sw = useSwipeDown(p.dismiss);
-  return h('section', Object.assign({ className: cx('sg-request sg-src-card', p.dismiss && 'has-exit', p.className), 'aria-label': 'Source: ' + (src.title || '') }, sw),
-    h('div', { className: 'sg-src-head' }, h(SourceTile, { source: src, size: 20 }),
-      h('div', { className: 'sg-request-titles' }, h('h2', { className: 'headline' }, src.title), h('p', { className: 'footnote' }, k.label + (src.when ? ' · ' + src.when : '') + (src.where ? ' · ' + src.where : '')))),
-    h('blockquote', { className: 'body sg-src-quote' }, src.speaker ? h('span', { className: 'footnote sg-src-speaker' }, src.speaker) : null,
-      h('span', null, at >= 0 ? h(R.Fragment, null, ex.slice(0, at), h('mark', null, span), ex.slice(at + span.length)) : ex)),
-    src.origin ? h('p', { className: 'footnote sg-src-origin' }, h(Icon, { name: 'globe', size: 13, strokeWidth: 2 }), h('span', null, String(src.origin).replace(/^https?:\/\//, '')), src.captured ? h('span', { className: 'sg-src-captured' }, '· saved ' + src.captured) : null) : null,
-    p.claim ? h('p', { className: 'footnote sg-src-for' }, 'Cited for “', p.claim, '”') : null,
-    (p.actions || p.dismiss) ? h('div', { className: 'sg-request-foot' }, h('span'), h('div', { className: 'sg-request-actions' }, actionButtons(p.actions, p.dismiss))) : null);
 }

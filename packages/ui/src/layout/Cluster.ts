@@ -9,7 +9,7 @@ import { cx, omit } from '../internal/util';
 import { IconButton } from '../primitives/Button';
 import { Icon } from '../primitives/Icon';
 import { SegmentedControl } from '../primitives/SegmentedControl';
-import { SourceCard } from '../wiki/Wiki';
+import { SourceCard } from '../wiki/SourceCard';
 
 /* ================= Cluster: the bottom cluster, with morphing glass ================= */
 export function useBox(ref, prop) {
@@ -162,14 +162,15 @@ export function Cluster(p) {
   if (v === 'bar' && sheet) total = Math.max(total, H + G + Math.max(H, hS || 0));
 
   // ---- lead piece
-  var tabsLayer = h(Layer, { on: v === 'bar' ? (!detail && !g.min) : !!g.flatTabs },
+  var leadOn = g.lead.w > 0 && g.lead.o !== 0;
+  var tabsLayer = h(Layer, { on: leadOn && (v === 'bar' ? (!detail && !g.min) : !!g.flatTabs) },
     h('div', { className: 'sg-cl-tabs', role: 'tablist' }, tabs.map(function (t) {
       var on = t.id === cur.id;
       return h('button', { key: t.id, type: 'button', role: 'tab', 'aria-selected': on, className: cx('sg-tab', on && 'is-on'), onClick: function () { if (swOpen) setSw(false); if (p.onTab) p.onTab(t.id); } },
         h('span', { className: 'sg-tab-icon' }, h(Icon, { name: t.icon, size: 22, strokeWidth: on ? 2 : 1.75 }), t.badge ? h('span', { className: 'sg-tab-badge' }, t.badge) : null),
         h('span', { className: 'caption-1' }, t.label));
     })));
-  var circleLayer = h(Layer, { on: v === 'bar' ? (detail || g.min) : !g.flatTabs },
+  var circleLayer = h(Layer, { on: leadOn && (v === 'bar' ? (detail || g.min) : !g.flatTabs) },
     (v === 'row' && bloom === 'lead') ? h(IconButton, { icon: 'xmark', label: 'Close', variant: 'plain', size: 'lg', onClick: function () { setBloom('none'); }, className: 'sg-cl-circlebtn' }) :
     leadIcon === 'back'
       ? h(IconButton, { icon: 'chevron-left', label: (p.back && p.back.label) || 'Back', variant: 'plain', size: 'lg', onClick: p.back && p.back.onClick, className: 'sg-cl-circlebtn' })
@@ -179,7 +180,7 @@ export function Cluster(p) {
   var switcherLayer = null;
 
   // ---- trail piece
-  var trailRow = v === 'row' ? h(Layer, { on: trailKind !== 'none' },
+  var trailRow = v === 'row' ? h(Layer, { on: trailKind !== 'none' && g.trail.o !== 0 },
       bloom === 'trail' ? h(IconButton, { icon: 'xmark', label: 'Close', variant: 'plain', size: 'lg', onClick: function () { setBloom('none'); }, className: 'sg-cl-circlebtn' })
       : trailKind === 'primary' ? h(IconButton, { icon: p.primary.icon || 'plus', label: p.primary.label, variant: 'plain', size: 'lg', onClick: p.primary.onClick, className: 'sg-cl-circlebtn sg-cl-prim' })
       : trailKind === 'more' ? h(IconButton, { icon: 'ellipsis', label: 'More', variant: 'plain', size: 'lg', onClick: function () { setBloom('trail'); }, className: 'sg-cl-circlebtn', 'aria-haspopup': 'menu', 'aria-expanded': false })

@@ -24,7 +24,8 @@ import { Icon as _Icon } from './primitives/Icon';
 import { SegmentedControl as _SegmentedControl } from './primitives/SegmentedControl';
 import { Switch as _Switch } from './primitives/Switch';
 import { Checkbox as _Checkbox, ChoiceList as _ChoiceList } from './selection/Selection';
-import { SourceCard as _SourceCard, WikiDoc as _WikiDoc, WikiTimeline as _WikiTimeline } from './wiki/Wiki';
+import { SourceCard as _SourceCard } from './wiki/SourceCard';
+import { WikiDoc as _WikiDoc, WikiTimeline as _WikiTimeline } from './wiki/Wiki';
 
 // Layout
 export const Screen = _Screen as (props: T.ScreenProps) => JSX.Element;
